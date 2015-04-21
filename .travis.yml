@@ -15,7 +15,7 @@ cache:
 
 script:
     - coverage erase
-    - coverage run -m unittest
+    - coverage run -m nose
     - coverage report
 
 after_success:
