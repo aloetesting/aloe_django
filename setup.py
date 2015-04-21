@@ -15,46 +15,39 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import os
-import sys
-from setuptools import setup
 
+"""
+Setup script.
+"""
 
-def get_packages():
-    # setuptools can't do the job :(
-    packages = []
-    for root, dirnames, filenames in os.walk('lettuce'):
-        if '__init__.py' in filenames:
-            packages.append(".".join(os.path.split(root)).strip("."))
+from setuptools import setup, find_packages
 
-    return packages
+with open('requirements.txt') as requirements, \
+        open('test_requirements.txt') as test_requirements:
+    setup(
+        name='lettuce_django',
+        version='0.0.1',
+        description='Steps for testing Django applications with Lettuce',
+        author='Gabriel Falcao',
+        author_email='gabriel@nacaolivre.org',
+        url='https://github.com/koterpillar/lettuce_django',
+        long_description=open('README.md').read(),
+        classifiers=[
+            'License :: OSI Approved :: ' +
+                'GNU General Public License v3 or later (GPLv3+)',
+        ],
 
-required_modules = ['sure',
-                    'fuzzywuzzy',
-                    'python-subunit',
-                    'pyparsing',
-                    'blessings']
-
-if sys.version_info[:2] < (2, 6):
-    required_modules.append('multiprocessing')
-
-if os.name.lower() == 'nt':
-    required_modules.append('colorama')
-
-setup(
-    name='lettuce',
-    version='0.2.19',
-    description='Behaviour Driven Development for python',
-    author='Gabriel Falcao',
-    author_email='gabriel@nacaolivre.org',
-    url='http://lettuce.it',
-    data_files=[(r'lettuce', [r'lettuce/i18n.json'])],
-    packages=get_packages(),
-    install_requires=required_modules,
-    entry_points={
-        'console_scripts': ['lettuce = lettuce.bin:main'],
+        packages=find_packages(exclude=['tests']),
+        package_data={
+            'lychee': [
+                'README.md',
+                'requirements.txt',
+                'test_requirements.txt',
+            ],
         },
-    package_data={
-        'lettuce': ['COPYING', '*.md'],
-    },
-)
+
+        install_requires=requirements.read().splitlines(),
+
+        test_suite='tests',
+        tests_require=test_requirements.read().splitlines(),
+    )
