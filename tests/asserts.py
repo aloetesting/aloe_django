@@ -25,8 +25,6 @@ from StringIO import StringIO
 from nose.tools import assert_equals as nose_assert_equals
 from blessings import Terminal
 
-from lettuce import registry
-
 
 term = Terminal()
 
