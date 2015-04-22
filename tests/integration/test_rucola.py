@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import commands
-from lettuce.fs import FileSystem
 from nose.tools import assert_equals
-from tests.util import run_scenario
-
-current_directory = FileSystem.dirname(__file__)
+from tests.util import in_directory, run_scenario
 
 
-@FileSystem.in_directory(current_directory, 'django', 'rucola')
+
+@in_directory(__file__, 'django', 'rucola')
 def test_harvest_uses_test_runner():
     'harvest uses LETTUCE_TEST_SERVER specified in settings'
 

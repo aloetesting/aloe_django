@@ -19,15 +19,15 @@ import os
 import commands
 import sys
 from nose.tools import assert_equals
-from lettuce.fs import FileSystem
+from tests.util import in_directory
 
-current_directory = FileSystem.dirname(__file__)
+@in_directory(__file__, 'django', 'coconut')
 def test_server_threading():
     """
     Test django httpd threading
     """
-    FileSystem.pushd(current_directory, "django", "coconut")
+
     status, out = commands.getstatusoutput(
         "python manage.py harvest --verbosity=1")
-    
+
     assert_equals(status, 0, out)

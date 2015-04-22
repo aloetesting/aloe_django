@@ -16,13 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import commands
-from lettuce.fs import FileSystem
-from tests.util import run_scenario
-
-current_directory = FileSystem.dirname(__file__)
+from tests.util import in_directory, run_scenario
 
 
-@FileSystem.in_directory(current_directory, 'django', 'cucumber')
+
+@in_directory(__file__, 'django', 'cucumber')
 def test_django_against_cucumber_django_project():
     'testing all django hooks'
 

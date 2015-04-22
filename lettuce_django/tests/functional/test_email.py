@@ -3,9 +3,8 @@ import sys
 import commands
 
 from tests.asserts import assert_not_equals
-from lettuce.fs import FileSystem
 
-current_directory = FileSystem.dirname(__file__)
+current_directory = os.path.dirname(__file__)
 
 OLD_PYTHONPATH = os.getenv('PYTHONPATH', ':'.join(sys.path))
 

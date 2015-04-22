@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import commands
-from lettuce.fs import FileSystem
 from sure import this as the
-from tests.util import run_scenario
-
-current_directory = FileSystem.dirname(__file__)
+from tests.util import in_directory, run_scenario
 
 
-@FileSystem.in_directory(current_directory, 'django', 'celeries')
+
+@in_directory(__file__, 'django', 'celeries')
 def test_failfast():
     'passing --failfast to the harvest command will cause lettuce to stop in the first failure'
 

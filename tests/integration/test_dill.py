@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import commands
-from lettuce.fs import FileSystem
 from nose.tools import assert_equals, assert_not_equals
-from tests.util import run_scenario
-
-current_directory = FileSystem.dirname(__file__)
+from tests.util import in_directory, run_scenario
 
 
-@FileSystem.in_directory(current_directory, 'django', 'dill')
+
+@in_directory(__file__, 'django', 'dill')
 def test_model_creation():
     'Models are created through Lettuce steps'
 
@@ -30,7 +28,7 @@ def test_model_creation():
     assert_equals(status, 0, out)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'dill')
+@in_directory(__file__, 'django', 'dill')
 def test_model_update():
     'Models are updated through Lettuce steps'
 
@@ -50,7 +48,7 @@ def test_model_update():
     assert "Must use the writes_models decorator to update models" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'dill')
+@in_directory(__file__, 'django', 'dill')
 def test_model_existence_check():
     'Model existence is checked through Lettuce steps'
 
@@ -100,7 +98,7 @@ def test_model_existence_check():
     assert gardens in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'dill')
+@in_directory(__file__, 'django', 'dill')
 def test_use_test_database_setting():
     'Test database is recreated each time if LETTUCE_USE_TEST_DATABASE is set'
 

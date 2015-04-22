@@ -14,14 +14,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from lettuce.fs import FileSystem
+from tests.util import in_directory, run_scenario
 from nose.tools import assert_equals, assert_not_equals
-from tests.util import run_scenario
-
-current_directory = FileSystem.dirname(__file__)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'bamboo')
+
+@in_directory(__file__, 'django', 'bamboo')
 def test_mail_count():
     'Mail count is checked through Lettuce steps'
 
@@ -35,7 +33,7 @@ def test_mail_count():
     assert "Length of outbox is 1" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'bamboo')
+@in_directory(__file__, 'django', 'bamboo')
 def test_mail_content():
     'Mail content is checked through Lettuce steps'
 
@@ -49,7 +47,7 @@ def test_mail_content():
     assert "An email contained expected text in the body" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'bamboo')
+@in_directory(__file__, 'django', 'bamboo')
 def test_mail_fail():
     'Mock mail failure dies with error'
 

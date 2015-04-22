@@ -20,11 +20,10 @@ import commands
 import multiprocessing
 
 from tests.asserts import assert_equals, assert_not_equals
-from lettuce.fs import FileSystem
-current_directory = FileSystem.dirname(__file__)
+from tests.util import in_directory
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_django_agains_alfaces():
     'running the "harvest" django command with verbosity 3'
 
@@ -36,7 +35,7 @@ def test_django_agains_alfaces():
     assert "Test the django app FOO BAR" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_django_background_server_running_in_background():
     'the django builtin server fails if the HTTP port is not available'
 
@@ -75,7 +74,7 @@ def test_django_background_server_running_in_background():
         os.kill(server.pid, 9)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_django_background_server_running_in_background_with_custom_port():
     'the harvest command should take a --port argument'
 
@@ -114,7 +113,7 @@ def test_django_background_server_running_in_background_with_custom_port():
         os.kill(server.pid, 9)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_limit_by_app_getting_all_apps_by_comma():
     'running "harvest" with --apps=multiple,apps,separated,by,comma'
 
@@ -126,7 +125,7 @@ def test_limit_by_app_getting_all_apps_by_comma():
     assert "Test the django app FOO BAR" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_limit_by_app_getting_one_app():
     'running "harvest" with --apps=one_app'
 
@@ -138,7 +137,7 @@ def test_limit_by_app_getting_one_app():
     assert "Test the django app FOO BAR" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_excluding_apps_separated_by_comma():
     'running "harvest" with --avoid-apps=multiple,apps'
 
@@ -150,7 +149,7 @@ def test_excluding_apps_separated_by_comma():
     assert "Test the django app FOO BAR" not in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_excluding_app():
     'running "harvest" with --avoid-apps=one_app'
 
@@ -162,7 +161,7 @@ def test_excluding_app():
     assert "Test the django app FOO BAR" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_running_only_apps_within_lettuce_apps_setting():
     'running the "harvest" will run only on configured apps if the ' \
              'setting LETTUCE_APPS is set'
@@ -175,7 +174,7 @@ def test_running_only_apps_within_lettuce_apps_setting():
     assert "Test the django app DO NOTHING" not in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_running_all_apps_but_lettuce_avoid_apps():
     'running the "harvest" will run all apps but those within ' \
              'LETTUCE_AVOID_APPS'
@@ -190,7 +189,7 @@ def test_running_all_apps_but_lettuce_avoid_apps():
     assert "Test the django app DO NOTHING" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_ignores_settings_avoid_apps_if_apps_argument_is_passed():
     'even if all apps are avoid in settings, it is possible to run a single ' \
           'app by --apps argument'
@@ -204,7 +203,7 @@ def test_ignores_settings_avoid_apps_if_apps_argument_is_passed():
     assert "Test the django app DO NOTHING" in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_no_server():
     '"harvest" --no-server does not start the server'
 
@@ -215,7 +214,7 @@ def test_no_server():
     assert "Django's builtin server is running at" not in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_django_specifying_scenarios_to_run():
     'django harvest can run only specified scenarios with ' \
             '--scenarios or -s options'
@@ -233,7 +232,7 @@ def test_django_specifying_scenarios_to_run():
     assert "6th scenario" not in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_django_specifying_scenarios_to_run_by_tag():
     'django harvest can run only specified scenarios with ' \
             '--tags or -t options'
@@ -251,7 +250,7 @@ def test_django_specifying_scenarios_to_run_by_tag():
     assert "5th scenario" not in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_running_only_specified_features():
     'it can run only the specified features, passing the file path'
 
@@ -265,7 +264,7 @@ def test_running_only_specified_features():
     assert "Test the django app DO NOTHING" not in out
 
 
-@FileSystem.in_directory(current_directory, 'django', 'alfaces')
+@in_directory(__file__, 'django', 'alfaces')
 def test_specifying_features_in_inner_directory():
     'it can run only the specified features from a subdirectory'
 

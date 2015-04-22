@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import commands
-from lettuce.fs import FileSystem
 from nose.tools import assert_equals
-from tests.util import run_scenario
-
-current_directory = FileSystem.dirname(__file__)
+from tests.util import in_directory, run_scenario
 
 
-@FileSystem.in_directory(current_directory, 'django', 'brocolis')
+
+@in_directory(__file__, 'django', 'brocolis')
 def test_harvest_with_debug_mode_enabled():
     'python manage.py harvest -d turns settings.DEBUG=True'
 
@@ -31,7 +29,7 @@ def test_harvest_with_debug_mode_enabled():
         assert_equals(status, 0, out)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'brocolis')
+@in_directory(__file__, 'django', 'brocolis')
 def test_harvest_with_debug_mode_disabled():
     'python manage.py harvest without turns settings.DEBUG=False'
 
@@ -39,7 +37,7 @@ def test_harvest_with_debug_mode_disabled():
     assert_equals(status, 0, out)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'brocolis')
+@in_directory(__file__, 'django', 'brocolis')
 def test_harvest_sets_environment_variabled_for_gae():
     'harvest sets environment variables SERVER_NAME and SERVER_PORT in order to work with google app engine'
 
@@ -47,7 +45,7 @@ def test_harvest_sets_environment_variabled_for_gae():
     assert_equals(status, 0, out)
 
 
-@FileSystem.in_directory(current_directory, 'django', 'brocolis')
+@in_directory(__file__, 'django', 'brocolis')
 def test_harvest_uses_test_runner():
     'harvest uses TEST_RUNNER specified in settings'
 
