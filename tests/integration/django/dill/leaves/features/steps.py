@@ -5,7 +5,7 @@ from django.core.management import call_command
 from leaves.models import *
 
 from lettuce import after, step
-from lettuce.django.steps.models import *
+from lettuce_django.steps.models import *
 
 from nose.tools import assert_equals
 

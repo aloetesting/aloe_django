@@ -1,7 +1,7 @@
 """
 Email backend that sends mails to a multiprocessing queue
 """
-from lettuce.django import mail
+from lettuce_django import mail
 from django.core.mail.backends.base import BaseEmailBackend
 
 

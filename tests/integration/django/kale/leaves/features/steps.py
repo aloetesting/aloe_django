@@ -3,7 +3,7 @@ from urllib import urlopen
 from django.http import HttpResponse
 
 from lettuce import step
-from lettuce.django import django_url
+from lettuce_django import django_url
 
 from nose.tools import assert_equals
 

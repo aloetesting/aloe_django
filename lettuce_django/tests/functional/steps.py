@@ -1,6 +1,6 @@
 from lettuce import world, step
-from lettuce.django import mail
-from lettuce.django import django_url
+from lettuce_django import mail
+from lettuce_django import django_url
 
 from nose.tools import assert_equals
 

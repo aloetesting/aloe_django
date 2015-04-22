@@ -27,8 +27,8 @@ from lettuce import Runner
 from lettuce import registry
 from lettuce.core import SummaryTotalResults
 
-from lettuce.django import harvest_lettuces, get_server
-from lettuce.django.server import LettuceServerException
+from lettuce_django import harvest_lettuces, get_server
+from lettuce_django.server import LettuceServerException
 
 
 class Command(BaseCommand):

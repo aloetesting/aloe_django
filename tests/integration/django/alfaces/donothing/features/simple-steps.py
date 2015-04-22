@@ -18,7 +18,7 @@ import urllib2
 from lxml import html
 from nose.tools import assert_equals
 from lettuce import world, before, step
-from lettuce.django import django_url
+from lettuce_django import django_url
 from django.test.client import Client
 
 @before.all

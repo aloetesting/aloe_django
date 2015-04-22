@@ -4,7 +4,7 @@ import urllib
 import time
 
 from lettuce import step
-from lettuce.django import django_url
+from lettuce_django import django_url
 from threading import Thread, activeCount
 from nose.tools import *
 

@@ -51,7 +51,7 @@ try:
 except ImportError:
     pass
 
-from lettuce.django import mail
+from lettuce_django import mail
 from lettuce.registry import call_hook
 
 
@@ -125,7 +125,7 @@ class ThreadedServer(multiprocessing.Process):
     def configure_mail_queue(self):
         mail.queue = self.mail_queue
         settings.EMAIL_BACKEND = \
-            'lettuce.django.mail.backends.QueueEmailBackend'
+            'lettuce_django.mail.backends.QueueEmailBackend'
 
     @staticmethod
     def get_real_address(address):

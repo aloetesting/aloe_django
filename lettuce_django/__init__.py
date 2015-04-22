@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from lettuce.django.apps import harvest_lettuces
+from lettuce_django.apps import harvest_lettuces
 
 server = None
 django_url = None
@@ -29,7 +29,7 @@ def get_server(*args, **kwargs):
     from django.conf import settings
 
     server_name = getattr(settings, 'LETTUCE_TEST_SERVER',
-                          'lettuce.django.server.DefaultServer')
+                          'lettuce_django.server.DefaultServer')
     module, klass = server_name.rsplit('.', 1)
 
     Server = getattr(__import__(module, fromlist=[klass]), klass)
