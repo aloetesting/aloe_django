@@ -12,11 +12,11 @@ DATABASES = {
     }
 }
 INSTALLED_APPS = (
-    'lettuce.django',
+    'lettuce_django',
     'leaves',
 )
 
-LETTUCE_TEST_SERVER = 'lettuce.django.server.DjangoServer'
+LETTUCE_TEST_SERVER = 'lettuce_django.server.DjangoServer'
 SECRET_KEY = 'secret'
 
 STATIC_URL = '/static/'

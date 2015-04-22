@@ -12,7 +12,7 @@ DATABASES = {
     }
 }
 INSTALLED_APPS = (
-    'lettuce.django',
+    'lettuce_django',
     'leaves',
 )
 TEST_RUNNER = 'leaves.test_runner.TestRunner'

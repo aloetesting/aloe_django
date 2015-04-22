@@ -23,7 +23,7 @@ from django.conf import settings
 def _filter_bultins(module):
     "returns only those apps that are not builtin django.contrib"
     name = module.__name__
-    return not name.startswith("django.contrib") and name != 'lettuce.django'
+    return not name.startswith("django.contrib") and name != 'lettuce_django'
 
 
 def _filter_configured_apps(module):

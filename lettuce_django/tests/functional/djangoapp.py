@@ -13,7 +13,7 @@ from django.http import HttpResponse
 filepath, extension = os.path.splitext(__file__)
 ROOT_URLCONF = os.path.basename(filepath)
 INSTALLED_APPS = (
-    "lettuce.django"
+    "lettuce_django"
     )
 
 
