@@ -15,6 +15,9 @@ def in_directory(file_, *components):
 
     __file__ must be passed as first argument to determine the directory to
     start with.
+
+    For preserving the ability to import lettuce_django in child processes,
+    the original directory is added to PYTHONPATH.
     """
 
     target = os.path.join(os.path.dirname(file_), *components)
@@ -30,12 +33,17 @@ def in_directory(file_, *components):
             Execute the function in the given directory.
             """
 
+            oldpath = os.environ.get('PYTHONPATH', '')
             cwd = os.getcwd()
+
             os.chdir(target)
+            os.environ['PYTHONPATH'] = cwd + oldpath
+
             try:
                 return func(*args, **kwargs)
             finally:
                 os.chdir(cwd)
+                os.environ['PYTHONPATH'] = oldpath
 
         return wrapped
 
