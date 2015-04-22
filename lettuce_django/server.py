@@ -121,7 +121,7 @@ class ThreadedServer(multiprocessing.Process):
         self.lock = multiprocessing.Lock()
         self.mail_queue = mail_queue
         self.threading = threading
-        
+
     def configure_mail_queue(self):
         mail.queue = self.mail_queue
         settings.EMAIL_BACKEND = \
