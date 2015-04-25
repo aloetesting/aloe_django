@@ -22,11 +22,7 @@ from itertools import tee, izip_longest
 # Important: cannot use cStringIO because it does not support unicode!
 from StringIO import StringIO
 
-from nose.tools import assert_equals as nose_assert_equals
-from blessings import Terminal
-
-
-term = Terminal()
+from nose.tools import assert_equals
 
 
 @contextmanager
@@ -67,64 +63,6 @@ def yield_transitions(iterable):
             last_index = i
 
     yield (last_index, i + 1, register)
-
-
-def assert_equals(original, expected, stream=sys.stdout):
-    """
-    A new version of assert_equals that does coloured differences
-    """
-
-    try:
-        # replace \s with space, this makes literal trailing space visible
-        # in the expected results
-        expected = expected.replace(ur'\s', u' ')
-    except AttributeError:
-        pass
-
-    try:
-        assert original == expected
-    except AssertionError:
-        diff = ndiff(expected.splitlines(), original.splitlines())
-
-        # consider each line along with its next line
-        #
-        # if the next line is a '? ' line we combine this into the line to
-        # indicate where the change has occured
-        first_line, second_line = tee(diff)
-        next(second_line)  # consume a line from this generator
-
-        for line, next_line in izip_longest(first_line, second_line,
-                                            fillvalue=None):
-
-            code, line = line[:2], line[2:]
-            if next_line:
-                next_code, next_line = next_line[:2], next_line[2:]
-            else:
-                next_code = ''
-
-            # we don't render '? ' lines, only combine their results in
-            if code == '? ':
-                continue
-
-            unchanged, changed = {
-                '+ ': (term.green, term.black_on_green),
-                '- ': (term.red, term.black_on_red),
-            }.get(code, (term.white, term.white))
-
-            if next_code == '? ':
-                # combine the next line
-                # make sure the lines are the same length
-                next_line = next_line.ljust(len(line))
-                line = u''.join(changed(line[i1:i2]) if char == '+'
-                                else unchanged(line[i1:i2])
-                                for (i1, i2, char)
-                                in yield_transitions(next_line))
-            else:
-                line = unchanged(line)
-
-            print >> stream, unchanged(code) + line
-
-        raise
 
 
 def assert_lines_with_traceback(one, other):
