@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from lettuce_django.apps import harvest_lettuces
-
 server = None
 django_url = None
 
@@ -42,4 +40,4 @@ def get_server(*args, **kwargs):
     return server
 
 
-__all__ = ['harvest_lettuces', 'server', 'django_url']
+__all__ = ['server', 'django_url']

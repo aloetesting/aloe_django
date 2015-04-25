@@ -2,23 +2,22 @@ import os
 import sys
 import commands
 
-from tests.asserts import assert_not_equals
+from nose.tools import assert_not_equals
 
-current_directory = os.path.dirname(__file__)
-
-OLD_PYTHONPATH = os.getenv('PYTHONPATH', ':'.join(sys.path))
+from tests.util import in_directory
 
 
-def teardown():
-    os.environ['PYTHONPATH'] = OLD_PYTHONPATH
-
-
+@in_directory(__file__)
 def test_email():
     'lettuce should be able to receive emails sent from django server'
-    os.environ['PYTHONPATH'] = current_directory
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'djangoapp'
 
-    status, out = commands.getstatusoutput(
-        "django-admin.py harvest email.feature --verbosity=2")
+    try:
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'djangoapp'
 
-    assert_not_equals(status, 0)
+        status, out = commands.getstatusoutput(
+            "django-admin.py harvest email.feature --verbosity=2")
+
+        assert_not_equals(status, 0)
+
+    finally:
+        del os.environ['DJANGO_SETTINGS_MODULE']
