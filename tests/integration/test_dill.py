@@ -96,16 +96,3 @@ def test_model_existence_check():
         "id=3, name=Covent Garden, area=200, raining=True, howbig=big,",
     ])
     assert gardens in out
-
-
-@in_directory(__file__, 'django', 'dill')
-def test_use_test_database_setting():
-    'Test database is recreated each time if LETTUCE_USE_TEST_DATABASE is set'
-
-    for i in range(1, 2):
-        status, out = commands.getstatusoutput(
-            "python manage.py harvest --settings=testdbsettings -v 2 " +
-            "leaves/features/testdb.feature")
-
-        assert_equals(status, 0, out)
-        assert "Harvester count: 1" in out, out
