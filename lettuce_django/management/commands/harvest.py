@@ -32,9 +32,9 @@ class Command(TestCommand):
     def handle(self, *test_labels, **options):
         from django.conf import settings
 
-        default_runner = getattr(settings, 'GHERKIN_TEST_RUNNER',
-                                 'lettuce_django.runner.GherkinTestRunner')
-
-        options.setdefault('testrunner', get_runner(settings, default_runner))
+        if not options.get('testrunner', None):
+            options['testrunner'] = \
+                getattr(settings, 'GHERKIN_TEST_RUNNER',
+                        'lettuce_django.runner.GherkinTestRunner')
 
         return super(Command, self).handle(*test_labels, **options)
