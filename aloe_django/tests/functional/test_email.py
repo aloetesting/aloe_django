@@ -9,7 +9,7 @@ from tests.util import in_directory
 
 @in_directory(__file__)
 def test_email():
-    'lettuce should be able to receive emails sent from django server'
+    'Aloe should be able to receive emails sent from django server'
 
     try:
         os.environ['DJANGO_SETTINGS_MODULE'] = 'djangoapp'

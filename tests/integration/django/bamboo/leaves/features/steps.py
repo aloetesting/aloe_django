@@ -6,8 +6,8 @@ import yaml
 
 from django.core import mail
 
-from lettuce import step
-from lettuce_django.steps.mail import *
+from aloe import step
+from aloe_django.steps.mail import *
 
 
 STEP_PREFIX = r'(?:Given|And|Then|When) '
@@ -27,7 +27,7 @@ def mail_send_simple(step):
         'from_email': 'test-no-reply@infoxchange.net.au',
         'to': ['other-test-no-reply@infoxchange.au'],
         'subject': 'Lettuce Test',
-        'body': 'This is a test email sent from lettuce, right to your door!',
+        'body': 'This is a test email sent from aloe, right to your door!',
     })
 
 

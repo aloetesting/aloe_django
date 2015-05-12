@@ -1,6 +1,6 @@
+aloe>=0.0.1
 Django>=1.5
 django-nose>=1.3
 PyYAML>=3.10
 cssselect>=0.7.1
-lychee
 py==1.4.20

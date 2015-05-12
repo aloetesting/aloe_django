@@ -4,8 +4,8 @@ from django.core.management import call_command
 
 from leaves.models import *
 
-from lettuce import after, step
-from lettuce_django.steps.models import *
+from aloe import after, step
+from aloe_django.steps.models import *
 
 from nose.tools import assert_equals
 

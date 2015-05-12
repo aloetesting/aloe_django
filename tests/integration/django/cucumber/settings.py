@@ -18,7 +18,7 @@ DATABASES = {
     }
 }
 INSTALLED_APPS = (
-    'lettuce_django',
+    'aloe_django',
     'first',
     'second',
 )

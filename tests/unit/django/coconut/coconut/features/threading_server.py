@@ -3,19 +3,19 @@
 import urllib
 import time
 
-from lettuce import step
-from lettuce_django import django_url
+from aloe import step
+from aloe_django import django_url
 from threading import Thread, activeCount
 from nose.tools import *
 
 class ThreadUrlVisit(Thread):
     def __init__(self, url):
         super(ThreadUrlVisit, self).__init__()
-        
+
         self.url = django_url(url)
         self.start_time = None
         self.end_time = None
-        
+
     def run(self):
         self.start_time = time.time()
 
@@ -29,7 +29,7 @@ class ThreadUrlVisit(Thread):
 def given_i_navigate_to_group1_with_group2_threads(step, url, threads):
     step.scenario.started_threads = []
     step.scenario.start_threads = time.time()
-    
+
     for i in xrange(int(threads)):
         thread = ThreadUrlVisit(url)
         step.scenario.started_threads.append(thread)
@@ -39,14 +39,14 @@ def given_i_navigate_to_group1_with_group2_threads(step, url, threads):
 def then_i_see_threads_in_server_execution(step, count):
     current_count = activeCount()
     assert_equals(str(current_count), count)
-    
+
 @step(u'Then I wait all requests')
 def then_i_wait_all_requests(step):
     while activeCount() != 1:
         pass
-    
+
     step.scenario.end_threads = time.time()
-    
+
 
 @step(u'Then all requests was finishing in pararell mode')
 def then_all_requests_was_finishing_in_pararell_mode(step):

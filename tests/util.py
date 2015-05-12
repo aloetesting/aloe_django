@@ -16,7 +16,7 @@ def in_directory(file_, *components):
     __file__ must be passed as first argument to determine the directory to
     start with.
 
-    For preserving the ability to import lettuce_django in child processes,
+    For preserving the ability to import aloe_django in child processes,
     the original directory is added to PYTHONPATH.
     """
 

@@ -25,12 +25,12 @@ from setuptools import setup, find_packages
 with open('requirements.txt') as requirements, \
         open('test_requirements.txt') as test_requirements:
     setup(
-        name='lettuce_django',
+        name='aloe_django',
         version='0.0.1',
-        description='Steps for testing Django applications with Lettuce',
+        description='Package for testing Django applications with Aloe',
         author='Gabriel Falcao',
         author_email='gabriel@nacaolivre.org',
-        url='https://github.com/koterpillar/lettuce_django',
+        url='https://github.com/koterpillar/aloe_django',
         long_description=open('README.md').read(),
         classifiers=[
             'License :: OSI Approved :: ' +
@@ -39,7 +39,7 @@ with open('requirements.txt') as requirements, \
 
         packages=find_packages(exclude=['tests']),
         package_data={
-            'lychee': [
+            'aloe_django': [
                 'README.md',
                 'requirements.txt',
                 'test_requirements.txt',

@@ -13,7 +13,7 @@ from django.db.models.loading import get_models
 from django.utils.functional import curry
 from functools import partial, wraps
 
-from lettuce import step
+from aloe import step
 
 
 STEP_PREFIX = r'(?:Given|And|Then|When) '

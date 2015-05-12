@@ -35,6 +35,6 @@ class Command(TestCommand):
         if not options.get('testrunner', None):
             options['testrunner'] = \
                 getattr(settings, 'GHERKIN_TEST_RUNNER',
-                        'lettuce_django.runner.GherkinTestRunner')
+                        'aloe_django.runner.GherkinTestRunner')
 
         return super(Command, self).handle(*test_labels, **options)

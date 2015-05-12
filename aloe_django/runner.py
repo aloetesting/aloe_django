@@ -7,7 +7,7 @@ import django
 from django_nose.plugin import DjangoSetUpPlugin, ResultPlugin, TestReorderer
 from django_nose.runner import NoseTestSuiteRunner, _get_plugins_from_settings
 
-from lychee.runner import Runner
+from aloe.runner import Runner
 
 
 class GherkinTestRunner(NoseTestSuiteRunner):

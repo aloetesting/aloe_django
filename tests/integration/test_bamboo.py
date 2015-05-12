@@ -53,4 +53,4 @@ def test_mail_fail():
 
     status, out = run_scenario('leaves', 'mock-failure', 1)
     assert_not_equals(status, 0)
-    assert "SMTPException: Failure mocked by lettuce" in out
+    assert "SMTPException: Failure mocked by aloe" in out

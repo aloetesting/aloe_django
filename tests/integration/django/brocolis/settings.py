@@ -12,7 +12,7 @@ DATABASES = {
     }
 }
 INSTALLED_APPS = (
-    'lettuce_django',
+    'aloe_django',
     'leaves',
 )
 TEST_RUNNER = 'leaves.test_runner.TestRunner'

@@ -58,9 +58,9 @@ def test_django_background_server_running_in_background():
     server.start()
     time.sleep(1)  # the child process take some time to get up
 
-    e = 'Lettuce could not run the builtin Django server at 0.0.0.0:8000"\n' \
+    e = 'Aloe could not run the builtin Django server at 0.0.0.0:8000"\n' \
         'maybe you forgot a "runserver" instance running ?\n\n' \
-        'well if you really do not want lettuce to run the server ' \
+        'well if you really do not want aloe to run the server ' \
         'for you, then just run:\n\n' \
         'python manage.py --no-server'
 
@@ -97,9 +97,9 @@ def test_django_background_server_running_in_background_with_custom_port():
     server.start()
     time.sleep(1)  # the child process take some time to get up
 
-    e = 'Lettuce could not run the builtin Django server at 0.0.0.0:9889"\n' \
+    e = 'Aloe could not run the builtin Django server at 0.0.0.0:9889"\n' \
         'maybe you forgot a "runserver" instance running ?\n\n' \
-        'well if you really do not want lettuce to run the server ' \
+        'well if you really do not want Aloe to run the server ' \
         'for you, then just run:\n\n' \
         'python manage.py --no-server'
 

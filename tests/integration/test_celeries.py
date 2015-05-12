@@ -22,7 +22,7 @@ from tests.util import in_directory, run_scenario
 
 @in_directory(__file__, 'django', 'celeries')
 def test_failfast():
-    'passing --failfast to the harvest command will cause lettuce to stop in the first failure'
+    'passing --failfast to the harvest command will cause aloe to stop in the first failure'
 
     status, output = run_scenario(**{'--failfast': None})
 

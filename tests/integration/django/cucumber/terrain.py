@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from lettuce import before, after
-from lettuce_django.server import ThreadedServer
+from aloe import before, after
+from aloe_django.server import ThreadedServer
 from django.core.servers.basehttp import WSGIServer
 from nose.tools import assert_equals
 
@@ -36,14 +36,14 @@ def after_app(module, result):
 
 @before.runserver
 def before_runserver(server):
-    assert isinstance(server, ThreadedServer), '%s should be an instance of lettuce_django.server.ThreadedServer' % server
+    assert isinstance(server, ThreadedServer), '%s should be an instance of aloe_django.server.ThreadedServer' % server
     assert_equals(server.address, '0.0.0.0')
     assert_equals(server.port, 8000)
     print "before within runserver"
 
 @after.runserver
 def after_runserver(server):
-    assert isinstance(server, ThreadedServer), '%r should be an instance of lettuce_django.server.ThreadedServer' % server
+    assert isinstance(server, ThreadedServer), '%r should be an instance of aloe_django.server.ThreadedServer' % server
     assert_equals(server.address, '0.0.0.0')
     assert_equals(server.port, 8000)
     print "after within runserver"
@@ -51,12 +51,12 @@ def after_runserver(server):
 @before.handle_request
 def before_handle_request(httpd, server):
     assert isinstance(httpd, WSGIServer), '%r should be an instance of WSGIServer' % server
-    assert isinstance(server, ThreadedServer), '%r should be an instance of lettuce_django.server.ThreadedServer' % server
+    assert isinstance(server, ThreadedServer), '%r should be an instance of aloe_django.server.ThreadedServer' % server
     print "before within handle_request"
 
 @after.handle_request
 def after_handle_request(httpd, server):
     assert isinstance(httpd, WSGIServer), '%r should be an instance of WSGIServer' % server
-    assert isinstance(server, ThreadedServer), '%r should be an instance of lettuce_django.server.ThreadedServer' % server
+    assert isinstance(server, ThreadedServer), '%r should be an instance of aloe_django.server.ThreadedServer' % server
     print "after within handle_request"
 

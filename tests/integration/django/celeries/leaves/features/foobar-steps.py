@@ -1,4 +1,4 @@
-from lettuce import step
+from aloe import step
 
 
 @step(r'Given I say foo bar')

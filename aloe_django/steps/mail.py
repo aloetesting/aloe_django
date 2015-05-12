@@ -5,7 +5,7 @@ from smtplib import SMTPException
 
 from django.core import mail
 
-from lettuce import step
+from aloe import step
 
 
 STEP_PREFIX = r'(?:Given|And|Then|When) '
@@ -67,7 +67,7 @@ def broken_send(*args, **kwargs):
     """
     Broken send function for email_broken step
     """
-    raise SMTPException("Failure mocked by lettuce")
+    raise SMTPException("Failure mocked by aloe_django")
 
 
 @step(STEP_PREFIX + r'sending email does not work')

@@ -1,5 +1,5 @@
 from splinter.browser import Browser
-from lettuce import before, after, world
+from aloe import before, after, world
 
 
 @before.harvest
