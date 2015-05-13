@@ -1,4 +1,1 @@
 lxml
-nose
-sure
-tornado

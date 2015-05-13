@@ -1,10 +1,9 @@
 import os
 import sys
-import commands
 
 from nose.tools import assert_not_equals
 
-from tests.util import in_directory
+from tests.util import getstatusoutput, in_directory
 
 
 @in_directory(__file__)
@@ -14,7 +13,7 @@ def test_email():
     try:
         os.environ['DJANGO_SETTINGS_MODULE'] = 'djangoapp'
 
-        status, out = commands.getstatusoutput(
+        status, out = getstatusoutput(
             "django-admin.py harvest email.feature --verbosity=2")
 
         assert_not_equals(status, 0)

@@ -15,9 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands
 from tests.util import in_directory, run_scenario
-
 
 
 @in_directory(__file__, 'django', 'cucumber')

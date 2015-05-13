@@ -236,7 +236,7 @@ def test_existence(model_or_queryset, data):
 
     fields = {}
     extra_attrs = {}
-    for k, v in data.iteritems():
+    for k, v in data.items():
         if k.startswith('@'):
             # this is an attribute
             extra_attrs[k[1:]] = v
@@ -247,7 +247,7 @@ def test_existence(model_or_queryset, data):
 
     if filtered.exists():
         return any(
-            all(getattr(obj, k) == v for k, v in extra_attrs.iteritems())
+            all(getattr(obj, k) == v for k, v in extra_attrs.items())
             for obj in filtered.all()
         )
 

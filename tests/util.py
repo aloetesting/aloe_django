@@ -5,8 +5,6 @@ Utils for testing
 import os
 from functools import wraps
 
-import commands
-
 
 def in_directory(file_, *components):
     """
@@ -50,6 +48,16 @@ def in_directory(file_, *components):
     return decorate
 
 
+def getstatusoutput(cmd):
+    """Return (status, output) of executing cmd in a shell."""
+    pipe = os.popen('{ ' + cmd + '; } 2>&1', 'r')
+    text = pipe.read()
+    sts = pipe.close()
+    if sts is None: sts = 0
+    if text[-1:] == '\n': text = text[:-1]
+    return sts, text
+
+
 def run_scenario(application='', feature='', scenario='', **opts):
     """
     Runs a Django scenario and returns it's output vars
@@ -64,7 +72,7 @@ def run_scenario(application='', feature='', scenario='', **opts):
         scenario = ' -s {0:d}'.format(scenario)
 
     opts_string = ''
-    for opt, val in opts.iteritems():
+    for opt, val in opts.items():
         if not val:
             val = ''
 
@@ -75,4 +83,4 @@ def run_scenario(application='', feature='', scenario='', **opts):
                                                               feature,
                                                               scenario,
                                                               )
-    return commands.getstatusoutput(cmd)
+    return getstatusoutput(cmd)

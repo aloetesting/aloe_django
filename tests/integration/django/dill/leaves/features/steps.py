@@ -50,7 +50,7 @@ def database_populated(step):
 
 @step(r'I count the harvesters')
 def count_harvesters(step):
-    print "Harvester count: %d" % Harvester.objects.count()
+    print("Harvester count: %d" % Harvester.objects.count())
 
 
 @creates_models(Panda)

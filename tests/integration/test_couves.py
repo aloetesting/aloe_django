@@ -14,10 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import commands
-from sure import expect
 from tests.util import in_directory, run_scenario
-
 
 
 @in_directory(__file__, 'django', 'couves')
@@ -26,15 +23,17 @@ def test_django_agains_couves():
 
     status, out = run_scenario()
 
-    expect("Couves before all").to.be.within(out)
-    expect("Couves after all").to.be.within(out)
+    assert "Couves before all" in out
+    assert "Couves after all" in out
 
 
 @in_directory(__file__, 'django', 'couves')
 def test_django_agains_couves_nohooks():
-    'it only calls @before.all and @after.all hooks if there are features found'
+    """
+    it only calls @before.all and @after.all hooks if there are features found
+    """
 
     status, out = run_scenario(**{'--tags': 'nothingwillbefound'})
 
-    expect("Couves before all").to.not_be.within(out)
-    expect("Couves after all").to.not_be.within(out)
+    assert "Couves before all" not in out
+    assert "Couves after all" not in out

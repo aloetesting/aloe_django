@@ -14,10 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import commands
-from sure import this as the
-from tests.util import in_directory, run_scenario
 
+from tests.util import in_directory, run_scenario
 
 
 @in_directory(__file__, 'django', 'celeries')
@@ -26,20 +24,20 @@ def test_failfast():
 
     status, output = run_scenario(**{'--failfast': None})
 
-    the(output).should.contain("This one is present")
-    the(output).should.contain("Celeries before all")
-    the(output).should.contain("Celeries before harvest")
-    the(output).should.contain("Celeries before feature 'Test the django app leaves'")
-    the(output).should.contain("Celeries before scenario 'This one is present'")
+    assert "This one is present" in output
+    assert "Celeries before all" in output
+    assert "Celeries before harvest" in output
+    assert "Celeries before feature 'Test the django app leaves'" in output
+    assert "Celeries before scenario 'This one is present'" in output
 
-    the(output).should.contain("Celeries before step 'Given I say foo bar'")
-    the(output).should.contain("Celeries after step 'Given I say foo bar'")
-    the(output).should.contain("Celeries before step 'Then it fails'")
-    the(output).should.contain("Celeries after step 'Then it fails'")
+    assert "Celeries before step 'Given I say foo bar'" in output
+    assert "Celeries after step 'Given I say foo bar'" in output
+    assert "Celeries before step 'Then it fails'" in output
+    assert "Celeries after step 'Then it fails'" in output
 
-    the(output).should.contain("Celeries after scenario 'This one is present'")
-    the(output).should.contain("Celeries after feature 'Test the django app leaves'")
-    the(output).should.contain("Celeries after harvest")
-    the(output).should.contain("Celeries after all")
+    assert "Celeries after scenario 'This one is present'" in output
+    assert "Celeries after feature 'Test the django app leaves'" in output
+    assert "Celeries after harvest" in output
+    assert "Celeries after all" in output
 
-    the(output).should_not.contain("This one is never called")
+    assert "This one is never called" not in output
