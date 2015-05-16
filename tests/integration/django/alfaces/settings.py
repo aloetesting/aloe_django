@@ -13,7 +13,9 @@ DATABASES = {
 }
 INSTALLED_APPS = (
     'aloe_django',
-    'donothing', 
-    'foobar',   
+    'donothing',
+    'foobar',
 )
 SECRET_KEY = 'secret'
+
+STATIC_URL = '/static/'

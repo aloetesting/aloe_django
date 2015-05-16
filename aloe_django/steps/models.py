@@ -2,6 +2,8 @@
 Step definitions for working with Django models.
 """
 
+from __future__ import print_function
+
 from datetime import datetime
 import re
 import warnings
@@ -207,20 +209,24 @@ def _dump_model(model, attrs=None):
     """
 
     for field in model._meta.fields:
-        print '%s=%s,' % (field.name, str(getattr(model, field.name))),
+        print('%s=%s,' % (field.name, str(getattr(model, field.name))),
+              end='')
 
     if attrs is not None:
         for attr in attrs:
-            print '%s=%s,' % (attr, str(getattr(model, attr))),
+            print('%s=%s,' % (attr, str(getattr(model, attr))), end='')
 
     for field in model._meta.many_to_many:
         vals = getattr(model, field.name)
-        print '%s=%s (%i),' % (
-            field.name,
-            ', '.join(map(str, vals.all())),
-            vals.count()),
+        print(
+            '%s=%s (%i),' % (
+                field.name,
+                ', '.join(map(str, vals.all())),
+                vals.count()),
+            end='',
+        )
 
-    print
+    print()
 
 
 def test_existence(model_or_queryset, data):
@@ -283,11 +289,11 @@ def models_exist(model, data, queryset=None,
                     "%s exists: %s" % (model.__name__, hash_)
 
     except AssertionError as exc:
-        print exc
+        print(exc)
         failed += 1
 
     if failed:
-        print "Rows in DB are:"
+        print("Rows in DB are:")
         for model in queryset.all():
             _dump_model(model,
                         attrs=[k[1:]
