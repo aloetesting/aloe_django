@@ -69,7 +69,7 @@ def run_scenario(application='', feature='', scenario='', **opts):
         feature = '{0}.feature'.format(feature)
 
     if scenario:
-        scenario = ' -s {0:d}'.format(scenario)
+        scenario = ' -n {0:d}'.format(scenario)
 
     opts_string = ''
     for opt, val in opts.items():
@@ -83,4 +83,5 @@ def run_scenario(application='', feature='', scenario='', **opts):
                                                               feature,
                                                               scenario,
                                                               )
+
     return getstatusoutput(cmd)

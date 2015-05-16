@@ -1,13 +1,16 @@
 from aloe import world, step
 from aloe_django import mail
-from aloe_django import django_url
 
 from nose.tools import assert_equals
 
 
 @step(u'I visit "([^"]*)"')
 def visit(step, url):
-    world.browser.visit(django_url(url))
+    # TODO: Make this a property of the step
+    testclass = step.testclass
+    base_url = testclass.live_server_url.__get__(testclass)
+    url = urljoin(base_url, url)
+    world.browser.visit(url)
 
 
 @step(u'I see "([^"]*)"')
