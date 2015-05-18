@@ -15,7 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from tests.util import in_directory, run_scenario
-from nose.tools import assert_equals, assert_not_equals
+from nose.tools import (
+    assert_equals,
+    assert_in,
+    assert_not_equals,
+)
 
 
 
@@ -30,7 +34,7 @@ def test_mail_count():
 
     status, out = run_scenario('leaves', 'count', 3)
     assert_not_equals(status, 0)
-    assert "Length of outbox is 1" in out
+    assert_in("Length of outbox is 1", out)
 
 
 @in_directory(__file__, 'django', 'bamboo')
@@ -44,7 +48,7 @@ def test_mail_content():
 
     status, out = run_scenario('leaves', 'content', 3)
     assert_not_equals(status, 0)
-    assert "An email contained expected text in the body" in out
+    assert_in("An email contained expected text in the body", out)
 
 
 @in_directory(__file__, 'django', 'bamboo')
@@ -53,4 +57,4 @@ def test_mail_fail():
 
     status, out = run_scenario('leaves', 'mock-failure', 1)
     assert_not_equals(status, 0)
-    assert "SMTPException: Failure mocked by aloe" in out
+    assert_in("SMTPException: Failure mocked by aloe", out)
