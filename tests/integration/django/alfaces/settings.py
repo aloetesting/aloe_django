@@ -17,5 +17,5 @@ INSTALLED_APPS = (
     'foobar',
 )
 SECRET_KEY = 'secret'
-
 STATIC_URL = '/static/'
+MIDDLEWARE_CLASSES = ()

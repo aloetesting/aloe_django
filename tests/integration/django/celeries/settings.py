@@ -16,3 +16,5 @@ INSTALLED_APPS = (
     'leaves',
 )
 SECRET_KEY = 'secret'
+STATIC_URL = '/static/'
+MIDDLEWARE_CLASSES = ()
