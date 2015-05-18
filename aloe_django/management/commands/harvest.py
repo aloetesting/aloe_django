@@ -22,19 +22,24 @@ Management command to run the Gherkin tests.
 from django.conf import settings
 from django.test.utils import get_runner
 
-from django_nose.management.commands.test import Command as TestCommand
+from django.core.management.commands.test import Command as TestCommand
+
+test_runner_class = getattr(settings, 'GHERKIN_TEST_RUNNER',
+                          'aloe_django.runner.GherkinTestRunner')
+
+TestRunner = get_runner(settings, test_runner_class)
+
 
 class Command(TestCommand):
     help = "Run Gherkin tests"
 
+    option_list = TestCommand.option_list + \
+        tuple(getattr(TestRunner, 'options', []))
+
     requires_system_checks = False
 
     def handle(self, *test_labels, **options):
-        from django.conf import settings
-
         if not options.get('testrunner', None):
-            options['testrunner'] = \
-                getattr(settings, 'GHERKIN_TEST_RUNNER',
-                        'aloe_django.runner.GherkinTestRunner')
+            options['testrunner'] = test_runner_class
 
         return super(Command, self).handle(*test_labels, **options)
