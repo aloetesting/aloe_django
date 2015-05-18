@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from nose.tools import assert_in
+
 from tests.util import in_directory, run_scenario
 
 
@@ -24,5 +26,5 @@ def test_django_against_cucumber_django_project():
 
     status, out = run_scenario()
 
-    assert "before harvest" in out
-    assert "after harvest" in out
+    assert_in("before harvest", out)
+    assert_in("after harvest", out)
