@@ -9,8 +9,6 @@ from aloe_django.steps.models import *
 
 from nose.tools import assert_equals
 
-after.each_scenario(clean_db)
-
 max_rego = 0
 
 

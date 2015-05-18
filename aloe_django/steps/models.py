@@ -3,6 +3,8 @@ Step definitions for working with Django models.
 """
 
 from __future__ import print_function
+from builtins import bytes
+from builtins import str
 
 from datetime import datetime
 import re
@@ -26,8 +28,8 @@ def _models_generator():
     Build a hash of model verbose names to models
     """
     for model in get_models():
-        yield (unicode(model._meta.verbose_name), model)
-        yield (unicode(model._meta.verbose_name_plural), model)
+        yield (str(model._meta.verbose_name), model)
+        yield (str(model._meta.verbose_name_plural), model)
 
 
 MODELS = dict(_models_generator())
@@ -117,7 +119,9 @@ def hash_data(hash_):
     """
     res = {}
     for key, value in hash_.items():
-        if type(value) in (str, unicode):
+        if isinstance(value, bytes):
+            value = value.decode()
+        if isinstance(value, str):
             if value == "true":
                 value = True
             elif value == "false":
@@ -460,13 +464,3 @@ def model_count(step, count, model):
     found = model.objects.count()
     assert found == expected, "Expected %d %s, found %d." % \
         (expected, model._meta.verbose_name_plural, found)
-
-
-def clean_db(scenario):
-    """
-    Clean the DB after each scenario
-
-    Usage: after.each_scenario(clean_db)
-    """
-
-    call_command('flush', interactive=False)

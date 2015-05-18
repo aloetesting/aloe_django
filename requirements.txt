@@ -1,6 +1,7 @@
-aloe>=0.0.1
-Django>=1.5
-django-nose>=1.3
-PyYAML>=3.10
+aloe
 cssselect>=0.7.1
+Django
+django-nose>=1.3
+future
 py==1.4.20
+PyYAML
