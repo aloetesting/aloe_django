@@ -16,5 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from django.http import HttpResponse
 
+
 def index(request):
     return HttpResponse('OK')

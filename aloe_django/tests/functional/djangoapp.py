@@ -19,7 +19,7 @@ INSTALLED_APPS = (
 
 def mail(request):
     send_mail('Subject here', 'Here is the message.', 'from@example.com',
-             ['to@example.com'], fail_silently=False)
+              ['to@example.com'], fail_silently=False)
     return HttpResponse('Mail has been sent')
 
 urlpatterns = patterns('', (r'^mail/$', mail))

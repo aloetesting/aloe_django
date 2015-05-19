@@ -25,7 +25,7 @@ from django.test.utils import get_runner
 from django.core.management.commands.test import Command as TestCommand
 
 test_runner_class = getattr(settings, 'GHERKIN_TEST_RUNNER',
-                          'aloe_django.runner.GherkinTestRunner')
+                            'aloe_django.runner.GherkinTestRunner')
 
 TestRunner = get_runner(settings, test_runner_class)
 
