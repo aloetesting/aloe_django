@@ -64,7 +64,6 @@ class GherkinTestRunner(NoseTestSuiteRunner):
         for indices in scenario_indices:
             nose_argv += ['-n', indices]
 
-
         result_plugin = ResultPlugin()
         plugins_to_add = [DjangoSetUpPlugin(self),
                           result_plugin,

@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from tests.util import in_directory, run_scenario
+
 from nose.tools import (
     assert_equals,
     assert_in,
     assert_not_equals,
 )
-
 
 
 @in_directory(__file__, 'django', 'bamboo')
