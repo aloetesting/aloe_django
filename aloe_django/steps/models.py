@@ -310,47 +310,49 @@ def models_exist(model, data, queryset=None,
             raise AssertionError("%i rows found" % failed)
 
 
+def write_models_generic(step, model, field=None):
+    """
+    And I have foos in the database:
+        | name | bar  |
+        | Baz  | Quux |
+
+    And I update existing foos by pk in the database:
+        | pk | name |
+        | 1  | Bar  |
+
+    The generic method can be overridden for a specific model by defining a
+    function write_badgers(step, field), which creates and updates
+    the Badger model and decorating it with the writes_models(model_class)
+    decorator.
+
+    @writes_models(Profile)
+    def write_profile(step, field):
+        '''Creates a Profile model'''
+
+        for hash_ in hashes_data(step):
+            if field:
+                profile = Profile.objects.get(**{field: hash_[field]})
+                else:
+                    profile = Profile()
+
+                ...
+    """
+
+    model = get_model(model)
+
+    try:
+        func = _WRITE_MODEL[model]
+    except KeyError:
+        func = curry(write_models, model)
+    func(step, field)
+
+
 for txt in (
     (r'I have(?: an?)? ([a-z][a-z0-9_ ]*) in the database:'),
     (r'I update(?: an?)? existing ([a-z][a-z0-9_ ]*) by ([a-z][a-z0-9_]*) '
      'in the database:'),
 ):
-    @step(txt)
-    def write_models_generic(step, model, field=None):
-        """
-        And I have foos in the database:
-            | name | bar  |
-            | Baz  | Quux |
-
-        And I update existing foos by pk in the database:
-            | pk | name |
-            | 1  | Bar  |
-
-        The generic method can be overridden for a specific model by defining a
-        function write_badgers(step, field), which creates and updates
-        the Badger model and decorating it with the writes_models(model_class)
-        decorator.
-
-            @writes_models(Profile)
-            def write_profile(step, field):
-                '''Creates a Profile model'''
-
-                for hash_ in hashes_data(step):
-                    if field:
-                        profile = Profile.objects.get(**{field: hash_[field]})
-                    else:
-                        profile = Profile()
-
-                    ...
-        """
-
-        model = get_model(model)
-
-        try:
-            func = _WRITE_MODEL[model]
-        except KeyError:
-            func = curry(write_models, model)
-        func(step, field)
+    step(txt)(write_models_generic)
 
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
@@ -366,10 +368,12 @@ def create_models_for_relation(step, rel_model_name,
     lookup = {rel_key: rel_value}
     rel_model = get_model(rel_model_name).objects.get(**lookup)
 
-    for hash_ in step.hashes:
+    data = hashes_data(step)
+
+    for hash_ in data:
         hash_['%s' % rel_model_name] = rel_model
 
-    write_models_generic(step, model)
+    write_models_generic(data, model)
 
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +

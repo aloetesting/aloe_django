@@ -31,10 +31,7 @@ def check_with_rego(data):
 
 @step(r'The database dump is as follows')
 def database_dump(step):
-    try:
-        from cStringIO import StringIO
-    except ImportError:
-        from StringIO import StringIO
+    from io import StringIO
     output = StringIO()
     call_command('dumpdata', stdout=output, indent=2)
     output = output.getvalue()

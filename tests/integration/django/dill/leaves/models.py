@@ -4,7 +4,7 @@ from django.db import models
 class Garden(models.Model):
     name = models.CharField(max_length=100)
     area = models.IntegerField()
-    raining = models.BooleanField()
+    raining = models.BooleanField(default=None)
 
     @property
     def howbig(self):

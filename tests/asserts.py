@@ -18,12 +18,8 @@ import re
 import sys
 from contextlib import contextmanager
 from difflib import ndiff
+from io import StringIO
 from itertools import tee
-try:
-    from io import StringIO
-except ImportError:
-    # Important: cannot use cStringIO because it does not support unicode!
-    from StringIO import StringIO
 
 from nose.tools import assert_equals
 
