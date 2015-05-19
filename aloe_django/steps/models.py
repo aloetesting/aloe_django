@@ -212,25 +212,26 @@ def _dump_model(model, attrs=None):
     Dump the model fields for debugging.
     """
 
+    fields = []
+
     for field in model._meta.fields:
-        print('%s=%s,' % (field.name, str(getattr(model, field.name))),
-              end='')
+        fields.append((field.name, str(getattr(model, field.name))))
 
     if attrs is not None:
         for attr in attrs:
-            print('%s=%s,' % (attr, str(getattr(model, attr))), end='')
+            fields.append((attr, str(getattr(model, attr))))
 
     for field in model._meta.many_to_many:
         vals = getattr(model, field.name)
-        print(
-            '%s=%s (%i),' % (
-                field.name,
-                ', '.join(map(str, vals.all())),
-                vals.count()),
-            end='',
-        )
+        fields.append(field.name, '{val} ({count})'.format(
+            val=', '.join(map(str, vals.all())),
+            count=vals.count(),
+        ))
 
-    print()
+    print(', '.join(
+        '{0}={1}'.format(field, value)
+        for field, value in fields
+    ))
 
 
 def test_existence(model_or_queryset, data):
