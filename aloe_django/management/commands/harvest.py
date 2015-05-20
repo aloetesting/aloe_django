@@ -43,3 +43,7 @@ class Command(TestCommand):
             options['testrunner'] = test_runner_class
 
         return super(Command, self).handle(*test_labels, **options)
+
+    def execute(self, *args, **options):
+        options['verbosity'] = int(options['verbosity'])
+        return super(Command, self).execute(*args, **options)
