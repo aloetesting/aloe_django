@@ -37,9 +37,6 @@ class GherkinTestRunner(NoseTestSuiteRunner):
     A runner enabling the Gherkin plugin in nose.
     """
 
-    options = NoseTestSuiteRunner.options + \
-        plugin_options(Runner.gherkin_plugin)
-
     def run_suite(self, nose_argv):
         """
         Use Gherkin main program to run Nose.
@@ -88,3 +85,26 @@ class GherkinTestRunner(NoseTestSuiteRunner):
                addplugins=plugins_to_add,
                env=env)
         return result_plugin.result
+
+# Django 1.8 uses argparse, including for 'test' command
+if hasattr(NoseTestSuiteRunner, 'options'):
+    GherkinTestRunner.options = NoseTestSuiteRunner.options + \
+        plugin_options(Runner.gherkin_plugin)
+else:
+    def add_arguments(cls, parser):
+        """
+        Convert parser (optparse) arguments into argparse.
+        """
+        super(GherkinTestRunner, cls).add_arguments(parser)
+
+        for option in plugin_options(Runner.gherkin_plugin):
+            option_strings = str(option).split('/')
+            parser.add_argument(
+                *option_strings,
+                dest=option.dest,
+                action=option.action,
+                default=option.default,
+                help=option.help
+            )
+
+    GherkinTestRunner.add_arguments = classmethod(add_arguments)

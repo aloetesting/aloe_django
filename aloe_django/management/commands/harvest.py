@@ -38,12 +38,28 @@ class Command(TestCommand):
 
     requires_system_checks = False
 
+    def run_from_argv(self, argv):
+        """
+        Set the default Gherkin test runner for its options to be parsed.
+        """
+
+        self.test_runner = test_runner_class
+        super(Command, self).run_from_argv(argv)
+
     def handle(self, *test_labels, **options):
+        """
+        Set the default Gherkin test runner.
+        """
         if not options.get('testrunner', None):
             options['testrunner'] = test_runner_class
 
         return super(Command, self).handle(*test_labels, **options)
 
+
     def execute(self, *args, **options):
+        """
+        Fix option parsing between Django 1.8 (argparse) and
+        Django-nose (optparse).
+        """
         options['verbosity'] = int(options['verbosity'])
         return super(Command, self).execute(*args, **options)
