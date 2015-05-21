@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# <Lettuce - Behaviour Driven Development for python>
+# Aloe-Django - Package for testing Django applications with Aloe
 # Copyright (C) <2010-2012>  Gabriel Falcão <gabriel@nacaolivre.org>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import re
 import sys
 from contextlib import contextmanager

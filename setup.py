@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# <Lettuce - Behaviour Driven Development for python>
-# Copyright (C) <2010-2012>  Gabriel Falcão <gabriel@nacaolivre.org>
+# Aloe-Django - Package for testing Django applications with Aloe
+# Copyright (C) <2015> Alexey Kotlyarov <a@koterpillar.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
