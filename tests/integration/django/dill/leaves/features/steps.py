@@ -1,4 +1,6 @@
+import io
 import json
+import sys
 
 from django.core.management import call_command
 
@@ -31,8 +33,10 @@ def check_with_rego(data):
 
 @step(r'The database dump is as follows')
 def database_dump(step):
-    from io import StringIO
-    output = StringIO()
+    if sys.version_info >= (3, 0):
+        output = io.StringIO()
+    else:
+        output = io.BytesIO()
     call_command('dumpdata', stdout=output, indent=2)
     output = output.getvalue()
     assert_equals(json.loads(output), json.loads(step.multiline))
