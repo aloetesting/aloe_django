@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import unicode_literals
+
 from nose.tools import (
     assert_equals,
     assert_in,
@@ -81,8 +83,8 @@ def test_model_existence_check():
     assert_not_equals(status, 0)
     # Cannot check exact string because the order isn't stable
     assert_in("Garden does not exist: ", out)
-    assert_in("'name': 'Secret Garden'", out)
-    assert_in("'@howbig': 'huge'", out)
+    assert_in(str({'name': 'Secret Garden'})[1:-1], out)
+    assert_in(str({'@howbig': 'huge'})[1:-1], out)
     gardens = "\n".join([
         "Rows in DB are:",
         "id=1, name=Secret Garden, area=45, raining=False, howbig=small",
@@ -100,8 +102,8 @@ def test_model_existence_check():
     assert_not_equals(status, 0)
     # Cannot check exact string because the order isn't stable
     assert_in("Garden exists: ", out)
-    assert_in("'name': 'Secret Garden'", out)
-    assert_in("'@howbig': 'small'", out)
+    assert_in(str({'name': 'Secret Garden'})[1:-1], out)
+    assert_in(str({'@howbig': 'small'})[1:-1], out)
     assert_in("AssertionError: 1 rows found", out)
     gardens = "\n".join([
         "Rows in DB are:",
