@@ -28,8 +28,8 @@ with open('requirements.txt') as requirements, \
         name='aloe_django',
         version='0.0.1',
         description='Package for testing Django applications with Aloe',
-        author='Gabriel Falcao',
-        author_email='gabriel@nacaolivre.org',
+        author='Alexey Kotlyarov',
+        author_email='a@koterpillar.com',
         url='https://github.com/koterpillar/aloe_django',
         long_description=open('README.md').read(),
         classifiers=[
@@ -38,13 +38,7 @@ with open('requirements.txt') as requirements, \
         ],
 
         packages=find_packages(exclude=['tests']),
-        package_data={
-            'aloe_django': [
-                'README.md',
-                'requirements.txt',
-                'test_requirements.txt',
-            ],
-        },
+        include_package_data=True,
 
         install_requires=requirements.read().splitlines(),
 
