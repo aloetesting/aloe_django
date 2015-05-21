@@ -55,7 +55,6 @@ class Command(TestCommand):
 
         return super(Command, self).handle(*test_labels, **options)
 
-
     def execute(self, *args, **options):
         """
         Fix option parsing between Django 1.8 (argparse) and
