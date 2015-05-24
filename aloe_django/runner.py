@@ -27,6 +27,7 @@ import django
 from django_nose.plugin import DjangoSetUpPlugin, ResultPlugin, TestReorderer
 from django_nose.runner import NoseTestSuiteRunner, _get_plugins_from_settings
 
+from aloe.plugin import GherkinPlugin
 from aloe.runner import Runner
 
 
@@ -105,7 +106,7 @@ class GherkinTestRunner(NoseTestSuiteRunner):
 # Django 1.8 uses argparse, including for 'test' command
 if hasattr(NoseTestSuiteRunner, 'options'):
     GherkinTestRunner.options = NoseTestSuiteRunner.options + \
-        plugin_options(Runner.gherkin_plugin)
+        plugin_options(GherkinPlugin)
 else:
     def add_arguments(cls, parser):
         """
@@ -113,7 +114,7 @@ else:
         """
         super(GherkinTestRunner, cls).add_arguments(parser)
 
-        for option in plugin_options(Runner.gherkin_plugin):
+        for option in plugin_options(GherkinPlugin):
             option_strings = str(option).split('/')
             parser.add_argument(
                 *option_strings,
