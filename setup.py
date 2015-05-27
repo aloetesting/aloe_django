@@ -24,7 +24,7 @@ with open('requirements.txt') as requirements, \
         open('test_requirements.txt') as test_requirements:
     setup(
         name='aloe_django',
-        version='0.0.2',
+        version='0.0.3',
         description='Package for testing Django applications with Aloe',
         author='Alexey Kotlyarov',
         author_email='a@koterpillar.com',
