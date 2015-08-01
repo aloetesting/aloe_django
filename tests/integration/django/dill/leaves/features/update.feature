@@ -61,7 +61,23 @@ Feature: Update models
       | name             | area |
       | Octopus's Garden | 150  |
 
-Scenario: Try to update a panda without implementing write decorator
+  Scenario: Creating a panda works with only the create decorator
+    Given I have pandas in the database:
+      | name | location |
+      | Funi | China    |
+
+    Then the database dump is as follows:
+    """
+    [
+      {
+        "pk": 1,
+        "model": "leaves.panda",
+        "fields": { "name": "Funi Panda", "location": "China" }
+      }
+    ]
+    """
+
+  Scenario: Try to update a panda without implementing write decorator
     Given I have pandas in the database:
       | name | location |
       | Funi | China    |

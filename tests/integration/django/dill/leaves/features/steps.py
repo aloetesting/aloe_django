@@ -20,22 +20,32 @@ import sys
 
 from django.core.management import call_command
 
-from leaves.models import *
+from leaves.models import (
+    Harvester,
+    Panda,
+)
 
 from aloe import after, step
-from aloe_django.steps.models import *
+from aloe_django.steps.models import (
+    create_models,
+    creates_models,
+    hashes_data,
+    test_existence,
+    tests_existence,
+    write_models,
+    writes_models,
+)
 
 from nose.tools import assert_equals
 
 max_rego = 0
 
 
-@creates_models(Harvester)
-def create_with_rego(step):
-    data = hashes_data(step)
+@writes_models(Harvester)
+def write_with_rego(data, field=None):
     for hash_ in data:
         hash_['rego'] = hash_['make'][:3].upper() + "001"
-    create_models(Harvester, data)
+    write_models(Harvester, data, field=field)
 
 
 @tests_existence(Harvester)
@@ -69,10 +79,13 @@ def count_harvesters(step):
 
 
 @creates_models(Panda)
-def create_pandas(step):
-    data = hashes_data(step)
+def create_pandas(data):
+    # It is not necessary to call hashes_data, but it might be present in old
+    # code using the library. Test that it is a no-op in that case.
+    data = hashes_data(data)
 
-    if 'name' in data:
-        data['name'] += ' Panda'
+    for hash_ in data:
+        if 'name' in hash_:
+            hash_['name'] += ' Panda'
 
     return create_models(Panda, data)

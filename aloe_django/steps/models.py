@@ -76,6 +76,11 @@ def creates_models(model):
 def writes_models(model):
     """
     Register a model-specific create and update function.
+
+    The function must accept a list of data hashes and a field name. If field
+    is not None, it is the field that must be used to get the existing objects
+    out of the database to update them; otherwise, new objects must be created
+    for each data hash.
     """
 
     def decorated(func):
@@ -131,7 +136,7 @@ def tests_existence(model):
 
 def hash_data(hash_):
     """
-    Convert strings from a Lettuce hash to appropriate types
+    Convert strings from a step table to appropriate types.
     """
     res = {}
     for key, value in hash_.items():
@@ -152,11 +157,18 @@ def hash_data(hash_):
     return res
 
 
-def hashes_data(step):
+def hashes_data(data):
     """
-    Convert strings from step hashes to appropriate types
+    Get data hashes from a step by converting each table cell to the
+    appropriate data type.
+
+    If the object is already a list of hashes, it is returned unchanged.
     """
-    return [hash_data(hash_) for hash_ in step.hashes]
+
+    if hasattr(data, 'hashes'):
+        return list(map(hash_data, data.hashes))
+    else:
+        return data
 
 
 def get_model(model):
@@ -195,8 +207,7 @@ def write_models(model, data, field=None):
     field that is used to get the existing models out of the database to update
     them; otherwise, new models are created.
     """
-    if hasattr(data, 'hashes'):
-        data = hashes_data(data)
+    data = hashes_data(data)
 
     written = []
 
@@ -288,8 +299,7 @@ def models_exist(model, data, queryset=None,
     Check whether the models defined by @data exist in the @queryset.
     """
 
-    if hasattr(data, 'hashes'):
-        data = hashes_data(data)
+    data = hashes_data(data)
 
     if not queryset:
         queryset = model.objects
@@ -327,7 +337,7 @@ def models_exist(model, data, queryset=None,
             raise AssertionError("%i rows found" % failed)
 
 
-def write_models_generic(step, model, field=None):
+def write_models_generic(data, model, field=None):
     """
     And I have foos in the database:
         | name | bar  |
@@ -338,15 +348,15 @@ def write_models_generic(step, model, field=None):
         | 1  | Bar  |
 
     The generic method can be overridden for a specific model by defining a
-    function write_badgers(step, field), which creates and updates
+    function write_badgers(data, field), which creates and updates
     the Badger model and decorating it with the writes_models(model_class)
     decorator.
 
     @writes_models(Profile)
-    def write_profile(step, field):
+    def write_profile(data, field):
         '''Creates a Profile model'''
 
-        for hash_ in hashes_data(step):
+        for hash_ in data:
             if field:
                 profile = Profile.objects.get(**{field: hash_[field]})
                 else:
@@ -355,13 +365,15 @@ def write_models_generic(step, model, field=None):
                 ...
     """
 
+    data = hashes_data(data)
+
     model = get_model(model)
 
     try:
         func = _WRITE_MODEL[model]
     except KeyError:
         func = curry(write_models, model)
-    func(step, field)
+    func(data, field)
 
 
 for txt in (
