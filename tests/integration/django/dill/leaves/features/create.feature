@@ -22,6 +22,9 @@ Feature: Create models
       | make  |
       | Frank |
       | Crank |
+    And garden with name "Secret Garden" has harvesters in the database:
+      | make  |
+      | Brank |
     And I have bees in the database:
       | name  |
       | Billy |
@@ -92,12 +95,17 @@ Feature: Create models
       {
         "pk": 1,
         "model": "leaves.harvester",
-        "fields": { "rego": "FRA001", "make": "Frank" }
+        "fields": { "rego": "FRA001", "garden": null, "make": "Frank" }
       },
       {
         "pk": 2,
         "model": "leaves.harvester",
-        "fields": { "rego": "CRA001", "make": "Crank" }
+        "fields": { "rego": "CRA001", "garden": null, "make": "Crank" }
+      },
+      {
+        "pk": 3,
+        "model": "leaves.harvester",
+        "fields": { "rego": "BRA001", "garden": 1, "make": "Brank" }
       }
     ]
     """

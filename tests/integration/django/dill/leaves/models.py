@@ -59,6 +59,7 @@ class Goose(models.Model):
 class Harvester(models.Model):
     make = models.CharField(max_length=100)
     rego = models.CharField(max_length=100)
+    garden = models.ForeignKey(Garden, blank=True, null=True)
 
 
 class Panda(models.Model):
