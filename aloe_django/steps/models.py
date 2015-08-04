@@ -93,8 +93,8 @@ def writes_models(model):
     out of the database to update them; otherwise, new objects must be created
     for each data hash.
 
-    If you only want to modify the hash or do specific changes, you can also
-    modify the hash and then pass it on to write_models().
+    If you only want to modify the hash, you can make modifications and then
+    pass it on to write_models().
     """
 
     def decorated(func):
@@ -135,8 +135,8 @@ def tests_existence(model):
         for hash_ in data:
                 ...
 
-    If you only want to modify the hash or do specific changes, you can also
-    modify the hash and then pass it on to test_existence().
+    If you only want to modify the hash, you can make modifications then pass
+    it on to test_existence().
     """
 
     def decorated(func):
