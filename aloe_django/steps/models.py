@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Step definitions for working with Django models.
+Step definitions and utilities for working with Django models.
 """
 
 from __future__ import print_function
@@ -35,7 +35,7 @@ from functools import partial, wraps
 from aloe import step
 
 __all__ = ('writes_models', 'write_models',
-           'tests_existence', 'test_existance',
+           'tests_existence', 'test_existence',
            'reset_sequence', 'hashes_data',
            )
 
@@ -52,7 +52,10 @@ def _models_generator():
         yield (str(model._meta.verbose_name_plural), model)
 
 
-MODELS = dict(_models_generator())
+try:
+    MODELS = dict(_models_generator())
+except:
+    warnings.warn("Models not loaded!")
 
 
 _WRITE_MODEL = {}
@@ -62,7 +65,9 @@ def writes_models(model):
     """
     Register a model-specific create and update function.
 
-    This can then be accessed via the steps.
+    This can then be accessed via the steps:
+
+    .. code-block:: gherkin
 
         And I have foos in the database:
             | name | bar  |
@@ -72,21 +77,23 @@ def writes_models(model):
             | pk | name |
             | 1  | Bar  |
 
-    A method for a specific model can define a function write_badgers(data,
-    field), which creates and updates the Badger model and decorating it with
-    the writes_models(model_class) decorator.
+    A method for a specific model can define a function ``write_badgers(data,
+    field)``, which creates and updates the Badger model and decorating it with
+    the ``writes_models(model_class)`` decorator:
 
-    @writes_models(Profile)
-    def write_profile(data, field):
-        '''Creates a Profile model'''
+    .. code-block:: python
 
-        for hash_ in data:
-            if field:
-                profile = Profile.objects.get(**{field: hash_[field]})
-                else:
-                    profile = Profile()
+        @writes_models(Profile)
+        def write_profile(data, field):
+            '''Creates a Profile model'''
 
-                ...
+            for hash_ in data:
+                if field:
+                    profile = Profile.objects.get(**{field: hash_[field]})
+                    else:
+                        profile = Profile()
+
+                    ...
 
     The function must accept a list of data hashes and a field name. If field
     is not None, it is the field that must be used to get the existing objects
@@ -94,7 +101,7 @@ def writes_models(model):
     for each data hash.
 
     If you only want to modify the hash or do specific changes, you can also
-    modify the hash and then pass it on to write_models().
+    modify the hash and then pass it on to :func:`write_models`.
     """
 
     def decorated(func):
@@ -114,7 +121,9 @@ def tests_existence(model):
     """
     Register a model-specific existence test.
 
-    This can then be accessed via the steps.
+    This can then be accessed via the steps:
+
+    .. code-block:: gherkin
 
         Then foos should be present in the database:
             | name   | bar |
@@ -124,19 +133,21 @@ def tests_existence(model):
             | name   | bar |
             | badger | baz |
 
-    A method for a specific model can define a function test_badgers(queryset,
-    data) and decorating it with the tests_existence(model_class)
-    decorator.
+    A method for a specific model can define a function
+    ``test_badgers(queryset, data)`` and decorating it with the
+    ``tests_existence(model_class)`` decorator:
 
-    @tests_existence(Profile)
-    def test_profile(queryset, data):
-        '''Tests a Profile model'''
+    .. code-block:: python
 
-        for hash_ in data:
-                ...
+        @tests_existence(Profile)
+        def test_profile(queryset, data):
+            '''Tests a Profile model'''
+
+            for hash_ in data:
+                    ...
 
     If you only want to modify the hash or do specific changes, you can also
-    modify the hash and then pass it on to test_existence().
+    modify the hash and then pass it on to :func:`test_existence`.
     """
 
     def decorated(func):
@@ -152,6 +163,8 @@ def tests_existence(model):
 def hash_data(hash_):
     """
     Convert strings from a step table row to appropriate types.
+
+    Expects a dict.
     """
     res = {}
     for key, value in hash_.items():
@@ -177,10 +190,8 @@ def hash_data(hash_):
 
 def hashes_data(data):
     """
-    Get data hashes from a step by converting each table cell to the
+    Get data hashes from a dist of dicts by converting each table cell to the
     appropriate data type.
-
-    If the object is already a list of hashes, it is returned unchanged.
     """
 
     return [hash_data(row) for row in data]
@@ -238,10 +249,10 @@ def _dump_model(model, attrs=None):
 
 def test_existence(queryset, data):
     """
-    Test existence of a given hash in a queryset (or among all model instances
-    if a model is given).
+    Test existence of a given hash in a `queryset` (or among all model
+    instances if a model is given).
 
-    Called by tests_existence().
+    Called by :func:`tests_existence`.
     """
 
     fields = {}
@@ -330,7 +341,7 @@ def write_models(model, data, field=None):
     field that is used to get the existing models out of the database to update
     them; otherwise, new models are created.
 
-    Called by writes_models().
+    Called by :func:`writes_models`.
     """
     written = []
 
