@@ -278,24 +278,6 @@ def test_existence(queryset, data):
 def _model_exists_step(step, model, should_exist):
     """
     Tests for the existance of a model matching the given data.
-
-    Column names are included in a query to the database. To check model
-    attributes that are not database columns (i.e. properties). Prepend the
-    column with an ``@`` sign.
-
-    Example:
-
-    ..code-block:: gherkin
-
-        Then foos should be present in the database:
-            | name   | bar |
-            | badger | baz |
-
-        Then foos should not be present in the database:
-            | name   | @bar |
-            | badger | baz  |
-
-    See :func:`tests_existence`.
     """
 
     model = get_model(model)
@@ -338,13 +320,50 @@ def _model_exists_step(step, model, should_exist):
             raise AssertionError("%i rows found" % failed)
 
 
-for txt, exists in (
-    (r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database',
-     True),
-    (r'(?:an? )?([A-Z][a-z0-9_ ]*) should not be present in the database',
-     False),
-):
-    step(STEP_PREFIX + txt)(partial(_model_exists_step, should_exist=exists))
+@step(STEP_PREFIX +
+      r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database')
+def _model_exists_positive_step(step):
+    """
+    Tests for the existence of a model matching the given data.
+
+    Column names are included in a query to the database. To check model
+    attributes that are not database columns (i.e. properties). Prepend the
+    column with an ``@`` sign.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then foos should be present in the database:
+            | name   | @bar |
+            | badger | baz  |
+
+    See :func:`tests_existence`.
+    """
+    return _model_exists_step(step, True)
+
+
+@step(STEP_PREFIX +
+      r'(?:an? )?([A-Z][a-z0-9_ ]*) should not be present in the database')
+def _model_exists_negative_step(step):
+    """
+    Tests for the existence of a model matching the given data.
+
+    Column names are included in a query to the database. To check model
+    attributes that are not database columns (i.e. properties). Prepend the
+    column with an ``@`` sign.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then foos should not be present in the database:
+            | name   | @bar |
+            | badger | baz  |
+
+    See :func:`tests_existence`.
+    """
+    return _model_exists_step(step, False)
 
 
 def write_models(model, data, field=None):
@@ -382,19 +401,7 @@ def write_models(model, data, field=None):
 
 def _write_models_step(step, model, field=None):
     """
-    Example:
-
-    .. code-block:: gherkin
-
-        And I have foos in the database:
-            | name | bar  |
-            | Baz  | Quux |
-
-        And I update existing foos by pk in the database:
-            | pk | name |
-            | 1  | Bar  |
-
-    See :func:`writes_models`.
+    Writes or updates a model.
     """
 
     model = get_model(model)
@@ -408,12 +415,49 @@ def _write_models_step(step, model, field=None):
     func(data, field)
 
 
-for txt in (
-    (r'I have(?: an?)? ([a-z][a-z0-9_ ]*) in the database:'),
-    (r'I update(?: an?)? existing ([a-z][a-z0-9_ ]*) by ([a-z][a-z0-9_]*) '
-     'in the database:'),
-):
-    step(txt)(_write_models_step)
+@step(r'I have(?: an?)? ([a-z][a-z0-9_ ]*) in the database:')
+def _write_models_step_new(*args):
+    """
+    Creates models in the database.
+
+    Syntax:
+
+        I have `model` in the database:
+
+    Example:
+
+    .. code-block:: gherkin
+
+        And I have foos in the database:
+            | name | bar  |
+            | Baz  | Quux |
+
+    See :func:`writes_models`.
+    """
+    return _write_models_step(*args)
+
+
+@step(r'I update(?: an?)? existing ([a-z][a-z0-9_ ]*) by ([a-z][a-z0-9_]*) '
+      'in the database:')
+def _write_models_step_update(*args):
+    """
+    Updates existing models in the database, specifying a column to match on.
+
+    Syntax:
+
+        I update `model` by `key` in the database:
+
+    Example:
+
+    .. code-block:: gherkin
+
+        And I update existing foos by pk in the database:
+            | pk | name |
+            | 1  | Bar  |
+
+    See :func:`writes_models`.
+    """
+    return _write_models_step(*args)
 
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
