@@ -322,7 +322,7 @@ def _model_exists_step(step, model, should_exist):
 
 @step(STEP_PREFIX +
       r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database')
-def _model_exists_positive_step(step):
+def _model_exists_positive_step(step, model):
     """
     Tests for the existence of a model matching the given data.
 
@@ -340,12 +340,12 @@ def _model_exists_positive_step(step):
 
     See :func:`tests_existence`.
     """
-    return _model_exists_step(step, True)
+    return _model_exists_step(step, model, True)
 
 
 @step(STEP_PREFIX +
       r'(?:an? )?([A-Z][a-z0-9_ ]*) should not be present in the database')
-def _model_exists_negative_step(step):
+def _model_exists_negative_step(step, model):
     """
     Tests for the existence of a model matching the given data.
 
@@ -363,7 +363,7 @@ def _model_exists_negative_step(step):
 
     See :func:`tests_existence`.
     """
-    return _model_exists_step(step, False)
+    return _model_exists_step(step, model, False)
 
 
 def write_models(model, data, field=None):
