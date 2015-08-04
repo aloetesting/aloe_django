@@ -277,13 +277,25 @@ def test_existence(queryset, data):
 
 def _model_exists_step(step, model, should_exist):
     """
-    Then foos should be present in the database:
-        | name   | bar |
-        | badger | baz |
+    Tests for the existance of a model matching the given data.
 
-    Then foos should not be present in the database:
-        | name   | bar |
-        | badger | baz |
+    Column names are included in a query to the database. To check model
+    attributes that are not database columns (i.e. properties). Prepend the
+    column with an ``@`` sign.
+
+    Example:
+
+    ..code-block:: gherkin
+
+        Then foos should be present in the database:
+            | name   | bar |
+            | badger | baz |
+
+        Then foos should not be present in the database:
+            | name   | @bar |
+            | badger | baz  |
+
+    See :func:`tests_existence`.
     """
 
     model = get_model(model)
@@ -370,15 +382,19 @@ def write_models(model, data, field=None):
 
 def _write_models_step(step, model, field=None):
     """
-    And I have foos in the database:
-        | name | bar  |
-        | Baz  | Quux |
+    Example:
 
-    And I update existing foos by pk in the database:
-        | pk | name |
-        | 1  | Bar  |
+    .. code-block:: gherkin
 
-    See writes_models().
+        And I have foos in the database:
+            | name | bar  |
+            | Baz  | Quux |
+
+        And I update existing foos by pk in the database:
+            | pk | name |
+            | 1  | Bar  |
+
+    See :func:`writes_models`.
     """
 
     model = get_model(model)
@@ -405,9 +421,19 @@ for txt in (
 def _create_models_for_relation_step(step, rel_model_name,
                                      rel_key, rel_value, model):
     """
-    And project with name "Ball Project" has goals in the database:
-    | description                             |
-    | To have fun playing with balls of twine |
+    Creates a new model linked to the given model.
+
+    Syntax:
+
+        And `model` with `field` "`value`" has `new model` in the database:
+
+    Example:
+
+    .. code-block:: gherkin
+
+        And project with name "Ball Project" has goals in the database:
+            | description                             |
+            | To have fun playing with balls of twine |
     """
 
     model = get_model(model)
@@ -432,10 +458,21 @@ def _create_models_for_relation_step(step, rel_model_name,
 def _create_m2m_links_step(step, rel_model_name,
                            rel_key, rel_value, relation_name):
     """
-    And article with name "Guidelines" is linked to tags in the database:
-    | name   |
-    | coding |
-    | style  |
+    Links many-to-many models together.
+
+    Syntax:
+
+        And `model` with `field` "`value." is linked to `other model` in the
+        database:
+
+    Example:
+
+    .. code-block:: gherkin
+
+        And article with name "Guidelines" is linked to tags in the database:
+            | name   |
+            | coding |
+            | style  |
     """
 
     lookup = {rel_key: rel_value}
@@ -464,7 +501,13 @@ def _create_m2m_links_step(step, rel_model_name,
 @step(r'There should be (\d+) ([a-z][a-z0-9_ ]*) in the database')
 def _model_count_step(step, count, model):
     """
-    Then there should be 0 goals in the database
+    Counts the number of models in the database.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then there should be 0 goals in the database
     """
 
     model = get_model(model)

@@ -55,7 +55,7 @@ class StepDocumenter(FunctionDocumenter):
         if is_step(self.object):
             # FIXME: this is a first cut
             directive = 'describe'
-            name = self.object.sentence
+            name = "Step: " + self.object.sentence
             sourcename = self.get_sourcename()
 
             self.add_line(u'.. %s:: %s' % (directive, name),
