@@ -28,6 +28,8 @@ Working with email
 .. automodule:: aloe_django.steps.mail
     :members:
 
+.. include:: porting.rst
+
 Indices and tables
 ==================
 
