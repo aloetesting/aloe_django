@@ -4,17 +4,11 @@ Aloe: Django extensions
 `aloe_django` provides utilities to help write Aloe_ BDD tests for Django_
 applications.
 
-.. _aloe: https://github.com/koterpillar/aloe
-.. _django: http://djangoproject.com/
-
 .. toctree::
    :maxdepth: 2
 
-Using Aloe with Django
-======================
-
-.. automodule:: aloe_django
-    :members:
+.. include:: using.rst
+.. include:: harvest.rst
 
 Working with Django models
 ==========================
@@ -37,3 +31,6 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _aloe: https://github.com/koterpillar/aloe
+.. _django: http://djangoproject.com/
+.. _`django_nose`: https://github.com/django-nose/django-nose
