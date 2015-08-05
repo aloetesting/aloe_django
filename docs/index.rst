@@ -1,8 +1,3 @@
-.. Aloe Django documentation master file, created by
-   sphinx-quickstart on Tue Aug  4 11:40:41 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Aloe: Django extensions
 =======================
 
@@ -21,13 +16,13 @@ Using Aloe with Django
 .. automodule:: aloe_django
     :members:
 
-Working with Django Models
+Working with Django models
 ==========================
 
 .. automodule:: aloe_django.steps.models
     :members:
 
-Working with Email
+Working with email
 ==================
 
 .. automodule:: aloe_django.steps.mail

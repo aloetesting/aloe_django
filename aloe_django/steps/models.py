@@ -101,7 +101,7 @@ def writes_models(model):
     for each data hash.
 
     If you only want to modify the hash, you can make modifications and then
-    pass it on to write_models().
+    pass it on to :func:`write_models`.
     """
 
     def decorated(func):
@@ -190,7 +190,7 @@ def hash_data(hash_):
 
 def hashes_data(data):
     """
-    Get data hashes from a dist of dicts by converting each table cell to the
+    Get data hashes from a list of dicts by converting each table cell to the
     appropriate data type.
     """
 
@@ -252,7 +252,7 @@ def test_existence(queryset, data):
     Test existence of a given hash in a `queryset` (or among all model
     instances if a model is given).
 
-    Called by :func:`tests_existence`.
+    Useful when registering custom tests with :func:`tests_existence`.
     """
 
     fields = {}
@@ -277,7 +277,7 @@ def test_existence(queryset, data):
 
 def _model_exists_step(step, model, should_exist):
     """
-    Tests for the existance of a model matching the given data.
+    Test for the existence of a model matching the given data.
     """
 
     model = get_model(model)
@@ -324,10 +324,10 @@ def _model_exists_step(step, model, should_exist):
       r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database')
 def _model_exists_positive_step(step, model):
     """
-    Tests for the existence of a model matching the given data.
+    Test for the existence of a model matching the given data.
 
     Column names are included in a query to the database. To check model
-    attributes that are not database columns (i.e. properties). Prepend the
+    attributes that are not database columns (i.e. properties) prepend the
     column with an ``@`` sign.
 
     Example:
@@ -372,7 +372,7 @@ def write_models(model, data, field=None):
     field that is used to get the existing models out of the database to update
     them; otherwise, new models are created.
 
-    Called by :func:`writes_models`.
+    Useful when registering custom tests with :func:`writes_models`.
     """
     written = []
 
@@ -401,7 +401,7 @@ def write_models(model, data, field=None):
 
 def _write_models_step(step, model, field=None):
     """
-    Writes or updates a model.
+    Write or update a model.
     """
 
     model = get_model(model)
@@ -418,7 +418,7 @@ def _write_models_step(step, model, field=None):
 @step(r'I have(?: an?)? ([a-z][a-z0-9_ ]*) in the database:')
 def _write_models_step_new(*args):
     """
-    Creates models in the database.
+    Create models in the database.
 
     Syntax:
 
@@ -441,7 +441,7 @@ def _write_models_step_new(*args):
       'in the database:')
 def _write_models_step_update(*args):
     """
-    Updates existing models in the database, specifying a column to match on.
+    Update existing models in the database, specifying a column to match on.
 
     Syntax:
 
@@ -465,7 +465,7 @@ def _write_models_step_update(*args):
 def _create_models_for_relation_step(step, rel_model_name,
                                      rel_key, rel_value, model):
     """
-    Creates a new model linked to the given model.
+    Create a new model linked to the given model.
 
     Syntax:
 
@@ -502,11 +502,11 @@ def _create_models_for_relation_step(step, rel_model_name,
 def _create_m2m_links_step(step, rel_model_name,
                            rel_key, rel_value, relation_name):
     """
-    Links many-to-many models together.
+    Link many-to-many models together.
 
     Syntax:
 
-        And `model` with `field` "`value." is linked to `other model` in the
+        And `model` with `field` "`value`" is linked to `other model` in the
         database:
 
     Example:
@@ -545,7 +545,7 @@ def _create_m2m_links_step(step, rel_model_name,
 @step(r'There should be (\d+) ([a-z][a-z0-9_ ]*) in the database')
 def _model_count_step(step, count, model):
     """
-    Counts the number of models in the database.
+    Count the number of models in the database.
 
     Example:
 

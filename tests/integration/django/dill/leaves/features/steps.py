@@ -78,7 +78,7 @@ def count_harvesters(step):
 
 
 @writes_models(Panda)
-def create_pandas(data, field):
+def write_pandas(data, field):
     # It is not necessary to call hashes_data, but it might be present in old
     # code using the library. Test that it is a no-op in that case.
     data = hashes_data(data)
