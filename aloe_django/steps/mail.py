@@ -23,6 +23,8 @@ from django.core import mail
 
 from aloe import step
 
+__all__ = ()
+
 
 STEP_PREFIX = r'(?:Given|And|Then|When) '
 CHECK_PREFIX = r'(?:And|Then) '
@@ -33,7 +35,17 @@ GOOD_MAIL = mail.EmailMessage.send
 @step(CHECK_PREFIX + r'I have sent (\d+) emails?')
 def mail_sent_count(step, count):
     """
-    Then I have sent 2 emails
+    Test that `count` mails have been sent.
+
+    Syntax:
+
+        I have sent `count` emails
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then I have sent 2 emails
     """
     count = int(count)
     assert len(mail.outbox) == count, "Length of outbox is {0}".format(count)
@@ -42,7 +54,13 @@ def mail_sent_count(step, count):
 @step(r'I have not sent any emails')
 def mail_not_sent(step):
     """
-    I have not sent any emails
+    Test no emails have been sent.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then I have not sent any emails
     """
     return mail_sent_count(step, 0)
 
@@ -51,7 +69,18 @@ def mail_not_sent(step):
                       '').format('|'.join(EMAIL_PARTS)))
 def mail_sent_content(step, text, part):
     """
-    Then I have sent an email with "pandas" in the body
+    Test an email contains the given text in the relevant message part
+    (accessible as an attribute on the email object).
+
+    Syntax:
+
+        I have sent an email with "`text`" in the `part`
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then I have sent an email with "pandas" in the body
     """
     assert any(text in getattr(email, part)
                for email
@@ -62,10 +91,18 @@ def mail_sent_content(step, text, part):
 @step(CHECK_PREFIX + r'I have sent an email with the following in the body:')
 def mail_sent_content_multiline(step):
     """
-    I have sent an email with the following in the body:
-    \"""
-    Name: Mr. Panda
-    \"""
+    Test the body of an email contains the given multiline string.
+
+    This step strictly applies whitespace.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then I have sent an email with the following in the body:
+        \"\"\"
+        Dear Mr. Panda,
+        \"\"\"
     """
     return mail_sent_content(step, step.multiline, 'body')
 
@@ -73,7 +110,13 @@ def mail_sent_content_multiline(step):
 @step(STEP_PREFIX + r'I clear my email outbox')
 def mail_clear(step):
     """
-    I clear my email outbox
+    Clear the email outbox.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Given I clear my email outbox
     """
     mail.EmailMessage.send = GOOD_MAIL
     mail.outbox = []
@@ -89,6 +132,14 @@ def broken_send(*args, **kwargs):
 @step(STEP_PREFIX + r'sending email does not work')
 def email_broken(step):
     """
-    Break email sending
+    Cause sending email to raise an exception.
+
+    This allows simulating email failure.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Given sending email does not work
     """
     mail.EmailMessage.send = broken_send
