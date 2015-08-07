@@ -19,8 +19,6 @@ import django.test
 
 from aloe.testclass import TestCase as AloeTestCase
 
-__version__ = '0.0.4'
-
 
 class TestCase(django.test.LiveServerTestCase, AloeTestCase):
     """

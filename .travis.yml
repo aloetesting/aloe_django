@@ -24,6 +24,7 @@ script:
     - coverage erase
     - coverage run -m nose
     - coverage report
+    - ./tools/check_installs
     - make -C docs coverage
 
 after_success:
