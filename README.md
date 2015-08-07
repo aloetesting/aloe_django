@@ -2,7 +2,7 @@ Aloe-Django
 -------------
 
 Utilities for using [Aloe](https://github.com/koterpillar/aloe) with
-Django(http://djangoproject.com):
+[Django](http://djangoproject.com):
 
 - A `harvest` command to run Gherkin tests
 - A collection of steps to aid in testing Django applications
@@ -22,7 +22,7 @@ Aloe-Django - Django utils for Aloe based on Lettuce
 
 Copyright (C) <2015> Alexey Kotlyarov <a@koterpillar.com>
 
-Copyright (C) <2015 Danielle Madeley <danielle@madeley.id.au>
+Copyright (C) <2015> Danielle Madeley <danielle@madeley.id.au>
 
 Copyright (C) <2013-2014> Infoxchange <devs@ix.org.au>
 

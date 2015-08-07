@@ -18,4 +18,6 @@ virtualenv check_install_venv
 pip install check_install_dist/*.tar.gz
 
 # Smoke test
-aloe --version
+python << EOF
+import aloe_django
+EOF
