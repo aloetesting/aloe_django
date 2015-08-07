@@ -20,11 +20,13 @@ Setup script.
 
 from setuptools import setup, find_packages
 
+from aloe_django import __version__
+
 with open('requirements.txt') as requirements, \
         open('test_requirements.txt') as test_requirements:
     setup(
         name='aloe_django',
-        version='0.0.4',
+        version=__version__,
         description='Package for testing Django applications with Aloe',
         author='Alexey Kotlyarov',
         author_email='a@koterpillar.com',
