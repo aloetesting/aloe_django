@@ -19,25 +19,25 @@ Step definitions and utilities for working with Django models.
 """
 
 from __future__ import print_function
+# pylint:disable=redefined-builtin
 from builtins import bytes
 from builtins import str
+# pylint:disable=redefined-builtin
 
 from datetime import datetime
 import re
 import warnings
 
-from django.core.management import call_command
 from django.core.management.color import no_style
 from django.db import connection
 from django.db.models.loading import get_models
-from functools import partial, wraps
+from functools import partial
 
 from aloe import step
 
 __all__ = ('writes_models', 'write_models',
            'tests_existence', 'test_existence',
-           'reset_sequence', 'hashes_data',
-           )
+           'reset_sequence', 'hashes_data')
 
 
 STEP_PREFIX = r'(?:Given|And|Then|When) '
@@ -54,7 +54,7 @@ def _models_generator():
 
 try:
     MODELS = dict(_models_generator())
-except:
+except:  # pylint:disable=bare-except
     warnings.warn("Models not loaded!")
 
 
@@ -257,12 +257,12 @@ def test_existence(queryset, data):
 
     fields = {}
     extra_attrs = {}
-    for k, v in data.items():
-        if k.startswith('@'):
+    for key, value in data.items():
+        if key.startswith('@'):
             # this is an attribute
-            extra_attrs[k[1:]] = v
+            extra_attrs[key[1:]] = value
         else:
-            fields[k] = v
+            fields[key] = value
 
     filtered = queryset.filter(**fields)
 
@@ -275,13 +275,13 @@ def test_existence(queryset, data):
     return False
 
 
-def _model_exists_step(step, model, should_exist):
+def _model_exists_step(self, model, should_exist):
     """
     Test for the existence of a model matching the given data.
     """
 
     model = get_model(model)
-    data = hashes_data(step.hashes)
+    data = hashes_data(self.hashes)
 
     queryset = model.objects
 
@@ -322,7 +322,7 @@ def _model_exists_step(step, model, should_exist):
 
 @step(STEP_PREFIX +
       r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database')
-def _model_exists_positive_step(step, model):
+def _model_exists_positive_step(self, model):
     """
     Test for the existence of a model matching the given data.
 
@@ -340,12 +340,12 @@ def _model_exists_positive_step(step, model):
 
     See :func:`tests_existence`.
     """
-    return _model_exists_step(step, model, True)
+    return _model_exists_step(self, model, True)
 
 
 @step(STEP_PREFIX +
       r'(?:an? )?([A-Z][a-z0-9_ ]*) should not be present in the database')
-def _model_exists_negative_step(step, model):
+def _model_exists_negative_step(self, model):
     """
     Tests for the existence of a model matching the given data.
 
@@ -363,7 +363,7 @@ def _model_exists_negative_step(step, model):
 
     See :func:`tests_existence`.
     """
-    return _model_exists_step(step, model, False)
+    return _model_exists_step(self, model, False)
 
 
 def write_models(model, data, field=None):
@@ -399,13 +399,13 @@ def write_models(model, data, field=None):
     return written
 
 
-def _write_models_step(step, model, field=None):
+def _write_models_step(self, model, field=None):
     """
     Write or update a model.
     """
 
     model = get_model(model)
-    data = hashes_data(step.hashes)
+    data = hashes_data(self.hashes)
 
     try:
         func = _WRITE_MODEL[model]
@@ -462,7 +462,7 @@ def _write_models_step_update(*args):
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
       r' has(?: an?)? ([A-Z][a-z0-9_ ]*) in the database:')
-def _create_models_for_relation_step(step, rel_model_name,
+def _create_models_for_relation_step(self, rel_model_name,
                                      rel_key, rel_value, model):
     """
     Create a new model linked to the given model.
@@ -484,7 +484,7 @@ def _create_models_for_relation_step(step, rel_model_name,
     lookup = {rel_key: rel_value}
     rel_model = get_model(rel_model_name).objects.get(**lookup)
 
-    data = hashes_data(step.hashes)
+    data = hashes_data(self.hashes)
 
     for hash_ in data:
         hash_['%s' % rel_model_name] = rel_model
@@ -499,7 +499,7 @@ def _create_models_for_relation_step(step, rel_model_name,
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
       r' is linked to ([A-Z][a-z0-9_ ]*) in the database:')
-def _create_m2m_links_step(step, rel_model_name,
+def _create_m2m_links_step(self, rel_model_name,
                            rel_key, rel_value, relation_name):
     """
     Link many-to-many models together.
@@ -538,12 +538,12 @@ def _create_m2m_links_step(step, rel_model_name,
         )
     m2m_model = relation.model
 
-    for hash_ in step.hashes:
+    for hash_ in self.hashes:
         relation.add(m2m_model.objects.get(**hash_))
 
 
 @step(r'There should be (\d+) ([a-z][a-z0-9_ ]*) in the database')
-def _model_count_step(step, count, model):
+def _model_count_step(self, count, model):
     """
     Count the number of models in the database.
 

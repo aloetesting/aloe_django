@@ -18,7 +18,7 @@
 Test runner running the Gherkin tests.
 """
 
-import optparse
+import optparse  # pylint:disable=deprecated-module
 import os
 import sys
 

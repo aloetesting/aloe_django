@@ -24,13 +24,17 @@ from django.test.utils import get_runner
 
 from django.core.management.commands.test import Command as TestCommand
 
+# pylint:disable=invalid-name
 test_runner_class = getattr(settings, 'GHERKIN_TEST_RUNNER',
                             'aloe_django.runner.GherkinTestRunner')
 
 TestRunner = get_runner(settings, test_runner_class)
+# pylint:enable=invalid-name
 
 
 class Command(TestCommand):
+    """Django command: harvest"""
+
     help = "Run Gherkin tests"
 
     option_list = TestCommand.option_list + \
