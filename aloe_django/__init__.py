@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Django Integration for Aloe
+Django integration for Aloe
 """
 
 import django.test
