@@ -1,6 +1,9 @@
 Harvest
 =======
 
+.. toctree::
+    :maxdepth: 2
+
 The :command:`harvest` command exposed via Django's :command:`manage.py`
 and can be used to run Aloe tests under Django with the correct settings.
 
