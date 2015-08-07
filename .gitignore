@@ -2,3 +2,4 @@
 *.swp
 /.coverage
 /*.egg-info/
+/docs/_build/

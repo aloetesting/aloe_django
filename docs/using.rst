@@ -21,7 +21,7 @@ If you're not already using `django_nose`_ you should also add this to
     inherit it to change the behaviour of items such as the Django test server
     (e.g. to enable a threaded server).
 
-    See :ref:`Extending Aloe’s TestCase` for more details.
+    See :ref:`Extending Aloe’s TestCase <aloe:extending_aloe>` for more details.
 
 .. attribute:: GHERKIN_TEST_RUNNER = 'aloe_django.runner.GherkinTestRunner'
 
