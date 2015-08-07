@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+Django integration for Aloe
+"""
+
 import django.test
 
 from aloe.testclass import TestCase as AloeTestCase

@@ -1,2 +1,5 @@
+coverage
 pep8
 lxml
+pylint
+pylint-mccabe
