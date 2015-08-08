@@ -12,4 +12,4 @@ The following changes are required to port from Lettuce to `aloe_django`:
    :func:`aloe.tools.guess_types`.
 
  * Tests are run inside the :class:`aloe_django.TestCase` so a :func:`clean_db`
-   hook is no longer required
+   hook is no longer required.
