@@ -327,7 +327,7 @@ def _model_exists_negative_step(self, model):
     return _model_exists_step(self, model, False)
 
 
-def write_models(model, data, field=None):
+def write_models(model, data, field):
     """
     Create or update models for each data hash. If field is present, it is the
     field that is used to get the existing models out of the database to update
