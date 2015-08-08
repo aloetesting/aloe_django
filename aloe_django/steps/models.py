@@ -20,12 +20,9 @@ Step definitions and utilities for working with Django models.
 
 from __future__ import print_function
 # pylint:disable=redefined-builtin
-from builtins import bytes
 from builtins import str
 # pylint:disable=redefined-builtin
 
-from datetime import datetime
-import re
 import warnings
 
 from django.core.management.color import no_style
@@ -34,10 +31,11 @@ from django.db.models.loading import get_models
 from functools import partial
 
 from aloe import step
+from aloe.tools import guess_types
 
 __all__ = ('writes_models', 'write_models',
            'tests_existence', 'test_existence',
-           'reset_sequence', 'hashes_data')
+           'reset_sequence')
 
 
 STEP_PREFIX = r'(?:Given|And|Then|When) '
@@ -160,43 +158,6 @@ def tests_existence(model):
     return decorated
 
 
-def hash_data(hash_):
-    """
-    Convert strings from a step table row to appropriate types.
-
-    Expects a dict.
-    """
-    res = {}
-    for key, value in hash_.items():
-        if isinstance(value, bytes):
-            value = value.decode()
-
-        if isinstance(value, str):
-            if value == "true":
-                value = True
-            elif value == "false":
-                value = False
-            elif value == "null":
-                value = None
-            elif value.isdigit() and not re.match("^0[0-9]+", value):
-                value = int(value)
-            elif re.match(r'^\d{4}-\d{2}-\d{2}$', value):
-                value = datetime.strptime(value, "%Y-%m-%d")
-
-        res[key] = value
-
-    return res
-
-
-def hashes_data(data):
-    """
-    Get data hashes from a list of dicts by converting each table cell to the
-    appropriate data type.
-    """
-
-    return [hash_data(row) for row in data]
-
-
 def get_model(model):
     """
     Convert a model's verbose name to the model class. This allows us to
@@ -281,7 +242,7 @@ def _model_exists_step(self, model, should_exist):
     """
 
     model = get_model(model)
-    data = hashes_data(self.hashes)
+    data = guess_types(self.hashes)
 
     queryset = model.objects
 
@@ -405,7 +366,7 @@ def _write_models_step(self, model, field=None):
     """
 
     model = get_model(model)
-    data = hashes_data(self.hashes)
+    data = guess_types(self.hashes)
 
     try:
         func = _WRITE_MODEL[model]
@@ -484,7 +445,7 @@ def _create_models_for_relation_step(self, rel_model_name,
     lookup = {rel_key: rel_value}
     rel_model = get_model(rel_model_name).objects.get(**lookup)
 
-    data = hashes_data(self.hashes)
+    data = guess_types(self.hashes)
 
     for hash_ in data:
         hash_['%s' % rel_model_name] = rel_model

@@ -26,8 +26,8 @@ from leaves.models import (
 )
 
 from aloe import after, step
+from aloe.tools import guess_types
 from aloe_django.steps.models import (
-    hashes_data,
     test_existence,
     tests_existence,
     write_models,
@@ -79,9 +79,10 @@ def count_harvesters(step):
 
 @writes_models(Panda)
 def write_pandas(data, field):
-    # It is not necessary to call hashes_data, but it might be present in old
-    # code using the library. Test that it is a no-op in that case.
-    data = hashes_data(data)
+    # It is not necessary to call hashes_data/guess_types, but it might be
+    # present in old code using the library. Test that it is a no-op
+    # in that case.
+    data = guess_types(data)
 
     for hash_ in data:
         if 'name' in hash_:

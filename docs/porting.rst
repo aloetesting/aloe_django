@@ -8,5 +8,8 @@ The following changes are required to port from Lettuce to `aloe_django`:
    :func:`tests_existence` respectively. The prototypes passed to the functions
    have now been made consistent.
 
- * :func:`hashes_data` used to accept a :class:`aloe.Step` or
-   :func:`aloe.Step.hashes`. It now only accepts the latter.
+ * :func:`hashes_data` has been removed. Switch to
+   :func:`aloe.tools.guess_types`.
+
+ * Tests are run inside the :class:`aloe_django.TestCase` so a :func:`clean_db`
+   hook is no longer required.
