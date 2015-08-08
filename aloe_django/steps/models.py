@@ -88,18 +88,35 @@ def writes_models(model):
             for hash_ in data:
                 if field:
                     profile = Profile.objects.get(**{field: hash_[field]})
-                    else:
-                        profile = Profile()
+                else:
+                    profile = Profile()
 
-                    ...
+                ...
+
+            reset_sequence(Profile)
 
     The function must accept a list of data hashes and a field name. If field
     is not None, it is the field that must be used to get the existing objects
     out of the database to update them; otherwise, new objects must be created
     for each data hash.
 
+    Follow up model creation with a call to :func:`reset_sequence` to
+    update the database sequences.
+
     If you only want to modify the hash, you can make modifications and then
     pass it on to :func:`write_models`.
+
+    .. code-block:: python
+
+        @writes_models(Profile)
+        def write_profile(data, field):
+            '''Creates a Profile model'''
+
+            for hash_ in data:
+
+                # modify hash
+
+            return write_models(Profile, data, field)
     """
 
     def decorated(func):
@@ -139,10 +156,11 @@ def tests_existence(model):
 
         @tests_existence(Profile)
         def test_profile(queryset, data):
-            '''Tests a Profile model'''
+            '''Test a Profile model'''
 
-            for hash_ in data:
-                    ...
+            # modify data ...
+
+            return test_existence(queryset, data)
 
     If you only want to modify the hash, you can make modifications then pass
     it on to test_existence().
@@ -210,6 +228,10 @@ def _dump_model(model, attrs=None):
 
 def test_existence(queryset, data):
     """
+    :param queryset: a Django queryset
+    :param data: a single model to check for
+    :returns: True if the model exists
+
     Test existence of a given hash in a `queryset` (or among all model
     instances if a model is given).
 
@@ -329,9 +351,16 @@ def _model_exists_negative_step(self, model):
 
 def write_models(model, data, field):
     """
-    Create or update models for each data hash. If field is present, it is the
-    field that is used to get the existing models out of the database to update
-    them; otherwise, new models are created.
+    :param model: a Django model class
+    :param data: a list of hashes to build models from
+    :param field: a field name to match models on, or None
+    :returns: a list of models written
+
+    Create or update models for each data hash.
+
+    `field` is the field that is used to get the existing models out of
+    the database to update them; otherwise, if ``field=None``, new models are
+    created.
 
     Useful when registering custom tests with :func:`writes_models`.
     """
