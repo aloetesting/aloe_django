@@ -20,12 +20,9 @@ Step definitions and utilities for working with Django models.
 
 from __future__ import print_function
 # pylint:disable=redefined-builtin
-from builtins import bytes
 from builtins import str
 # pylint:disable=redefined-builtin
 
-from datetime import datetime
-import re
 import warnings
 
 from django.core.management.color import no_style
