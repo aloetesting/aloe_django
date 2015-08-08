@@ -455,7 +455,7 @@ def _create_models_for_relation_step(self, rel_model_name,
     except KeyError:
         func = partial(write_models, model)
 
-    func(data)
+    func(data, None)
 
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
