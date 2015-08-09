@@ -40,6 +40,13 @@ def given_i_navigate_to_group1(step, url):
     # TODO: Make this a property of the step
     testclass = step.testclass
     base_url = testclass.live_server_url.__get__(testclass)
+
+    # Django 1.4 returns str, not unicode
+    try:
+        base_url = base_url.decode()
+    except AttributeError:
+        pass
+
     url = urljoin(base_url, url)
     assert_equals(url, 'http://localhost:8081/')
 
