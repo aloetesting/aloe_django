@@ -36,6 +36,6 @@ try:
 
         pass
 
-except ImproperlyConfigured:
+except (ImproperlyConfigured, ImportError):
     # Probably running tests for Aloe-Django and Django isn't configured
     pass
