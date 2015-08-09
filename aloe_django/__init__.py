@@ -19,17 +19,23 @@
 Django integration for Aloe
 """
 
-import django.test
+from django.core.exceptions import ImproperlyConfigured
 
-from aloe.testclass import TestCase as AloeTestCase
+try:
+    import django.test
 
+    from aloe.testclass import TestCase as AloeTestCase
 
-class TestCase(django.test.LiveServerTestCase, AloeTestCase):
-    """
-    Base test class for Django Gherkin tests.
+    class TestCase(django.test.LiveServerTestCase, AloeTestCase):
+        """
+        Base test class for Django Gherkin tests.
 
-    Inherits from both :class:`aloe.testclass.TestCase` and
-    :class:`django.test.LiveServerTestCase`.
-    """
+        Inherits from both :class:`aloe.testclass.TestCase` and
+        :class:`django.test.LiveServerTestCase`.
+        """
 
+        pass
+
+except ImproperlyConfigured:
+    # Probably running tests for Aloe-Django and Django isn't configured
     pass

@@ -87,7 +87,7 @@ class GherkinTestRunner(NoseTestSuiteRunner):
             plugins_to_add.append(plugin)
 
         try:
-            django.setup()
+            django.setup()  # pylint:disable=no-member
         except AttributeError:
             # Setup isn't necessary in Django < 1.7
             pass
