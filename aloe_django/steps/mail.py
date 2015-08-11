@@ -75,7 +75,7 @@ def mail_sent_content(self, text, part):
     assert any(text in getattr(email, part)
                for email
                in mail.outbox), \
-        "An email contained expected text in the {0}".format(part)
+        "No email contained expected text in the {0}".format(part)
 
 
 @step(CHECK_PREFIX + (r'I have not sent an email with "([^"]*)" in the ({0})')

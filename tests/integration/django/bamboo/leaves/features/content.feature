@@ -101,6 +101,22 @@ Feature: Test email steps
       Quantity: None
       """
 
+  Scenario: Fail if content is found
+    Given I send a test email with the following set:
+      """
+      from_email: orders@bamboodirect.com
+      to:
+        - shipping@bamboodirect.com
+      subject: New Order
+      body: |
+              Order ID: 10
+              Name: Fluffy Badger
+              Quantity: Quite a few
+              """
+
+    Then I have not sent an email with "Badger" in the body
+
+
   Scenario: HTML alternatives fails if content not found
     Given I send a test email with the following set:
       """

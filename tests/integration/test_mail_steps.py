@@ -39,9 +39,13 @@ def test_mail_content():
 
     status, out = run_scenario('leaves', 'content', 4)
     assert_not_equals(status, 0)
-    assert_in("An email contained expected text in the body", out)
+    assert_in("No email contained expected text in the body", out)
 
     status, out = run_scenario('leaves', 'content', 5)
+    assert_not_equals(status, 0)
+    assert_in("An email contained unexpected text in the body", out)
+
+    status, out = run_scenario('leaves', 'content', 6)
     assert_not_equals(status, 0)
     assert_in("No email contained the HTML", out)
 
