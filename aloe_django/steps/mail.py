@@ -9,6 +9,7 @@ from django.core import mail
 from django.test.html import parse_html
 
 from aloe import step
+from nose.tools import assert_equals
 
 __all__ = ()
 

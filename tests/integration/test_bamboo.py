@@ -32,8 +32,10 @@ def test_mail_content():
     assert_equals(status, 0, out)
     status, out = run_scenario('leaves', 'content', 2)
     assert_equals(status, 0, out)
-
     status, out = run_scenario('leaves', 'content', 3)
+    assert_equals(status, 0, out)
+
+    status, out = run_scenario('leaves', 'content', 4)
     assert_not_equals(status, 0)
     assert_in("An email contained expected text in the body", out)
 
