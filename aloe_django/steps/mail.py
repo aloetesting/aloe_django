@@ -6,6 +6,7 @@ Step definitions for working with Django email.
 from smtplib import SMTPException
 
 from django.core import mail
+from django.test.html import parse_html
 
 from aloe import step
 
@@ -91,6 +92,46 @@ def mail_sent_content_multiline(self):
         \"\"\"
     """
     return mail_sent_content(self, self.multiline, 'body')
+
+
+@step(CHECK_PREFIX +
+      r'I have sent an email with the following HTML alternative:')
+def mail_sent_contains_html(step):
+    """
+    Test that an email contains the HTML in the multiline as one of its
+    MIME alternatives.
+
+    The HTML is normalised by passing through Django's
+    :func:`django.test.html.parse_html`.
+
+    Example:
+
+    .. code-block:: gherkin
+
+        And I have sent an email with the following HTML alternative:
+        \"\"\"
+        <p><strong>Name:</strong> Sir Panda</p>
+        <p><strong>Phone:</strong> 0400000000</p>
+        <p><strong>Email:</strong> sir.panda@pand.as</p>
+        \"\"\"
+    """
+
+    for email in mail.outbox:
+        try:
+            html = next(content for content, mime in email.alternatives
+                        if mime == 'text/html')
+            dom1 = parse_html(html)
+            dom2 = parse_html(step.multiline)
+
+            assert_equals(dom1, dom2)
+
+        except AssertionError as e:
+            print(e)
+            continue
+
+        return True
+
+    raise AssertionError("No email contained the HTML")
 
 
 @step(STEP_PREFIX + r'I clear my email outbox')
