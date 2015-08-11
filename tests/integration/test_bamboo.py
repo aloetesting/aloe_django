@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-#
+"""
+Test mail steps.
+"""
 
 from tests.util import in_directory, run_scenario
 
-from nose.tools import (
+from nose.tools import (  # pylint:disable=no-name-in-module
     assert_equals,
     assert_in,
     assert_not_equals,

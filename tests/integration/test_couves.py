@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-#
+"""
+Test hooks in harvest
+"""
 
 from nose.tools import (
     assert_in,
@@ -13,7 +15,7 @@ from tests.util import in_directory, run_scenario
 def test_django_agains_couves():
     'it always call @after.all hooks, even after exceptions'
 
-    status, out = run_scenario(**{'-s': None})
+    _, out = run_scenario(**{'-s': None})
 
     assert_in("Couves before all", out)
     assert_in("Couves after all", out)
@@ -25,7 +27,7 @@ def test_django_agains_couves_nohooks():
     it only calls @before.all and @after.all hooks if there are features found
     """
 
-    status, out = run_scenario(**{
+    _, out = run_scenario(**{
         '--tags': 'nothingwillbefound',
         '-s': None,
     })
