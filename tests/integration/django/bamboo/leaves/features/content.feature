@@ -61,6 +61,7 @@ Feature: Test email steps
       Name: Mr Panda
       Quantity: Many
       """
+    And I have not sent an email with "Badger" in the body
 
   Scenario: HTML alternatives
     Given I send a test email with the following set:
