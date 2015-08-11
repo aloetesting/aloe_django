@@ -1,4 +1,4 @@
-Feature: Count number of emails sent
+Feature: Test email steps
   Background:
     Given I clear my email outbox
 
@@ -62,7 +62,25 @@ Feature: Count number of emails sent
       Quantity: Many
       """
 
-  # NEGATIVE TEST
+  Scenario: HTML alternatives
+    Given I send a test email with the following set:
+      """
+      from_email: orders@bamboodirect.com
+      to:
+        - undisclosed recipients;
+      subject: Try b4mb00 now!
+      body: |
+        This message is not spam.
+      html: |
+        <blink>GET B4MB00 CHEAP NOW!</blink>
+      """
+
+    Then I have sent an email with the following HTML alternative:
+      """
+      <blink>GET B4MB00 CHEAP NOW!</blink>
+      """
+
+  # NEGATIVE TESTS
   Scenario: Fail if content is not found
     Given I send a test email with the following set:
       """
@@ -80,4 +98,22 @@ Feature: Count number of emails sent
       """
       Name: Badger
       Quantity: None
+      """
+
+  Scenario: HTML alternatives fails if content not found
+    Given I send a test email with the following set:
+      """
+      from_email: orders@bamboodirect.com
+      to:
+        - undisclosed recipients;
+      subject: Try b4mb00 now!
+      body: |
+        This message is not spam.
+      html: |
+        <blink>GET B4MB00 CHEAP NOW!</blink>
+      """
+
+    Then I have sent an email with the following HTML alternative:
+      """
+      <marquee>GET B4MB00 CHEAP NOW!</marquee>
       """

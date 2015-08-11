@@ -4,6 +4,8 @@
 Extra steps to test django mail steps
 """
 
+from __future__ import print_function
+
 import yaml
 
 from django.core import mail
@@ -16,7 +18,13 @@ STEP_PREFIX = r'(?:Given|And|Then|When) '
 
 
 def mail_send(data):
-    email = mail.EmailMessage(**data)
+    html = data.pop('html', None)
+
+    email = mail.EmailMultiAlternatives(**data)
+
+    if html:
+        email.attach_alternative(html, 'text/html')
+
     email.send()
 
 

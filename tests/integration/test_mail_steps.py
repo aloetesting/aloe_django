@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-#
+"""
+Test mail steps.
+"""
 
 from tests.util import in_directory, run_scenario
 
-from nose.tools import (
+from nose.tools import (  # pylint:disable=no-name-in-module
     assert_equals,
     assert_in,
     assert_not_equals,
@@ -32,10 +34,16 @@ def test_mail_content():
     assert_equals(status, 0, out)
     status, out = run_scenario('leaves', 'content', 2)
     assert_equals(status, 0, out)
-
     status, out = run_scenario('leaves', 'content', 3)
+    assert_equals(status, 0, out)
+
+    status, out = run_scenario('leaves', 'content', 4)
     assert_not_equals(status, 0)
     assert_in("An email contained expected text in the body", out)
+
+    status, out = run_scenario('leaves', 'content', 5)
+    assert_not_equals(status, 0)
+    assert_in("No email contained the HTML", out)
 
 
 @in_directory(__file__, 'django', 'bamboo')

@@ -29,7 +29,7 @@ cache:
 
 script:
     - pep8 .
-    - pylint aloe_django
+    - pylint aloe_django tests
     - coverage erase
     - coverage run -m nose
     - coverage report

@@ -85,7 +85,6 @@ def run_scenario(application='', feature='', scenario='', **opts):
     cmd = 'python manage.py harvest -v 3 {0}{1}{2}{3}'.format(opts_string,
                                                               application,
                                                               feature,
-                                                              scenario,
-                                                              )
+                                                              scenario)
 
     return getstatusoutput(cmd)

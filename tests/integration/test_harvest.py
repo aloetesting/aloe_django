@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-#
+"""
+Test the harvest command.
+"""
 
-import os
-import time
-import multiprocessing
-
-from nose.tools import assert_equals, assert_not_equals
+from nose.tools import assert_equals  # pylint:disable=no-name-in-module
 from tests.util import getstatusoutput, in_directory
 
 
