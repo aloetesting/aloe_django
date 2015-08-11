@@ -9,7 +9,7 @@ from django.core import mail
 from django.test.html import parse_html
 
 from aloe import step
-from nose.tools import assert_equals  # pylint:disable=no-name-in-module
+from nose.tools import assert_in  # pylint:disable=no-name-in-module
 
 __all__ = ()
 
@@ -57,8 +57,10 @@ def mail_not_sent(self):
                       '').format('|'.join(EMAIL_PARTS)))
 def mail_sent_content(self, text, part):
     """
-    Test an email contains the given text in the relevant message part
-    (accessible as an attribute on the email object).
+    Test an email contains (assert text in) the given text in the relevant
+    message part (accessible as an attribute on the email object).
+
+    This step strictly applies whitespace.
 
     Syntax:
 
@@ -79,7 +81,8 @@ def mail_sent_content(self, text, part):
 @step(CHECK_PREFIX + r'I have sent an email with the following in the body:')
 def mail_sent_content_multiline(self):
     """
-    Test the body of an email contains the given multiline string.
+    Test the body of an email contains (assert text in) the given multiline
+    string.
 
     This step strictly applies whitespace.
 
@@ -99,8 +102,8 @@ def mail_sent_content_multiline(self):
       r'I have sent an email with the following HTML alternative:')
 def mail_sent_contains_html(self):
     """
-    Test that an email contains the HTML in the multiline as one of its
-    MIME alternatives.
+    Test that an email contains the HTML (assert HTML in) in the multiline as
+    one of its MIME alternatives.
 
     The HTML is normalised by passing through Django's
     :func:`django.test.html.parse_html`.
@@ -124,7 +127,7 @@ def mail_sent_contains_html(self):
             dom1 = parse_html(html)
             dom2 = parse_html(self.multiline)
 
-            assert_equals(dom1, dom2)
+            assert_in(dom1, dom2)
 
         except AssertionError as exc:
             print("Email did not match", exc)

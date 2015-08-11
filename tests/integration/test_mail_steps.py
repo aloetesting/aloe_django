@@ -41,6 +41,10 @@ def test_mail_content():
     assert_not_equals(status, 0)
     assert_in("An email contained expected text in the body", out)
 
+    status, out = run_scenario('leaves', 'content', 5)
+    assert_not_equals(status, 0)
+    assert_in("No email contained the HTML", out)
+
 
 @in_directory(__file__, 'django', 'bamboo')
 def test_mail_fail():
