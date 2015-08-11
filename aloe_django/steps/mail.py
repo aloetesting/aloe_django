@@ -1,15 +1,15 @@
-#
-
 """
 Step definitions for working with Django email.
 """
+from __future__ import print_function
+
 from smtplib import SMTPException
 
 from django.core import mail
 from django.test.html import parse_html
 
 from aloe import step
-from nose.tools import assert_equals
+from nose.tools import assert_equals  # pylint:disable=no-name-in-module
 
 __all__ = ()
 
@@ -97,7 +97,7 @@ def mail_sent_content_multiline(self):
 
 @step(CHECK_PREFIX +
       r'I have sent an email with the following HTML alternative:')
-def mail_sent_contains_html(step):
+def mail_sent_contains_html(self):
     """
     Test that an email contains the HTML in the multiline as one of its
     MIME alternatives.
@@ -122,12 +122,13 @@ def mail_sent_contains_html(step):
             html = next(content for content, mime in email.alternatives
                         if mime == 'text/html')
             dom1 = parse_html(html)
-            dom2 = parse_html(step.multiline)
+            dom2 = parse_html(self.multiline)
 
             assert_equals(dom1, dom2)
 
-        except AssertionError as e:
-            print(e)
+        except AssertionError as exc:
+            print("Email did not match", exc)
+            # we intentionally eat the exception
             continue
 
         return True
