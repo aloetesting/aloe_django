@@ -53,8 +53,8 @@ def mail_not_sent(self):
     return mail_sent_count(self, 0)
 
 
-@step(CHECK_PREFIX + (r'I have sent an email with "([^"]*)" in the ({0})'
-                      '').format('|'.join(EMAIL_PARTS)))
+@step(CHECK_PREFIX + (r'I have sent an email with "([^"]*)" in the ({0})')
+      .format('|'.join(EMAIL_PARTS)))
 def mail_sent_content(self, text, part):
     """
     Test an email contains (assert text in) the given text in the relevant
@@ -75,7 +75,32 @@ def mail_sent_content(self, text, part):
     assert any(text in getattr(email, part)
                for email
                in mail.outbox), \
-        "An email contained expected text in the {0}".format(part)
+        "No email contained expected text in the {0}".format(part)
+
+
+@step(CHECK_PREFIX + (r'I have not sent an email with "([^"]*)" in the ({0})')
+      .format('|'.join(EMAIL_PARTS)))
+def mail_not_sent_content(self, text, part):
+    """
+    Test an email does not contain (assert text not in) the given text in the
+    relevant message part (accessible as an attribute on the email object).
+
+    This step strictly applies whitespace.
+
+    Syntax:
+
+        I have not sent an email with "`text`" in the `part`
+
+    Example:
+
+    .. code-block:: gherkin
+
+        Then I have not sent an email with "pandas" in the body
+    """
+    assert all(text not in getattr(email, part)
+               for email
+               in mail.outbox), \
+        "An email contained unexpected text in the {0}".format(part)
 
 
 @step(CHECK_PREFIX + r'I have sent an email with the following in the body:')
