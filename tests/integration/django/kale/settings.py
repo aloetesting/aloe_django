@@ -1,5 +1,3 @@
-#
-
 DEBUG = True
 
 ROOT_URLCONF = 'kale.urls'
