@@ -66,7 +66,7 @@ def test_run_with_tags_and_features():
     """it will only run specified tags in the feature files"""
 
     status, out = getstatusoutput(
-        "python manage.py harvest donothing --attr='passes,!fails'")
+        "python manage.py harvest donothing --attr='!passes,!fails'")
 
     assert_equals(status, 0, out)
     assert_in("Ran 1 test", out)
