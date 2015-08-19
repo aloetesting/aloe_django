@@ -201,10 +201,10 @@ def _dump_model(model, attrs=None):
 
     for field in model._meta.many_to_many:
         vals = getattr(model, field.name)
-        fields.append(field.name, '{val} ({count})'.format(
+        fields.append((field.name, '{val} ({count})'.format(
             val=', '.join(map(str, vals.all())),
             count=vals.count(),
-        ))
+        )))
 
     print(', '.join(
         '{0}={1}'.format(field, value)
