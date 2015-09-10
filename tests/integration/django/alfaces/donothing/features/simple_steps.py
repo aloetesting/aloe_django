@@ -31,8 +31,8 @@ def given_i_navigate_to_group1(step, url):
     except AttributeError:
         pass
 
+    assert_equals(base_url, 'http://localhost:8081')
     url = urljoin(base_url, url)
-    assert_equals(url, 'http://localhost:8081/')
 
     raw = urlopen(url).read()
     world.dom = html.fromstring(raw)
