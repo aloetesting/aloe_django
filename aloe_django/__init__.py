@@ -25,3 +25,14 @@ try:
 except (ImproperlyConfigured, ImportError):
     # Probably running tests for Aloe-Django and Django isn't configured
     pass
+
+
+def django_url(step):
+    """
+    The base URL for the test server.
+
+    :param step: A Gherkin step
+    """
+
+    testclass = step.testclass
+    return testclass.live_server_url.__get__(testclass)

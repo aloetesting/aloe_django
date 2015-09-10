@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#
 
 try:
     from urllib.parse import urljoin
@@ -13,6 +12,7 @@ from lxml import html
 
 from nose.tools import assert_equals
 from aloe import world, before, step
+from aloe_django import django_url
 from django.test.client import Client
 
 
@@ -23,9 +23,7 @@ def set_client():
 
 @step(r'I navigate to "(.*)"')
 def given_i_navigate_to_group1(step, url):
-    # TODO: Make this a property of the step
-    testclass = step.testclass
-    base_url = testclass.live_server_url.__get__(testclass)
+    base_url = django_url(step)
 
     # Django 1.4 returns str, not unicode
     try:
