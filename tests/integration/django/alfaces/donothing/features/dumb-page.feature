@@ -9,12 +9,12 @@ Feature: Test the django app DO NOTHING
 
   Scenario: A silly paragraph
     Given I navigate to "/"
-    When I look inside de 1st paragraph
+    When I look inside the 1st paragraph
     Then I see it has no attributes
     And that its content is "Here comes the content!"
 
   Scenario: A big hello world title
     Given I navigate to "/"
-    When I look inside de 1st header
+    When I look inside the 1st header
     Then I see its content is "Hello World!"
     And that its id is "hello_world"

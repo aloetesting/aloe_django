@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#
 
 try:
     from urllib.parse import urljoin
@@ -13,6 +12,7 @@ from lxml import html
 
 from nose.tools import assert_equals
 from aloe import world, before, step
+from aloe_django import django_url
 from django.test.client import Client
 
 
@@ -23,9 +23,7 @@ def set_client():
 
 @step(r'I navigate to "(.*)"')
 def given_i_navigate_to_group1(step, url):
-    # TODO: Make this a property of the step
-    testclass = step.testclass
-    base_url = testclass.live_server_url.__get__(testclass)
+    base_url = django_url(step)
 
     # Django 1.4 returns str, not unicode
     try:
@@ -33,8 +31,8 @@ def given_i_navigate_to_group1(step, url):
     except AttributeError:
         pass
 
+    assert_equals(base_url, 'http://localhost:8081')
     url = urljoin(base_url, url)
-    assert_equals(url, 'http://localhost:8081/')
 
     raw = urlopen(url).read()
     world.dom = html.fromstring(raw)
@@ -46,8 +44,8 @@ def then_i_see_the_title_of_the_page_is_group1(step, title):
     assert_equals(element.text, title)
 
 
-@step(r'I look inside de 1st paragraph')
-def when_i_look_inside_de_1st_paragraph(step):
+@step(r'I look inside the 1st paragraph')
+def when_i_look_inside_the_1st_paragraph(step):
     world.element = world.dom.cssselect("p")[0]
 
 
@@ -62,8 +60,8 @@ def and_that_its_content_is_group1(step, content):
     assert_equals(world.element.text, content)
 
 
-@step(r'When I look inside de 1st header')
-def when_i_look_inside_de_1st_header(step):
+@step(r'When I look inside the 1st header')
+def when_i_look_inside_the_1st_header(step):
     world.element = world.dom.cssselect("h1")[0]
 
 
