@@ -27,3 +27,5 @@ If you're not already using `django_nose`_ you should also add this to
 
 .. autoclass:: aloe_django.TestCase()
     :members:
+
+.. autofunction:: aloe_django.django_url

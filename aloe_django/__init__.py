@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#
 
 """
 Django integration for Aloe
