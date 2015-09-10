@@ -44,8 +44,8 @@ def then_i_see_the_title_of_the_page_is_group1(step, title):
     assert_equals(element.text, title)
 
 
-@step(r'I look inside de 1st paragraph')
-def when_i_look_inside_de_1st_paragraph(step):
+@step(r'I look inside the 1st paragraph')
+def when_i_look_inside_the_1st_paragraph(step):
     world.element = world.dom.cssselect("p")[0]
 
 
@@ -60,8 +60,8 @@ def and_that_its_content_is_group1(step, content):
     assert_equals(world.element.text, content)
 
 
-@step(r'When I look inside de 1st header')
-def when_i_look_inside_de_1st_header(step):
+@step(r'When I look inside the 1st header')
+def when_i_look_inside_the_1st_header(step):
     world.element = world.dom.cssselect("h1")[0]
 
 
