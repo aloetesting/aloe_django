@@ -6,12 +6,19 @@ Django integration for Aloe
 
 from django.core.exceptions import ImproperlyConfigured
 
+# To enable static files transparently, uses the StaticLiveServerTestCase,
+# available in Django 1.8, or fall back to default LiveServerTestCase, that
+# does the same as the first in older django versions
 try:
-    import django.test
+    from django.contrib.staticfiles.testing import StaticLiveServerTestCase as LiveServerTestCase
+except ImportError:
+    from django.test import LiveServerTestCase
+
+try:
 
     from aloe.testclass import TestCase as AloeTestCase
 
-    class TestCase(django.test.LiveServerTestCase, AloeTestCase):
+    class TestCase(LiveServerTestCase, AloeTestCase):
         """
         Base test class for Django Gherkin tests.
 
