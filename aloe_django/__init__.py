@@ -10,7 +10,8 @@ from django.core.exceptions import ImproperlyConfigured
 # available in Django 1.8, or fall back to default LiveServerTestCase, that
 # does the same as the first in older django versions
 try:
-    from django.contrib.staticfiles.testing import StaticLiveServerTestCase as LiveServerTestCase
+    from django.contrib.staticfiles.testing import (
+            StaticLiveServerTestCase as LiveServerTestCase)
 except ImportError:
     from django.test import LiveServerTestCase
 
