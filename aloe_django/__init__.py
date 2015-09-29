@@ -11,7 +11,7 @@ from django.core.exceptions import ImproperlyConfigured
 # does the same as the first in older django versions
 try:
     from django.contrib.staticfiles.testing import (
-            StaticLiveServerTestCase as LiveServerTestCase)
+        StaticLiveServerTestCase as LiveServerTestCase)
 except ImportError:
     from django.test import LiveServerTestCase
 
