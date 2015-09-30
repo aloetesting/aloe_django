@@ -11,13 +11,17 @@ try:
     # In Django 1.8, transparently serving static files was moved from
     # LiveServerTestCase to StaticLiveServerTestCase
     try:
+        # pylint:disable=no-name-in-module
         from django.contrib.staticfiles.testing import (
             StaticLiveServerTestCase as LiveServerTestCase)
+        # pylint:enable=no-name-in-module
     except ImportError:
         from django.test import LiveServerTestCase
 
     from aloe.testclass import TestCase as AloeTestCase
 
+    # pylint:disable=abstract-method
+    # Pylint cannot infer methods dynamically added by Aloe
     class TestCase(LiveServerTestCase, AloeTestCase):
         """
         Base test class for Django Gherkin tests.
