@@ -34,8 +34,6 @@ def test_mail_content():
     assert_equals(status, 0, out)
     status, out = run_scenario('leaves', 'content', 2)
     assert_equals(status, 0, out)
-    status, out = run_scenario('leaves', 'content', 3)
-    assert_equals(status, 0, out)
 
     status, out = run_scenario('leaves', 'content', 4)
     assert_not_equals(status, 0)
@@ -44,6 +42,19 @@ def test_mail_content():
     status, out = run_scenario('leaves', 'content', 5)
     assert_not_equals(status, 0)
     assert_in("An email contained unexpected text in the body", out)
+
+
+@in_directory(__file__, 'django', 'bamboo')
+def test_mail_content_html():
+    """Test steps for checking HTML email content."""
+
+    import django
+    from unittest import SkipTest
+    if django.VERSION < (1, 4):
+        raise SkipTest("HTML check steps are only available on Django 1.4+")
+
+    status, out = run_scenario('leaves', 'content', 3)
+    assert_equals(status, 0, out)
 
     status, out = run_scenario('leaves', 'content', 6)
     assert_not_equals(status, 0)
