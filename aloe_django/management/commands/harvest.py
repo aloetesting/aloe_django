@@ -14,7 +14,15 @@ from django.core.management.commands.test import Command as TestCommand
 test_runner_class = getattr(settings, 'GHERKIN_TEST_RUNNER',
                             'aloe_django.runner.GherkinTestRunner')
 
-TestRunner = get_runner(settings, test_runner_class)
+try:
+    # pylint:disable=too-many-function-args
+    TestRunner = get_runner(settings, test_runner_class)
+    # pylint:enable=too-many-function-args
+except TypeError:
+    # Django < 1.4
+    # Patch settings, since test runner is only configurable through there
+    settings.TEST_RUNNER = test_runner_class
+    TestRunner = get_runner(settings)
 # pylint:enable=invalid-name
 
 

@@ -10,18 +10,23 @@ from django.core.exceptions import ImproperlyConfigured
 try:
     # In Django 1.8, transparently serving static files was moved from
     # LiveServerTestCase to StaticLiveServerTestCase
+    # pylint:disable=no-name-in-module,import-error
     try:
-        # pylint:disable=no-name-in-module
         from django.contrib.staticfiles.testing import (
             StaticLiveServerTestCase as LiveServerTestCase)
-        # pylint:enable=no-name-in-module
     except ImportError:
-        from django.test import LiveServerTestCase
+        try:
+            from django.test import LiveServerTestCase
+        except ImportError:
+            from django_liveserver.testcases import LiveServerTestCase
+    # pylint:enable=no-name-in-module,import-error
 
     from aloe.testclass import TestCase as AloeTestCase
 
     # pylint:disable=abstract-method
     # Pylint cannot infer methods dynamically added by Aloe
+    # pylint:disable=too-many-ancestors
+    # Confused by the multitude of the import variants above?
     class TestCase(LiveServerTestCase, AloeTestCase):
         """
         Base test class for Django Gherkin tests.
