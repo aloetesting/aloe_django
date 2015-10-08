@@ -3,5 +3,4 @@ cssselect>=0.7.1
 Django
 django-nose>=1.3
 future
-py==1.4.20
 PyYAML
