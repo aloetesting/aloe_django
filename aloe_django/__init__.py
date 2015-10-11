@@ -50,4 +50,9 @@ def django_url(step):
     """
 
     testclass = step.testclass
-    return testclass.live_server_url.__get__(testclass)
+    try:
+        # In Django < 1.9, live_server_url is an instance property, but still
+        # works when called on the class
+        return testclass.live_server_url.__get__(testclass)
+    except AttributeError:
+        return testclass.live_server_url
