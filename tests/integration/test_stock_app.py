@@ -2,10 +2,14 @@
 Test running features in a freshly created Django application.
 """
 
+from __future__ import absolute_import
+
 import os
 import shutil
 import subprocess
 import unittest
+
+import django
 
 from tests.util import in_temporary_directory, run_scenario
 
@@ -34,14 +38,28 @@ class DjangoAppTest(unittest.TestCase):
     def test_django_app(self):
         """Create a stock Django app and test running features for it."""
 
+        if django.get_version() >= '1.7':
+            django_admin = 'django-admin'
+        else:
+            django_admin = 'django-admin.py'
+
         # Create the project and the application
-        subprocess.check_call(('django-admin', 'startproject', 'lychee'))
+        subprocess.check_call((django_admin, 'startproject', 'lychee'))
         os.chdir('lychee')
-        subprocess.check_call(('django-admin', 'startapp', 'lychee_app'))
+        subprocess.check_call((django_admin, 'startapp', 'lychee_app'))
 
         # Add the created application and Aloe-Django to installed
         with open(find_file('settings.py'), 'a') as settings:
-            settings.write("INSTALLED_APPS += ('aloe_django', 'lychee_app')\n")
+            settings.write("""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'test.sqlite',
+    }
+}
+
+INSTALLED_APPS += ('aloe_django', 'lychee_app')
+""")
 
         app_root = find_file('lychee_app')
 
