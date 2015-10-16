@@ -87,6 +87,12 @@ def in_temporary_directory(func):
 def run_scenario(application=None, feature=None, scenario=None, **opts):
     """
     Run a scenario and return the exit code and output.
+
+    :param application: The application module to run the features in
+    :param feature: The feature to run (without extension)
+    :param scenario: The scenario index to run
+    :param opts: Additional options to harvest. Single-letter options are
+    prefixed with a dash, long options are formatted as --option=value.
     """
 
     if 'coverage' in sys.modules:
@@ -108,14 +114,20 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
             args.append(application)
 
     if scenario:
-        args += ['-n', '{0:d}'.format(scenario)]
+        opts['n'] = scenario
 
-    opts.setdefault('-v', 3)
+    opts.setdefault('v', 3)
 
     for opt, val in opts.items():
-        args.append(str(opt))
-        if val:
-            args.append(str(val))
+        if len(opt) == 1:
+            args.append('-{0}'.format(opt))
+            if val:
+                args.append(str(val))
+        else:
+            if val:
+                args.append('--{0}={1}'.format(opt, val))
+            else:
+                args.append('--{0}'.format(opt))
 
     proc = subprocess.Popen(
         args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

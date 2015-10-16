@@ -49,7 +49,7 @@ def test_specifying_features_in_inner_directory():
 def test_run_with_tags():
     """it will only run specified tags"""
 
-    status, out = run_scenario(**{'--attr=!fails': ''})
+    status, out = run_scenario(attr='!fails')
 
     assert_equals(status, 0, out)
     assert_in("Ran 2 tests", out)
@@ -59,7 +59,7 @@ def test_run_with_tags():
 def test_run_with_tags_and_features():
     """it will only run specified tags in the feature files"""
 
-    status, out = run_scenario('donothing', **{'--attr=!passes,!fails': ''})
+    status, out = run_scenario('donothing', attr='!passes,!fails')
 
     assert_equals(status, 0, out)
     assert_in("Ran 1 test", out)
