@@ -5,7 +5,9 @@ Utils for testing
 """
 
 import os
+import shutil
 import subprocess
+import tempfile
 from functools import wraps
 
 
@@ -49,6 +51,33 @@ def in_directory(file_, *components):
         return wrapped
 
     return decorate
+
+
+def in_temporary_directory(func):
+    """
+    A decorator to run a function in a temporary directory, cleaning up
+    afterwards.
+    """
+
+    @wraps(func)
+    def wrapped(*args, **kwargs):
+        """Execute the function in the temporary directory."""
+
+        oldpath = os.environ.get('PYTHONPATH', '')
+        cwd = os.getcwd()
+
+        target = tempfile.mkdtemp()
+        os.chdir(target)
+        os.environ['PYTHONPATH'] = cwd + oldpath
+
+        try:
+            return func(*args, **kwargs)
+        finally:
+            os.chdir(cwd)
+            os.environ['PYTHONPATH'] = oldpath
+            shutil.rmtree(target)
+
+    return wrapped
 
 
 def getstatusoutput(cmd):
