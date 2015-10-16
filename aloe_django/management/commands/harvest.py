@@ -8,7 +8,12 @@ Management command to run the Gherkin tests.
 from django.conf import settings
 from django.test.utils import get_runner
 
-from django.core.management.commands.test import Command as TestCommand
+if 'south' in settings.INSTALLED_APPS:
+    # pylint:disable=import-error
+    from south.management.commands.test import Command as TestCommand
+    # pylint:enable=import-error
+else:
+    from django.core.management.commands.test import Command as TestCommand
 
 # pylint:disable=invalid-name
 test_runner_class = getattr(settings, 'GHERKIN_TEST_RUNNER',
