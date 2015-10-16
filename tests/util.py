@@ -80,40 +80,35 @@ def in_temporary_directory(func):
     return wrapped
 
 
-def getstatusoutput(cmd):
-    """Return (status, output) of executing cmd in a shell."""
-    proc = subprocess.Popen(cmd, shell=True,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT)
-    text, _ = proc.communicate()
-    text = text.decode().rstrip()
-
-    return proc.returncode, text
-
-
-def run_scenario(application='', feature='', scenario='', **opts):
+def run_scenario(application=None, feature=None, scenario=None, **opts):
     """
-    Runs a Django scenario and returns it's output vars
+    Run a scenario and return the exit code and output.
     """
-    if application:
-        application = ' {0}/features/'.format(application)
+
+    args = ['python', 'manage.py', 'harvest']
 
     if feature:
         feature = '{0}.feature'.format(feature)
 
+    if application:
+        if feature:
+            args.append('{0}/features/{1}'.format(application, feature))
+        else:
+            args.append(application)
+
     if scenario:
-        scenario = ' -n {0:d}'.format(scenario)
+        args += ['-n', '{0:d}'.format(scenario)]
 
-    opts_string = ''
+    opts.setdefault('-v', 3)
+
     for opt, val in opts.items():
-        if not val:
-            val = ''
+        args.append(str(opt))
+        if val:
+            args.append(str(val))
 
-        opts_string = ' '.join((opts_string, opt, val))
+    proc = subprocess.Popen(
+        args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    text, _ = proc.communicate()
+    text = text.decode().rstrip()
 
-    cmd = 'python manage.py harvest -v 3 {0}{1}{2}{3}'.format(opts_string,
-                                                              application,
-                                                              feature,
-                                                              scenario)
-
-    return getstatusoutput(cmd)
+    return proc.returncode, text
