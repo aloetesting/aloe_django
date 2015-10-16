@@ -6,9 +6,13 @@ Utils for testing
 
 import os
 import shutil
+import sys
 import subprocess
 import tempfile
 from functools import wraps
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 def in_directory(file_, *components):
@@ -85,7 +89,14 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
     Run a scenario and return the exit code and output.
     """
 
-    args = ['python', 'manage.py', 'harvest']
+    if 'coverage' in sys.modules:
+        # If running under coverage, run the subprocess covered too
+        rcfile = os.path.join(BASE_DIR, '.coveragerc')
+        args = ['coverage', 'run', '--rcfile', rcfile]
+    else:
+        args = ['python']
+
+    args += ['manage.py', 'harvest']
 
     if feature:
         feature = '{0}.feature'.format(feature)
