@@ -6,9 +6,13 @@ Utils for testing
 
 import os
 import shutil
+import sys
 import subprocess
 import tempfile
 from functools import wraps
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 def in_directory(file_, *components):
@@ -80,40 +84,54 @@ def in_temporary_directory(func):
     return wrapped
 
 
-def getstatusoutput(cmd):
-    """Return (status, output) of executing cmd in a shell."""
-    proc = subprocess.Popen(cmd, shell=True,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT)
-    text, _ = proc.communicate()
-    text = text.decode().rstrip()
-
-    return proc.returncode, text
-
-
-def run_scenario(application='', feature='', scenario='', **opts):
+def run_scenario(application=None, feature=None, scenario=None, **opts):
     """
-    Runs a Django scenario and returns it's output vars
+    Run a scenario and return the exit code and output.
+
+    :param application: The application module to run the features in
+    :param feature: The feature to run (without extension)
+    :param scenario: The scenario index to run
+    :param opts: Additional options to harvest. Single-letter options are
+    prefixed with a dash, long options are formatted as --option=value.
     """
-    if application:
-        application = ' {0}/features/'.format(application)
+
+    if 'coverage' in sys.modules:
+        # If running under coverage, run the subprocess covered too
+        rcfile = os.path.join(BASE_DIR, '.coveragerc')
+        args = ['coverage', 'run', '--rcfile', rcfile]
+    else:
+        args = ['python']
+
+    args += ['manage.py', 'harvest']
 
     if feature:
         feature = '{0}.feature'.format(feature)
 
+    if application:
+        if feature:
+            args.append('{0}/features/{1}'.format(application, feature))
+        else:
+            args.append(application)
+
     if scenario:
-        scenario = ' -n {0:d}'.format(scenario)
+        opts['n'] = scenario
 
-    opts_string = ''
+    opts.setdefault('v', 3)
+
     for opt, val in opts.items():
-        if not val:
-            val = ''
+        if len(opt) == 1:
+            args.append('-{0}'.format(opt))
+            if val:
+                args.append(str(val))
+        else:
+            if val:
+                args.append('--{0}={1}'.format(opt, val))
+            else:
+                args.append('--{0}'.format(opt))
 
-        opts_string = ' '.join((opts_string, opt, val))
+    proc = subprocess.Popen(
+        args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    text, _ = proc.communicate()
+    text = text.decode().rstrip()
 
-    cmd = 'python manage.py harvest -v 3 {0}{1}{2}{3}'.format(opts_string,
-                                                              application,
-                                                              feature,
-                                                              scenario)
-
-    return getstatusoutput(cmd)
+    return proc.returncode, text
