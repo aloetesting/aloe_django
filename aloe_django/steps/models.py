@@ -181,7 +181,7 @@ def get_model(model):
     """
 
     name = model.lower()
-    model = MODELS.get(model, None)
+    model = MODELS.get(name, None)
 
     assert model, "Could not locate model by name '%s'" % name
 
