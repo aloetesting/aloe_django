@@ -15,5 +15,3 @@ Working with email
 
 .. automodule:: aloe_django.steps.mail
     :members:
-
-.. autoclass:: aloe_django.mail.backends.QueueEmailBackend
