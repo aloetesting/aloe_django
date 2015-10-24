@@ -5,7 +5,7 @@ Harvest
     :maxdepth: 2
 
 The :command:`harvest` command exposed via Django's :command:`manage.py`
-and can be used to run Aloe tests under Django with the correct settings.
+can be used to run Aloe tests under Django with the correct settings.
 
 ``harvest`` accepts the same flags as ``nosetests`` and so these are not
 extensively documented here.
