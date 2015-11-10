@@ -109,3 +109,14 @@ Feature: Create models
       }
     ]
     """
+
+  Scenario: Model names are normalised
+    Given I have a garden in the database:
+      | name          | area | raining |
+      | Secret Garden | 45   | false   |
+    And I have a Garden in the database:
+      | name          | area | raining |
+      | Secret Garden | 45   | false   |
+    And I have a GARDEN in the database:
+      | name          | area | raining |
+      | Secret Garden | 45   | false   |
