@@ -8,6 +8,11 @@ class Garden(models.Model):
     area = models.IntegerField()
     raining = models.BooleanField(default=None)
 
+    class Meta:
+        # Intentional weird case to test case normalisation
+        verbose_name = "gArDeN"
+        verbose_name_plural = "GaRdENs"
+
     @property
     def howbig(self):
         if self.area < 50:

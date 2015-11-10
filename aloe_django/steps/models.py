@@ -36,16 +36,16 @@ def _models_generator():
         # pylint:enable=no-name-in-module,import-error
         for app in apps.get_app_configs():
             for model in app.get_models():
-                yield (str(model._meta.verbose_name), model)
-                yield (str(model._meta.verbose_name_plural), model)
+                yield (str(model._meta.verbose_name).lower(), model)
+                yield (str(model._meta.verbose_name_plural).lower(), model)
     except ImportError:
         # Django < 1.7
         # pylint:disable=no-name-in-module,import-error
         from django.db.models.loading import get_models
         # pylint:enable=no-name-in-module,import-error
         for model in get_models():
-            yield (str(model._meta.verbose_name), model)
-            yield (str(model._meta.verbose_name_plural), model)
+            yield (str(model._meta.verbose_name).lower(), model)
+            yield (str(model._meta.verbose_name_plural).lower(), model)
 
 
 try:
@@ -174,14 +174,13 @@ def tests_existence(model):
     return decorated
 
 
-def get_model(model):
+def get_model(name):
     """
     Convert a model's verbose name to the model class. This allows us to
     use the models verbose name in steps.
     """
 
-    name = model.lower()
-    model = MODELS.get(name, None)
+    model = MODELS.get(name.lower(), None)
 
     assert model, "Could not locate model by name '%s'" % name
 
