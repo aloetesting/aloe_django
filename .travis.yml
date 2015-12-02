@@ -12,7 +12,7 @@ env:
     - DJANGO_VERSION=1.6
     - DJANGO_VERSION=1.7
     - DJANGO_VERSION=1.8
-    - DJANGO_VERSION=1.9rc1
+    - DJANGO_VERSION=1.9
 
 matrix:
     exclude:
@@ -71,5 +71,5 @@ deploy:
         all_branches: true
         python: 3.4
         condition:
-            - "\"$DJANGO_VERSION\" = \"1.8\""
+            - "\"$DJANGO_VERSION\" = \"1.9\""
             - "\"$TRAVIS_TAG\" = \"v$(python setup.py --version)\""
