@@ -38,8 +38,6 @@ install:
     - if [ "$DJANGO_VERSION" == "1.3" ]; then pip install django-liveserver; fi
     - pip install coveralls
     - pip install sphinx
-    - if (python --version | grep -q 3.5) && (pip freeze | grep pylint | grep -qv 10c668a); then pip uninstall -y pylint; pip install hg+https://bitbucket.org/logilab/pylint@10c668a#egg=pylint; fi
-    - if (python --version | grep -q 3.5) && (pip freeze | grep astroid | grep -qv 492bbdc); then pip uninstall -y astroid; pip install hg+https://bitbucket.org/logilab/astroid@492bbdc#egg=astroid; fi
 
 cache:
     directories:
@@ -47,7 +45,7 @@ cache:
 
 script:
     - pep8 .
-    - pylint aloe_django tests
+    - pylint aloe_django setup.py tests
     - coverage erase
     - coverage run -m nose
     - coverage combine . tests/integration/django/*
