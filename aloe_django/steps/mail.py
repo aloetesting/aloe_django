@@ -17,8 +17,9 @@ except ImportError:
         raise ImproperlyConfigured(
             "HTML check steps are only available on Django 1.4+.")
 
-from aloe import step
 from nose.tools import assert_in  # pylint:disable=no-name-in-module
+
+from aloe import step
 
 __all__ = ()
 

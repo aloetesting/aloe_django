@@ -10,10 +10,10 @@ from builtins import str
 # pylint:disable=redefined-builtin
 
 import warnings
+from functools import partial
 
 from django.core.management.color import no_style
 from django.db import connection
-from functools import partial
 
 from aloe import step
 from aloe.tools import guess_types
@@ -403,7 +403,7 @@ def _write_models_step(self, model, field=None):
 
 
 @step(r'I have(?: an?)? ([a-z][a-z0-9_ ]*) in the database:')
-def _write_models_step_new(*args):
+def _write_models_step_new(self, model):
     """
     Create models in the database.
 
@@ -421,12 +421,12 @@ def _write_models_step_new(*args):
 
     See :func:`writes_models`.
     """
-    return _write_models_step(*args)
+    return _write_models_step(self, model)
 
 
 @step(r'I update(?: an?)? existing ([a-z][a-z0-9_ ]*) by ([a-z][a-z0-9_]*) '
       'in the database:')
-def _write_models_step_update(*args):
+def _write_models_step_update(self, model, field):
     """
     Update existing models in the database, specifying a column to match on.
 
@@ -444,7 +444,7 @@ def _write_models_step_update(*args):
 
     See :func:`writes_models`.
     """
-    return _write_models_step(*args)
+    return _write_models_step(self, model, field=field)
 
 
 @step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
