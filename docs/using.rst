@@ -3,15 +3,9 @@ Using Aloe with Django
 
 Add ``aloe_django`` to your project's ``INSTALLED_APPS``.
 
-If you're not already using `django_nose`_ you should also add this to
-``INSTALLED_APPS`` and set the setting :attr:`TEST_RUNNER` to
+If you want to run ordinary Python tests using Nose, you should also add
+`django_nose`_ to ``INSTALLED_APPS`` and set the setting ``TEST_RUNNER`` to
 ``django_nose.NoseTestSuiteRunner``.
-
-.. code-block:: python
-
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-    # GHERKIN_TEST_CLASS =  # a TestCase used to execute Gherkin tests
-    # GHERKIN_TEST_RUNNER =  # Nose test runner
 
 .. attribute:: GHERKIN_TEST_CLASS = 'aloe_django.TestCase'
 
@@ -24,6 +18,8 @@ If you're not already using `django_nose`_ you should also add this to
     See :ref:`Extending Aloe’s TestCase <aloe:extending_aloe>` for more details.
 
 .. attribute:: GHERKIN_TEST_RUNNER = 'aloe_django.runner.GherkinTestRunner'
+
+    A Nose test runner used when running :command:`manage.py harvest`.
 
 .. autoclass:: aloe_django.TestCase()
     :members:
