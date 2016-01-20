@@ -1,7 +1,7 @@
 Aloe-Django
 -------------
 
-Utilities for using [Aloe](https://github.com/koterpillar/aloe) with
+Utilities for using [Aloe](https://github.com/aloetesting/aloe) with
 [Django](http://djangoproject.com):
 
 - A `harvest` command to run Gherkin tests
