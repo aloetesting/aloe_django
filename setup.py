@@ -17,7 +17,7 @@ if __name__ == '__main__':
             description='Package for testing Django applications with Aloe',
             author='Alexey Kotlyarov',
             author_email='a@koterpillar.com',
-            url='https://github.com/koterpillar/aloe_django',
+            url='https://github.com/aloetesting/aloe_django',
             long_description=readme.read(),
             classifiers=[
                 'License :: OSI Approved :: ' +
