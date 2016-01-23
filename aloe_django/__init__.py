@@ -4,6 +4,11 @@
 Django integration for Aloe
 """
 
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin  # pylint:disable=import-error
+
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -42,17 +47,23 @@ except (ImproperlyConfigured, ImportError):
     pass
 
 
-def django_url(step):
+def django_url(step, url=None):
     """
-    The base URL for the test server.
+    The URL for a page from the test server.
 
     :param step: A Gherkin step
+    :param url: If specified, the relative URL to append.
     """
 
-    testclass = step.testclass
+    base_url = step.test.live_server_url
+
+    # Django 1.4 returns str, not unicode
     try:
-        # In Django < 1.9, live_server_url is an instance property, but still
-        # works when called on the class
-        return testclass.live_server_url.__get__(testclass)
+        base_url = base_url.decode()
     except AttributeError:
-        return testclass.live_server_url
+        pass
+
+    if url:
+        return urljoin(base_url, url)
+    else:
+        return base_url
