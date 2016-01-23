@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
 try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin
-try:
     from urllib.request import urlopen
 except ImportError:
     from urllib2 import urlopen
@@ -23,16 +19,9 @@ def set_client():
 
 @step(r'I navigate to "(.*)"')
 def given_i_navigate_to_group1(step, url):
-    base_url = django_url(step)
+    url = django_url(step, url)
 
-    # Django 1.4 returns str, not unicode
-    try:
-        base_url = base_url.decode()
-    except AttributeError:
-        pass
-
-    assert_equals(base_url, 'http://localhost:8081')
-    url = urljoin(base_url, url)
+    assert url.startswith('http://localhost:8081')
 
     raw = urlopen(url).read()
     world.dom = html.fromstring(raw)

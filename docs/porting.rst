@@ -14,9 +14,11 @@ The following changes are required to port from Lettuce to `aloe_django`:
  * Tests are run inside the :class:`aloe_django.TestCase` so a :func:`clean_db`
    hook is no longer required.
 
- * The :func:`django_url` now expects a step as argument and returns the root
-   url. Instead of :code:`django_url(reverse('some-url'))`, you must call
-   :code:`django_url(step) + reverse('some-url')`.
+ * The :func:`django_url` now expects a step as argument. Instead of
+   :code:`django_url(reverse('some-url'))`, you must call
+   :code:`django_url(step, reverse('some-url'))`.
+   :code:`step.test.live_server_url` can also be used to get the root URL of
+   the test server.
 
  * Lettuce-specific settings are not supported. Most of the functionality can
    be achieved by customizing the test class using :code:`GHERKIN_TEST_CLASS`
