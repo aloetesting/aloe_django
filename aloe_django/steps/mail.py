@@ -45,8 +45,10 @@ def mail_sent_count(self, count):
 
         Then I have sent 2 emails
     """
-    count = int(count)
-    assert len(mail.outbox) == count, "Length of outbox is {0}".format(count)
+    expected = int(count)
+    actual = len(mail.outbox)
+    assert expected == actual, \
+        "Expected to send {0} email(s), got {1}.".format(expected, actual)
 
 
 @step(r'I have not sent any emails')
@@ -82,10 +84,10 @@ def mail_sent_content(self, text, part):
 
         Then I have sent an email with "pandas" in the body
     """
-    assert any(text in getattr(email, part)
-               for email
-               in mail.outbox), \
-        "No email contained expected text in the {0}".format(part)
+    if not any(text in getattr(email, part) for email in mail.outbox):
+        dump_emails(part)
+        raise AssertionError(
+            "No email contained expected text in the {0}.".format(part))
 
 
 @step(CHECK_PREFIX + (r'I have not sent an email with "([^"]*)" in the ({0})')
@@ -107,10 +109,10 @@ def mail_not_sent_content(self, text, part):
 
         Then I have not sent an email with "pandas" in the body
     """
-    assert all(text not in getattr(email, part)
-               for email
-               in mail.outbox), \
-        "An email contained unexpected text in the {0}".format(part)
+    if any(text in getattr(email, part) for email in mail.outbox):
+        dump_emails(part)
+        raise AssertionError(
+            "An email contained unexpected text in the {0}.".format(part))
 
 
 @step(CHECK_PREFIX + r'I have sent an email with the following in the body:')
@@ -210,3 +212,11 @@ def email_broken(self):
         Given sending email does not work
     """
     mail.EmailMessage.send = broken_send
+
+
+def dump_emails(part):
+    """Show the sent emails' tested parts, to aid in debugging."""
+
+    print("Sent emails:")
+    for email in mail.outbox:
+        print(getattr(email, part))
