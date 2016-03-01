@@ -23,7 +23,7 @@ def test_mail_count():
 
     status, out = run_scenario('leaves', 'count', 3)
     assert_not_equals(status, 0)
-    assert_in("Length of outbox is 1", out)
+    assert_in("Expected to send 1 email(s), got 2.", out)
 
 
 @in_directory(__file__, 'django', 'bamboo')
@@ -37,11 +37,15 @@ def test_mail_content():
 
     status, out = run_scenario('leaves', 'content', 4)
     assert_not_equals(status, 0)
-    assert_in("No email contained expected text in the body", out)
+    assert_in("No email contained expected text in the body.", out)
+    assert_in("Sent emails:", out)
+    assert_in("Order ID: 10\nName: Fluffy Bear\nQuantity: Quite a few", out)
 
     status, out = run_scenario('leaves', 'content', 5)
     assert_not_equals(status, 0)
-    assert_in("An email contained unexpected text in the body", out)
+    assert_in("An email contained unexpected text in the body.", out)
+    assert_in("Sent emails:", out)
+    assert_in("Order ID: 10\nName: Fluffy Badger\nQuantity: Quite a few", out)
 
 
 @in_directory(__file__, 'django', 'bamboo')
