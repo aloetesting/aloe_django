@@ -2,8 +2,6 @@
 Setup script.
 """
 
-__version__ = '0.0.19'
-
 from setuptools import setup, find_packages
 
 if __name__ == '__main__':
@@ -13,7 +11,7 @@ if __name__ == '__main__':
             open('README.md') as readme:
         setup(
             name='aloe_django',
-            version=__version__,
+            use_scm_version=True,
             description='Package for testing Django applications with Aloe',
             author='Alexey Kotlyarov',
             author_email='a@koterpillar.com',
@@ -29,6 +27,8 @@ if __name__ == '__main__':
 
             packages=find_packages(exclude=['tests']),
             include_package_data=True,
+
+            setup_requires=['setuptools_scm'],
 
             install_requires=requirements.readlines(),
 
