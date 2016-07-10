@@ -6,16 +6,7 @@ from __future__ import print_function
 from smtplib import SMTPException
 
 from django.core import mail
-try:
-    from django.test.html import parse_html  # pylint:disable=no-name-in-module
-except ImportError:
-    # Django < 1.4
-    from django.core.exceptions import ImproperlyConfigured
-
-    def parse_html(html):
-        """Stub failing all tests if parse_html isn't available."""
-        raise ImproperlyConfigured(
-            "HTML check steps are only available on Django 1.4+.")
+from django.test.html import parse_html
 
 from nose.tools import assert_in  # pylint:disable=no-name-in-module
 

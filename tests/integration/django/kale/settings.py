@@ -15,6 +15,12 @@ INSTALLED_APPS = (
     'aloe_django',
     'donothing',
 )
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
 SECRET_KEY = 'secret'
 STATIC_URL = '/static/'
 MIDDLEWARE_CLASSES = ()

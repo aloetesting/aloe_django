@@ -1,6 +1,6 @@
 aloe>=0.0.43
 cssselect>=0.7.1
 Django
-django-nose>=1.4.2
+django-nose>=1.4.4
 future>=0.14.0
 PyYAML

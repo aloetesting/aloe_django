@@ -13,25 +13,13 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 try:
-    # In Django 1.8, transparently serving static files was moved from
-    # LiveServerTestCase to StaticLiveServerTestCase
-    # pylint:disable=no-name-in-module,import-error
-    try:
-        from django.contrib.staticfiles.testing import (
-            StaticLiveServerTestCase as LiveServerTestCase)
-    except ImportError:
-        try:
-            from django.test import LiveServerTestCase
-        except ImportError:
-            from django_liveserver.testcases import LiveServerTestCase
-    # pylint:enable=no-name-in-module,import-error
+    from django.contrib.staticfiles.testing import (
+        StaticLiveServerTestCase as LiveServerTestCase)
 
     from aloe.testclass import TestCase as AloeTestCase
 
     # pylint:disable=abstract-method
     # Pylint cannot infer methods dynamically added by Aloe
-    # pylint:disable=too-many-ancestors
-    # Confused by the multitude of the import variants above?
     class TestCase(LiveServerTestCase, AloeTestCase):
         """
         Base test class for Django Gherkin tests.
@@ -56,12 +44,6 @@ def django_url(step, url=None):
     """
 
     base_url = step.test.live_server_url
-
-    # Django 1.4 returns str, not unicode
-    try:
-        base_url = base_url.decode()
-    except AttributeError:
-        pass
 
     if url:
         return urljoin(base_url, url)

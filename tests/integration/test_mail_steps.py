@@ -52,11 +52,6 @@ def test_mail_content():
 def test_mail_content_html():
     """Test steps for checking HTML email content."""
 
-    import django
-    from unittest import SkipTest
-    if django.VERSION < (1, 4):
-        raise SkipTest("HTML check steps are only available on Django 1.4+")
-
     status, out = run_scenario('leaves', 'content', 3)
     assert_equals(status, 0, out)
 
