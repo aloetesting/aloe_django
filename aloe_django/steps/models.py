@@ -12,6 +12,7 @@ from builtins import str
 import warnings
 from functools import partial
 
+from django.apps import apps
 from django.core.management.color import no_style
 from django.db import connection
 
@@ -30,20 +31,9 @@ def _models_generator():
     """
     Build a hash of model verbose names to models
     """
-    try:
-        # pylint:disable=no-name-in-module,import-error
-        from django.apps import apps
-        # pylint:enable=no-name-in-module,import-error
-        for app in apps.get_app_configs():
-            for model in app.get_models():
-                yield (str(model._meta.verbose_name).lower(), model)
-                yield (str(model._meta.verbose_name_plural).lower(), model)
-    except ImportError:
-        # Django < 1.7
-        # pylint:disable=no-name-in-module,import-error
-        from django.db.models.loading import get_models
-        # pylint:enable=no-name-in-module,import-error
-        for model in get_models():
+
+    for app in apps.get_app_configs():
+        for model in app.get_models():
             yield (str(model._meta.verbose_name).lower(), model)
             yield (str(model._meta.verbose_name_plural).lower(), model)
 
