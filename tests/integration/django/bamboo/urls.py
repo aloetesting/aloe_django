@@ -1,9 +1,7 @@
-try:
-    from django.conf.urls import patterns, url
-except ImportError:
-    from django.conf.urls.defaults import patterns, url
+from django.conf.urls import url
 
-urlpatterns = patterns(
-    '',
-    url(r'', 'leaves.views.index'),
-)
+from leaves.views import index
+
+urlpatterns = [
+    url(r'', index),
+]
