@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.1
+
+### Fixed
+
+- Fix deploying to PyPI.
+
 ## 0.1.0
 
 ### Added
