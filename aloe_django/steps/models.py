@@ -1,5 +1,3 @@
-#
-
 """
 Step definitions and utilities for working with Django models.
 """
