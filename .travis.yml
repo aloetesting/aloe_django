@@ -6,7 +6,7 @@ python:
 env:
 - DJANGO_VERSION=1.8
 - DJANGO_VERSION=1.9
-- DJANGO_VERSION=1.10b1
+- DJANGO_VERSION=1.10
 install:
 - pip install -r requirements.txt
 - pip install -r test_requirements.txt
@@ -38,5 +38,5 @@ deploy:
     all_branches: true
     python: 3.4
     condition:
-    - '"$DJANGO_VERSION" = "1.9"'
+    - '"$DJANGO_VERSION" = "1.10"'
     - '"$TRAVIS_TAG" = "v$(python setup.py --version)"'
