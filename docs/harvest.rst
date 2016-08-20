@@ -7,7 +7,7 @@ Harvest
 The :command:`harvest` command exposed via Django's :command:`manage.py`
 can be used to run Aloe tests under Django with the correct settings.
 
-``harvest`` accepts the same flags as ``nosetests`` and so these are not
+``harvest`` accepts the same flags as ``test`` and so these are not
 extensively documented here.
 
 .. program:: harvest

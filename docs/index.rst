@@ -36,5 +36,4 @@ Indices and tables
 
 .. _aloe: https://github.com/aloetesting/aloe
 .. _django: http://djangoproject.com/
-.. _`django_nose`: https://github.com/django-nose/django-nose
 .. _lettuce: http://lettuce.it/
