@@ -6,7 +6,6 @@ except ImportError:
     from urllib2 import urlopen
 from lxml import html
 
-from nose.tools import assert_equals
 from aloe import world, before, step
 from aloe_django import django_url
 from django.test.client import Client
@@ -30,7 +29,7 @@ def given_i_navigate_to_group1(step, url):
 @step(r'I see the title of the page is "(.*)"')
 def then_i_see_the_title_of_the_page_is_group1(step, title):
     element = world.dom.xpath("//head/title")[0]
-    assert_equals(element.text, title)
+    assert element.text == title
 
 
 @step(r'I look inside the 1st paragraph')
@@ -46,7 +45,7 @@ def then_i_see_it_has_no_attributes(step):
 
 @step(r'its content is "(.*)"')
 def and_that_its_content_is_group1(step, content):
-    assert_equals(world.element.text, content)
+    assert world.element.text == content
 
 
 @step(r'When I look inside the 1st header')
@@ -56,4 +55,4 @@ def when_i_look_inside_the_1st_header(step):
 
 @step(r'And that its id is "(.*)"')
 def and_that_its_id_is_group1(step, id):
-    assert_equals(world.element.attrib['id'], id)
+    assert world.element.attrib['id'] == id

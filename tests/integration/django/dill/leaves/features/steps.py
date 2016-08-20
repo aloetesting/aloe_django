@@ -20,8 +20,6 @@ from aloe_django.steps.models import (
     writes_models,
 )
 
-from nose.tools import assert_equals
-
 max_rego = 0
 
 
@@ -50,7 +48,7 @@ def database_dump(step):
         output = io.BytesIO()
     call_command('dumpdata', stdout=output, indent=2)
     output = output.getvalue()
-    assert_equals(json.loads(output), json.loads(step.multiline))
+    assert json.loads(output) == json.loads(step.multiline)
 
 
 @step(r'I have populated the database')

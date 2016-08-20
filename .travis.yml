@@ -19,7 +19,7 @@ script:
 - pep8 .
 - pylint aloe_django setup.py tests
 - coverage erase
-- coverage run -m nose
+- coverage run -m unittest discover -v -b
 - coverage combine . tests/integration/django/*
 - coverage report
 - "./tools/check_installs"

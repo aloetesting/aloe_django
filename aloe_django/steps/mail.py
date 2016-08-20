@@ -4,11 +4,10 @@ Step definitions for working with Django email.
 from __future__ import print_function
 
 from smtplib import SMTPException
+from unittest.util import safe_repr
 
 from django.core import mail
 from django.test.html import parse_html
-
-from nose.tools import assert_in  # pylint:disable=no-name-in-module
 
 from aloe import step
 
@@ -155,7 +154,11 @@ def mail_sent_contains_html(self):
             dom1 = parse_html(html)
             dom2 = parse_html(self.multiline)
 
-            assert_in(dom1, dom2)
+            if dom1 not in dom2:
+                raise AssertionError(
+                    "%s not found in %s" % (safe_repr(dom1),
+                                            safe_repr(dom2))
+                )
 
         except AssertionError as exc:
             print("Email did not match", exc)
