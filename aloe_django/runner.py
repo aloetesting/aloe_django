@@ -2,43 +2,54 @@
 Test runner running the Gherkin tests.
 """
 
-import os
+from django.core.exceptions import ImproperlyConfigured
+from django.test.runner import DiscoverRunner
 
-import django
+from aloe.loader import GherkinLoader
+from aloe.main import AloeOptions
+from aloe.result import AloeTestResult
+from aloe.runner import GherkinRunner
 
-from django_nose.plugin import DjangoSetUpPlugin, ResultPlugin, TestReorderer
-from django_nose.runner import NoseTestSuiteRunner, _get_plugins_from_settings
-
-from aloe.runner import Runner
+from aloe_django import TestCase
 
 
-class GherkinTestRunner(NoseTestSuiteRunner):
+class GherkinTestRunner(AloeOptions, DiscoverRunner):
     """
-    A runner enabling the Gherkin plugin in nose.
+    A Django test runner using the Gherkin test runner and loader.
+    (note: Django test runner is a different interface to unittest's test
+    runner.)
     """
 
-    def run_suite(self, nose_argv):
+    test_class = TestCase
+    test_runner = GherkinRunner
+
+    @classmethod
+    def add_arguments(cls, parser):
+        """Add the Aloe options to the Django argument parser."""
+
+        return cls.add_aloe_options(parser)
+
+    def __init__(self, *args, **kwargs):
+        """Set up the test loader."""
+
+        super(GherkinTestRunner, self).__init__(*args, **kwargs)
+        self.test_loader = GherkinLoader()
+        self.configure_loader(self.test_loader)
+
+    def test_runner(self, *args, **kwargs):
+        """Pass extra arguments to the test runner."""
+        kwargs.update(self.extra_runner_args())
+        return GherkinRunner(*args, **kwargs)
+
+    def get_resultclass(self):
         """
-        Use Gherkin main program to run Nose.
+        Don't explicitly pass the result class; use the test runner default
+        result.
         """
 
-        result_plugin = ResultPlugin()
-        plugins_to_add = [DjangoSetUpPlugin(self),
-                          result_plugin,
-                          TestReorderer()]
-
-        for plugin in _get_plugins_from_settings():
-            plugins_to_add.append(plugin)
-
-        django.setup()
-
-        # Set up Gherkin test subclass
-        test_class = getattr(django.conf.settings, 'GHERKIN_TEST_CLASS',
-                             'aloe_django.TestCase')
-        env = os.environ.copy()
-        env['NOSE_GHERKIN_CLASS'] = test_class
-
-        Runner(argv=nose_argv, exit=False,
-               addplugins=plugins_to_add,
-               env=env)
-        return result_plugin.result
+        resultclass = super(GherkinTestRunner, self).get_resultclass()
+        if resultclass is not None:
+            raise ImproperlyConfigured(
+                "Aloe-Django doesn't support custom test result classes."
+            )
+        return None

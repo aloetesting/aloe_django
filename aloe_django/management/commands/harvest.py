@@ -20,8 +20,6 @@ class Command(TestCommand):
 
     help = "Run Gherkin tests"
 
-    requires_system_checks = False
-
     def run_from_argv(self, argv):
         """
         Set the default Gherkin test runner for its options to be parsed.

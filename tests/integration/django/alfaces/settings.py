@@ -1,8 +1,6 @@
-#
-
 DEBUG = True
 
-ROOT_URLCONF = 'alfaces.urls'
+ROOT_URLCONF = 'urls'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
