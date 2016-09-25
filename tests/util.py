@@ -84,6 +84,34 @@ def in_temporary_directory(func):
     return wrapped
 
 
+def convert_options(opts):
+    """
+    Convert the options dictionary to an iterable of arguments to pass to a
+    process.
+
+    Single-letter options are prefixed with a dash, long options are formatted
+    as --option=value after replacing underscores with spaces. Giving a list of
+    values adds the same option several times.
+    """
+
+    for opt, val in opts.items():
+        if len(opt) == 1:
+            yield '-{0}'.format(opt)
+            if val:
+                yield str(val)
+        else:
+            opt = opt.replace('_', '-')
+            if val:
+                # Support giving a list of values to add the same option
+                # multiple times
+                if not isinstance(val, (list, tuple)):
+                    val = [val]
+                for single_val in val:
+                    yield '--{0}={1}'.format(opt, single_val)
+            else:
+                yield '--{0}'.format(opt)
+
+
 def run_scenario(application=None, feature=None, scenario=None, **opts):
     """
     Run a scenario and return the exit code and output.
@@ -91,10 +119,7 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
     :param application: The application module to run the features in
     :param feature: The feature to run (without extension)
     :param scenario: The scenario index to run
-    :param opts: Additional options to harvest. Single-letter options are
-    prefixed with a dash, long options are formatted as --option=value after
-    replacing underscores with spaces. Giving a list of values adds the same
-    option several times.
+    :param opts: Additional options to harvest (see convert_options).
     """
 
     if 'coverage' in sys.modules:
@@ -120,22 +145,7 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
 
     opts.setdefault('v', 3)
 
-    for opt, val in opts.items():
-        if len(opt) == 1:
-            args.append('-{0}'.format(opt))
-            if val:
-                args.append(str(val))
-        else:
-            opt = opt.replace('_', '-')
-            if val:
-                # Support giving a list of values to add the same option
-                # multiple times
-                if not isinstance(val, (list, tuple)):
-                    val = [val]
-                for single_val in val:
-                    args.append('--{0}={1}'.format(opt, single_val))
-            else:
-                args.append('--{0}'.format(opt))
+    args += convert_options(opts)
 
     proc = subprocess.Popen(
         args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

@@ -9,7 +9,6 @@ from django.test.runner import DiscoverRunner
 
 from aloe.loader import GherkinLoader
 from aloe.main import AloeOptions
-from aloe.result import AloeTestResult
 from aloe.runner import GherkinRunner
 
 from aloe_django import TestCase
