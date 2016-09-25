@@ -23,7 +23,6 @@ class GherkinTestRunner(AloeOptions, DiscoverRunner):
     """
 
     test_class = TestCase
-    test_runner = GherkinRunner
 
     @classmethod
     def add_arguments(cls, parser):
