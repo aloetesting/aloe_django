@@ -92,7 +92,9 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
     :param feature: The feature to run (without extension)
     :param scenario: The scenario index to run
     :param opts: Additional options to harvest. Single-letter options are
-    prefixed with a dash, long options are formatted as --option=value.
+    prefixed with a dash, long options are formatted as --option=value after
+    replacing underscores with spaces. Giving a list of values adds the same
+    option several times.
     """
 
     if 'coverage' in sys.modules:
@@ -124,8 +126,14 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
             if val:
                 args.append(str(val))
         else:
+            opt = opt.replace('_', '-')
             if val:
-                args.append('--{0}={1}'.format(opt, val))
+                # Support giving a list of values to add the same option
+                # multiple times
+                if not isinstance(val, (list, tuple)):
+                    val = [val]
+                for single_val in val:
+                    args.append('--{0}={1}'.format(opt, single_val))
             else:
                 args.append('--{0}'.format(opt))
 

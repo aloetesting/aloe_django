@@ -48,7 +48,7 @@ class HarvestTest(unittest.TestCase):
     def test_run_with_tags(self):
         """it will only run specified tags"""
 
-        status, out = run_scenario(attr='!fails')
+        status, out = run_scenario(exclude_tag='fails')
 
         self.assertEqual(status, 0, out)
         self.assertIn("Ran 2 tests", out)
@@ -57,7 +57,8 @@ class HarvestTest(unittest.TestCase):
     def test_run_with_tags_and_features(self):
         """it will only run specified tags in the feature files"""
 
-        status, out = run_scenario('donothing', attr='!passes,!fails')
+        status, out = run_scenario('donothing',
+                                   exclude_tag=('passes', 'fails'))
 
         self.assertEqual(status, 0, out)
         self.assertIn("Ran 1 test", out)
