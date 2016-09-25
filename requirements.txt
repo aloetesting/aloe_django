@@ -1,4 +1,4 @@
-aloe>=0.0.43
+-e git+https://github.com/aloetesting/aloe.git@2ea3e68a77fe93884407295b1498a36f8e5c56bc#egg=aloe
 cssselect>=0.7.1
 Django
 future>=0.14.0

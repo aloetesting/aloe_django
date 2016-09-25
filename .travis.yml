@@ -22,7 +22,6 @@ script:
 - coverage run -m unittest discover -v -b
 - coverage combine . tests/integration/django/*
 - coverage report
-- "./tools/check_installs"
 - make -C docs coverage
 after_success:
 - coveralls
