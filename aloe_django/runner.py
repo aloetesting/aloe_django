@@ -2,6 +2,8 @@
 Test runner running the Gherkin tests.
 """
 
+import os
+
 from django.core.exceptions import ImproperlyConfigured
 from django.test.runner import DiscoverRunner
 
@@ -35,6 +37,43 @@ class GherkinTestRunner(AloeOptions, DiscoverRunner):
         super(GherkinTestRunner, self).__init__(*args, **kwargs)
         self.test_loader = GherkinLoader()
         self.configure_loader(self.test_loader)
+
+    def build_suite(self, test_labels=None, extra_tests=None, **kwargs):
+        """
+        Add Gherkin features given as parameters to the test list.
+
+        Django test runner doesn't support specifying path/to/gherkin.feature
+        (or even path/to/module.py), so get those out of test_labels and add to
+        extra_tests.
+        """
+
+        extra_tests = extra_tests or []
+
+        new_test_labels = []
+        for label in test_labels:
+            if os.path.isfile(label) and label.endswith('.feature'):
+                extra_tests += self.test_loader.loadTestsFromName(label)
+                # Leaving the feature file name in test_labels will lead to
+                # Django test runner failing: for found paths, instead of
+                # loadTestsFromName, discover() is called but doesn't discover
+                # anything.
+                #
+                # Removing the feature file name means if _only_ the feature
+                # files are given, test_labels will be empty, leading to
+                # running discovery on the current directory (in addition to
+                # Gherkin tests already provided).
+                #
+                # Thus, the only option is to insert a fake label so no tests
+                # are discovered from it.
+                new_test_labels.append('__fakelabel__')
+            else:
+                new_test_labels.append(label)
+
+        return super(GherkinTestRunner, self).build_suite(
+            new_test_labels,
+            extra_tests,
+            **kwargs
+        )
 
     def test_runner(self, *args, **kwargs):
         """Pass extra arguments to the test runner."""
