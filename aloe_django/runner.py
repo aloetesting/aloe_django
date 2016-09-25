@@ -34,6 +34,11 @@ class GherkinTestRunner(AloeOptions, DiscoverRunner):
     def __init__(self, *args, **kwargs):
         """Set up the test loader."""
 
+        # Set the Aloe options
+        for option, value in kwargs.items():
+            if hasattr(AloeOptions, option):
+                setattr(self, option, value)
+
         super(GherkinTestRunner, self).__init__(*args, **kwargs)
         self.test_loader = GherkinLoader()
         self.configure_loader(self.test_loader)
