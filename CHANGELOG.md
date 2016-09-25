@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.2
+
+### Added
+
+- Upper bound version restriction on Aloe.
+
 ## 0.1.1
 
 ### Fixed
