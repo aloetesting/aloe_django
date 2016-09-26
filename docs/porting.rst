@@ -20,9 +20,14 @@ The following changes are required to port from Lettuce to `aloe_django`:
    :code:`step.test.live_server_url` can also be used to get the root URL of
    the test server.
 
- * Lettuce-specific settings are not supported. Most of the functionality can
-   be achieved by customizing the test class using :code:`GHERKIN_TEST_CLASS`
-   or by the same methods as for the regular Python tests.
+ * :code:`LETTUCE_USE_TEST_DATABASE` is not supported, the tests are always run
+   using the test database. For a possible speed-up of the test suite, use
+   `--keepdb` option from the Django test runner.
+
+ * :code:`LETTUCE_APPS` is not supported. Without any arguments, `harvest` will
+   run all the feature files found in packages in the current directory. To run
+   a subset of tests, specify the features directories as arguments to
+   `harvest`.
 
  * :code:`--debug-mode` is not supported. Use Django's
    :code:`settings_override` decorator on the test class to set
