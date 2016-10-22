@@ -132,6 +132,6 @@ def run_scenario(application=None, feature=None, scenario=None, **opts):
     proc = subprocess.Popen(
         args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     text, _ = proc.communicate()
-    text = text.decode().rstrip()
+    text = text.decode('utf-8').rstrip()
 
     return proc.returncode, text
