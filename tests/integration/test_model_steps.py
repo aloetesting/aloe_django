@@ -11,6 +11,8 @@ from nose.tools import (  # pylint:disable=no-name-in-module
     assert_not_equals,
 )
 
+from aloe.utils import PY3
+
 from tests.util import in_directory, run_scenario
 
 
@@ -48,6 +50,12 @@ def test_model_existence_check():
     status, out = run_scenario('leaves', 'existence', 1)
     assert_equals(status, 0, out)
 
+    # One of the gardens has a non-ASCII name. On Python 2, it gets output by
+    # Nose using the escapes
+    garden4 = '颐和园'
+    if not PY3:
+        garden4 = repr(garden4)[2:-1]
+
     status, out = run_scenario('leaves', 'existence', 2)
     assert_not_equals(status, 0)
     assert_in(
@@ -61,6 +69,7 @@ def test_model_existence_check():
         "id=1, name=Secret Garden, area=45, raining=False",
         "id=2, name=Octopus's Garden, area=120, raining=True",
         "id=3, name=Covent Garden, area=200, raining=True",
+        "id=4, name={}, area=500, raining=False".format(garden4),
     ])
 
     assert_in(gardens, out)
@@ -77,6 +86,7 @@ def test_model_existence_check():
         "id=1, name=Secret Garden, area=45, raining=False, howbig=small",
         "id=2, name=Octopus's Garden, area=120, raining=True, howbig=medium",
         "id=3, name=Covent Garden, area=200, raining=True, howbig=big",
+        "id=4, name={}, area=500, raining=False, howbig=big".format(garden4),
     ])
     assert_in(gardens, out)
     assert_in("AssertionError: 1 rows missing", out)
@@ -97,5 +107,6 @@ def test_model_existence_check():
         "id=1, name=Secret Garden, area=45, raining=False, howbig=small",
         "id=2, name=Octopus's Garden, area=120, raining=True, howbig=medium",
         "id=3, name=Covent Garden, area=200, raining=True, howbig=big",
+        "id=4, name={}, area=500, raining=False, howbig=big".format(garden4),
     ])
     assert_in(gardens, out)
