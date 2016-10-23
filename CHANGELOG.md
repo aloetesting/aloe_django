@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+### Fixed
+
+- Crash when dumping models containing non-ASCII data on Python 2 (#55).
+
 ## 0.1.2
 
 ### Added
