@@ -21,7 +21,8 @@ def set_client():
 def given_i_navigate_to_group1(step, url):
     url = django_url(step, url)
 
-    assert url.startswith('http://localhost:8081')
+    # Actual port might change if 8081 isn't available
+    assert url.startswith('http://localhost:808')
 
     raw = urlopen(url).read()
     world.dom = html.fromstring(raw)
