@@ -54,7 +54,8 @@ def test_model_existence_check():
     # Nose using the escapes
     garden4 = '颐和园'
     if not PY3:
-        garden4 = repr(garden4)[2:-1]
+        # pylint:disable=redefined-variable-type
+        garden4 = garden4.encode('unicode_escape')
 
     status, out = run_scenario('leaves', 'existence', 2)
     assert_not_equals(status, 0)
