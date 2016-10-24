@@ -5,6 +5,8 @@ Test model update steps.
 
 from __future__ import unicode_literals
 
+import django
+
 from nose.tools import (  # pylint:disable=no-name-in-module
     assert_equals,
     assert_in,
@@ -50,10 +52,10 @@ def test_model_existence_check():
     status, out = run_scenario('leaves', 'existence', 1)
     assert_equals(status, 0, out)
 
-    # One of the gardens has a non-ASCII name. On Python 2, it gets output by
-    # Nose using the escapes
+    # One of the gardens has a non-ASCII name. On Python 2 under Django >= 1.9,
+    # it gets output by Nose using the escapes.
     garden4 = '颐和园'
-    if not PY3:
+    if not PY3 and django.VERSION >= (1, 9):
         # pylint:disable=redefined-variable-type
         garden4 = garden4.encode('unicode_escape')
 
