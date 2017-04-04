@@ -277,8 +277,8 @@ def _model_exists_step(self, model, should_exist):
 
     if failed:
         print("Rows in DB are:")
-        for model in queryset.all():
-            _dump_model(model,
+        for existing_model in queryset.all():
+            _dump_model(existing_model,
                         attrs=[k[1:]
                                for k in data[0].keys()
                                if k.startswith('@')])

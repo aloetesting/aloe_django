@@ -1,7 +1,8 @@
 coverage
 pep8
 lxml
-pylint>=1.5.1
+-e git+https://github.com/PyCQA/astroid.git@12b673267dce7c899ca384792386ed9b657fe66a#egg=astroid
+-e git+https://github.com/PyCQA/pylint.git@07662129d7eb3ee13e60c4fb08099db152c72912#egg=pylint
 pylint-mccabe
 setuptools_scm
 Sphinx
