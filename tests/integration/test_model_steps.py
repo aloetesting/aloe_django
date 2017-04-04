@@ -56,7 +56,6 @@ def test_model_existence_check():
     # it gets output by Nose using the escapes.
     garden4 = '颐和园'
     if not PY3 and django.VERSION >= (1, 9):
-        # pylint:disable=redefined-variable-type
         garden4 = garden4.encode('unicode_escape')
 
     status, out = run_scenario('leaves', 'existence', 2)
