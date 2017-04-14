@@ -26,7 +26,7 @@ cache:
   directories:
   - "$HOME/virtualenv"
 script:
-- pep8 .
+- pycodestyle .
 - pylint aloe_django setup.py tests
 - coverage erase
 - coverage run -m nose
