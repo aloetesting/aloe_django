@@ -1,7 +1,7 @@
 coverage
 pep8
 lxml
-pylint>=1.5.1
+pylint>=1.7.0
 pylint-mccabe
 setuptools_scm
 Sphinx

@@ -7,6 +7,7 @@ Feature: Check models existence
       | name             | area | raining |
       | Octopus's Garden | 120  | true    |
       | Covent Garden    | 200  | true    |
+      | 颐和园           | 500  | false   |
     And garden with name "Secret Garden" has fruit in the database:
       | name  | ripe_by    |
       | Apple | 2013-07-02 |

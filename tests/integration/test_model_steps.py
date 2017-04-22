@@ -7,6 +7,10 @@ from __future__ import unicode_literals
 
 import unittest
 
+import django
+
+from aloe.utils import PY2
+
 from tests.util import in_directory, run_scenario
 
 
@@ -46,6 +50,12 @@ class ModelStepsTest(unittest.TestCase):
         status, out = run_scenario('leaves', 'existence', 1)
         self.assertEqual(status, 0, out)
 
+        # One of the gardens has a non-ASCII name. On Python 2 under
+        # Django >= 1.9, it gets output by Nose using the escapes.
+        grdn4 = '颐和园'
+        if PY2 and django.VERSION >= (1, 9):
+            grdn4 = grdn4.encode('unicode_escape')
+
         status, out = run_scenario('leaves', 'existence', 2)
         self.assertNotEqual(status, 0)
         self.assertIn(
@@ -59,6 +69,7 @@ class ModelStepsTest(unittest.TestCase):
             "id=1, name=Secret Garden, area=45, raining=False",
             "id=2, name=Octopus's Garden, area=120, raining=True",
             "id=3, name=Covent Garden, area=200, raining=True",
+            "id=4, name={}, area=500, raining=False".format(grdn4),
         ])
 
         self.assertIn(gardens, out)
@@ -78,6 +89,7 @@ class ModelStepsTest(unittest.TestCase):
                 "raining=True, howbig=medium"
             ),
             "id=3, name=Covent Garden, area=200, raining=True, howbig=big",
+            "id=4, name={}, area=500, raining=False, howbig=big".format(grdn4),
         ])
         self.assertIn(gardens, out)
         self.assertIn("AssertionError: 1 rows missing", out)
@@ -101,5 +113,6 @@ class ModelStepsTest(unittest.TestCase):
                 "raining=True, howbig=medium"
             ),
             "id=3, name=Covent Garden, area=200, raining=True, howbig=big",
+            "id=4, name={}, area=500, raining=False, howbig=big".format(grdn4),
         ])
         self.assertIn(gardens, out)

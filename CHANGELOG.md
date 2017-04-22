@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.1.3
+
+### Fixed
+
+- Crash when dumping models containing non-ASCII data on Python 2 (#55).
+
+## 0.1.2
+
+### Added
+
+- Upper bound version restriction on Aloe.
+
 ## 0.1.1
 
 ### Fixed

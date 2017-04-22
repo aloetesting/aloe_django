@@ -20,10 +20,8 @@ def set_client():
 def given_i_navigate_to_group1(step, url):
     url = django_url(step, url)
 
-    expected_url_start = 'http://localhost:'
-    assert url.startswith(expected_url_start), \
-        "Live server URL '{}' expected to start with '{}'".format(
-            url, expected_url_start)
+    assert url.startswith('http://localhost:'), \
+        "Test URL must point to localhost, got: {}".format(url)
 
     raw = urlopen(url).read()
     world.dom = html.fromstring(raw)

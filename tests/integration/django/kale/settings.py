@@ -1,6 +1,6 @@
 DEBUG = True
 
-ROOT_URLCONF = 'kale.urls'
+ROOT_URLCONF = 'urls'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
