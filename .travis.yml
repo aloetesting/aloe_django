@@ -3,11 +3,20 @@ python:
 - '2.7'
 - '3.4'
 - '3.5'
+- '3.6'
 env:
 - DJANGO_VERSION=1.8.*
 - DJANGO_VERSION=1.9.*
 - DJANGO_VERSION=1.10.*
 - DJANGO_VERSION=1.11.*
+matrix:
+  exclude:
+    - python: '3.6'
+      env: DJANGO_VERSION=1.8.*
+    - python: '3.6'
+      env: DJANGO_VERSION=1.9.*
+    - python: '3.6'
+      env: DJANGO_VERSION=1.10.*
 install:
 - pip install -r requirements.txt
 - pip install -r test_requirements.txt
@@ -17,7 +26,7 @@ cache:
   directories:
   - "$HOME/virtualenv"
 script:
-- pep8 .
+- pycodestyle .
 - pylint aloe_django setup.py tests
 - coverage erase
 - coverage run -m unittest discover -v -b

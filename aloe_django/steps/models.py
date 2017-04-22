@@ -17,6 +17,7 @@ from django.db import connection
 
 from aloe import step
 from aloe.tools import guess_types
+from aloe.utils import PY2
 
 __all__ = ('writes_models', 'write_models',
            'tests_existence', 'test_existence',
@@ -206,10 +207,13 @@ def _dump_model(model, attrs=None):
             count=vals.count(),
         )))
 
-    print(', '.join(
+    line = ', '.join(
         '{0}={1}'.format(field, value)
         for field, value in fields
-    ))
+    )
+    if PY2:
+        line = line.encode('utf-8')
+    print(line)
 
 
 def test_existence(queryset, data):
