@@ -4,14 +4,14 @@ Test runner running the Gherkin tests.
 
 import os
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test.runner import DiscoverRunner
 
 from aloe.loader import GherkinLoader
 from aloe.main import AloeOptions
 from aloe.runner import GherkinRunner
-
-from aloe_django import TestCase
+from aloe.utils import module_attribute
 
 
 class GherkinTestRunner(AloeOptions, DiscoverRunner):
@@ -21,7 +21,8 @@ class GherkinTestRunner(AloeOptions, DiscoverRunner):
     runner.)
     """
 
-    test_class = TestCase
+    test_class = module_attribute(
+        getattr(settings, 'GHERKIN_TEST_CLASS', 'aloe_django.TestCase'))
 
     @classmethod
     def add_arguments(cls, parser):
