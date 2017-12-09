@@ -29,7 +29,7 @@ class Field(models.Model):
 
 class Fruit(models.Model):
     name = models.CharField(max_length=100)
-    garden = models.ForeignKey(Garden)
+    garden = models.ForeignKey(Garden, on_delete=models.CASCADE)
     ripe_by = models.DateField()
     fields = models.ManyToManyField(Field)
 
@@ -50,7 +50,9 @@ class Goose(models.Model):
 class Harvester(models.Model):
     make = models.CharField(max_length=100)
     rego = models.CharField(max_length=100)
-    garden = models.ForeignKey(Garden, blank=True, null=True)
+    garden = models.ForeignKey(Garden,
+                               blank=True, null=True,
+                               on_delete=models.SET_NULL)
 
 
 class Panda(models.Model):
