@@ -36,6 +36,9 @@ class DjangoAppTest(unittest.TestCase):
     def test_django_app(self):
         """Create a stock Django app and test running features for it."""
 
+        django_version = subprocess.check_output(
+            ('django-admin', '--version')).decode().strip()
+
         # Create the project and the application
         subprocess.check_call(('django-admin', 'startproject', 'lychee'))
         os.chdir('lychee')
@@ -71,7 +74,13 @@ class HelloView(TemplateView):
 
         # Add the view to URLs
         with open(find_file('urls.py'), 'a') as urls:
-            urls.write("""
+            if django_version >= '2.0':
+                urls.write("""
+from lychee_app.views import HelloView
+urlpatterns += [path(r'hello/', HelloView.as_view())]
+""")
+            else:
+                urls.write("""
 from lychee_app.views import HelloView
 urlpatterns += [url(r'^hello/', HelloView.as_view())]
 """)
