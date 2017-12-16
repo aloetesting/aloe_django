@@ -2,6 +2,5 @@ coverage
 lxml
 pycodestyle
 pylint>=1.7.0
-pylint-mccabe
 setuptools_scm
 Sphinx
