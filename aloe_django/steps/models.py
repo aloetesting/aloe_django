@@ -289,8 +289,8 @@ def _model_exists_step(self, model, should_exist):
             raise AssertionError("%i rows found" % failed)
 
 
-@step(STEP_PREFIX +
-      r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database')
+@step(STEP_PREFIX
+      + r'(?:an? )?([A-Z][a-z0-9_ ]*) should be present in the database')
 def _model_exists_positive_step(self, model):
     """
     Test for the existence of a model matching the given data.
@@ -312,8 +312,8 @@ def _model_exists_positive_step(self, model):
     return _model_exists_step(self, model, True)
 
 
-@step(STEP_PREFIX +
-      r'(?:an? )?([A-Z][a-z0-9_ ]*) should not be present in the database')
+@step(STEP_PREFIX
+      + r'(?:an? )?([A-Z][a-z0-9_ ]*) should not be present in the database')
 def _model_exists_negative_step(self, model):
     """
     Tests for the existence of a model matching the given data.
@@ -436,8 +436,8 @@ def _write_models_step_update(self, model, field):
     return _write_models_step(self, model, field=field)
 
 
-@step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
-      r' has(?: an?)? ([A-Z][a-z0-9_ ]*) in the database:')
+@step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"'
+      + r' has(?: an?)? ([A-Z][a-z0-9_ ]*) in the database:')
 def _create_models_for_relation_step(self, rel_model_name,
                                      rel_key, rel_value, model):
     """
@@ -473,8 +473,8 @@ def _create_models_for_relation_step(self, rel_model_name,
     func(data, None)
 
 
-@step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"' +
-      r' is linked to ([A-Z][a-z0-9_ ]*) in the database:')
+@step(STEP_PREFIX + r'([A-Z][a-z0-9_ ]*) with ([a-z]+) "([^"]*)"'
+      + r' is linked to ([A-Z][a-z0-9_ ]*) in the database:')
 def _create_m2m_links_step(self, rel_model_name,
                            rel_key, rel_value, relation_name):
     """

@@ -126,8 +126,8 @@ def mail_sent_content_multiline(self):
     return mail_sent_content(self, self.multiline, 'body')
 
 
-@step(CHECK_PREFIX +
-      r'I have sent an email with the following HTML alternative:')
+@step(CHECK_PREFIX
+      + r'I have sent an email with the following HTML alternative:')
 def mail_sent_contains_html(self):
     """
     Test that an email contains the HTML (assert HTML in) in the multiline as
