@@ -10,6 +10,7 @@ disable=
     locally-disabled,
     locally-enabled,
     missing-super-argument,
+    no-else-raise,
     no-else-return,
     no-self-use,
     too-few-public-methods,
