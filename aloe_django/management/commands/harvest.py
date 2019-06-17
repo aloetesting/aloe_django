@@ -27,7 +27,11 @@ class Command(TestCommand):
         Set the default Gherkin test runner for its options to be parsed.
         """
 
+        # django < 2.2
         self.test_runner = test_runner_class
+        # django >= 2.2
+        if '--testrunner' not in argv:
+            argv += ['--testrunner', test_runner_class]
         super(Command, self).run_from_argv(argv)
 
     def handle(self, *test_labels, **options):
