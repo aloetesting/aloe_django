@@ -33,12 +33,3 @@ class Command(TestCommand):
         if '--testrunner' not in argv:
             argv += ['--testrunner', test_runner_class]
         super(Command, self).run_from_argv(argv)
-
-    def handle(self, *test_labels, **options):
-        """
-        Set the default Gherkin test runner.
-        """
-        if not options.get('testrunner', None):
-            options['testrunner'] = test_runner_class
-
-        return super(Command, self).handle(*test_labels, **options)
