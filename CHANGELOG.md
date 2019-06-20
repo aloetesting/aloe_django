@@ -1,5 +1,15 @@
 # Change Log
 
+## Unreleased
+
+### Added
+
+- Django 2.2 compatibility (#64).
+
+### Changed
+
+- Remove support for Django < 1.11 (#64).
+
 ## 0.1.3
 
 ### Fixed
