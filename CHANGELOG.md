@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.4
+
 ### Added
 
 - Django 2.2 compatibility (#64).
