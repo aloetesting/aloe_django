@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.1.6
+
+### Fixed
+
+- Fix deploying to PyPI (again).
+
 ## 0.1.5
 
 ### Fixed
