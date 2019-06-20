@@ -52,7 +52,7 @@ deploy:
   on:
     tags: true
     all_branches: true
-    python: 3.4
+    python: 3.7
     condition:
-    - '"$DJANGO_VERSION" = "1.10"'
+    - '"$DJANGO_VERSION" = "2.2.*"'
     - '"$TRAVIS_TAG" = "v$(python setup.py --version)"'
