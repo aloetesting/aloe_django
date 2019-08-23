@@ -4,7 +4,6 @@ python:
 - '3.7'
 - '3.6'
 - '3.5'
-- '3.4'
 - '2.7'
 env:
 - DJANGO_VERSION=2.2.*
@@ -13,10 +12,6 @@ env:
 - DJANGO_VERSION=1.11.*
 matrix:
   exclude:
-    - python: '3.4'
-      env: DJANGO_VERSION=2.1.*
-    - python: '3.4'
-      env: DJANGO_VERSION=2.2.*
     - python: '2.7'
       env: DJANGO_VERSION=2.0.*
     - python: '2.7'
