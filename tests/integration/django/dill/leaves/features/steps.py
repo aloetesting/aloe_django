@@ -44,10 +44,7 @@ def check_with_rego(queryset, data):
 
 @step(r'The database dump is as follows')
 def database_dump(step):
-    if sys.version_info >= (3, 0):
-        output = io.StringIO()
-    else:
-        output = io.BytesIO()
+    output = io.StringIO()
     call_command('dumpdata', stdout=output, indent=2)
     output = output.getvalue()
     assert_equals(json.loads(output), json.loads(step.multiline))

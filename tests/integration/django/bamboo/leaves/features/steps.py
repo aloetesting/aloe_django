@@ -4,8 +4,6 @@
 Extra steps to test django mail steps
 """
 
-from __future__ import print_function
-
 import yaml
 
 from django.core import mail
