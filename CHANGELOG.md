@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0
+
 ### Removed
 
 - Python 2 compatibility code (#66).
