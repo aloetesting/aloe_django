@@ -4,10 +4,7 @@
 Django integration for Aloe
 """
 
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin  # pylint:disable=import-error
+from urllib.parse import urljoin
 
 from django.core.exceptions import ImproperlyConfigured
 

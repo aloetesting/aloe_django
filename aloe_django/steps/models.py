@@ -2,12 +2,6 @@
 Step definitions and utilities for working with Django models.
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
-# pylint:disable=redefined-builtin
-from builtins import str
-# pylint:disable=redefined-builtin
-
 import warnings
 from functools import partial
 
