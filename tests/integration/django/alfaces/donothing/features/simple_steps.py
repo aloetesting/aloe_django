@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+from urllib.request import urlopen
 from lxml import html
 
 from nose.tools import assert_equals
