@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Removed
+
+- Python 2 compatibility code (#66).
+
 ## 0.1.6
 
 ### Fixed
