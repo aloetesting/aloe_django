@@ -32,4 +32,4 @@ class Command(TestCommand):
         # django >= 2.2
         if '--testrunner' not in argv:
             argv += ['--testrunner', test_runner_class]
-        super(Command, self).run_from_argv(argv)
+        super().run_from_argv(argv)
